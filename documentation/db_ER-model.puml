@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+chats "1" -- "*" users_chats
+chats "1" -- "*" messages
+messages "*" -- "1" users
+
+users_chats "*" -- "1" users
+users "1" -- "*" emails
+
+chats -- lastRead
+messages -- lastRead
+users -- lastRead
+
+class chats{
+    id_chats int {PK}
+    title varchar
+    id_messages {FK}
+}
+
+class users_chats{
+    id_user {PK FK}
+    id_thread {PK FK}
+}
+
+class messages {
+    id_thread {FK}
+    id_messages {PK}
+    id_user {FK}
+    message varchar
+}
+
+class lastRead{
+    id_thread {PK FK}
+    id_messages {PK FK}
+    id_user {PK FK}
+}
+
+class users {
+    id_user int {PK}
+    username varchar
+    name varchar
+    tlf varchar
+}
+
+class emails {
+    email varchar {PK}
+    id_user {PK FK}
+}
+
+@enduml

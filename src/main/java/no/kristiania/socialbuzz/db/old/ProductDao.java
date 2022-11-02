@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.db;
+package no.kristiania.socialbuzz.db.old;
 
 
 import no.kristiania.socialbuzz.Product;

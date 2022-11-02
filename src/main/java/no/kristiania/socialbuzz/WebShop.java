@@ -1,8 +1,8 @@
 package no.kristiania.socialbuzz;
 
 import jakarta.servlet.DispatcherType;
-import no.kristiania.socialbuzz.db.JdbcProductDao;
-import no.kristiania.socialbuzz.db.ProductDao;
+import no.kristiania.socialbuzz.db.old.JdbcProductDao;
+import no.kristiania.socialbuzz.db.old.ProductDao;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;

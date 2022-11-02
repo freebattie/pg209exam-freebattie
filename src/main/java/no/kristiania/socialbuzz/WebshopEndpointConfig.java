@@ -1,7 +1,7 @@
 package no.kristiania.socialbuzz;
 
-import no.kristiania.socialbuzz.db.JdbcProductDao;
-import no.kristiania.socialbuzz.db.ProductDao;
+import no.kristiania.socialbuzz.db.old.JdbcProductDao;
+import no.kristiania.socialbuzz.db.old.ProductDao;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;

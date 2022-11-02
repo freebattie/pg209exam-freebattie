@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.db;
+package no.kristiania.socialbuzz.db.old;
 
 import jakarta.inject.Inject;
 import no.kristiania.socialbuzz.Product;

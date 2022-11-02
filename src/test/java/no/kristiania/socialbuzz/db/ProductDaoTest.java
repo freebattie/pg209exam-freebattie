@@ -1,6 +1,7 @@
 package no.kristiania.socialbuzz.db;
 
 import no.kristiania.socialbuzz.Product;
+import no.kristiania.socialbuzz.db.old.JdbcProductDao;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
