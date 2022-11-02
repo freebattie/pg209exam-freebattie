@@ -23,7 +23,7 @@ export function ListAllUsers() {
     useEffect(async () => {
         const res = await fetch("/api/user-login");
         setUsers(await res.json());
-        setUsers({});
+        //setUsers({});
         setLoading(false);
     }, []);
 
