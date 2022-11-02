@@ -44,6 +44,8 @@ export function ListAllUsers() {
         setIsOpen(false);
         console.log(selectedUser);
     };
+    var test = users.values();
+    test.
 
     return (
         <div>
@@ -56,9 +58,9 @@ export function ListAllUsers() {
                 {isOpen && (
                     <DropDownListContainer>
                         <DropDownList>
-                            {users.map(option => (
-                                <ListItem onClick={onOptionClicked(option)} key={Math.random()}>
-                                    {option}
+                            {Array.from(users).map(([key, value]) => (
+                                <ListItem onClick={onOptionClicked(value)} key={Math.random()}>
+                                    {value}
                                 </ListItem>
                             ))}
                         </DropDownList>
