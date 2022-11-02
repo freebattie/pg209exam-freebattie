@@ -12,14 +12,14 @@ import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class WebShopTest {
+class SocialbuzzTest {
 
-    private WebShop server;
+    private Socialbuzz server;
 
 
     @BeforeEach
     public void setupServer() throws Exception {
-        this.server = new WebShop(0, InMemoryDataSource.createTestDataSource());
+        this.server = new Socialbuzz(0, InMemoryDataSource.createTestDataSource());
         server.start();
     }
 

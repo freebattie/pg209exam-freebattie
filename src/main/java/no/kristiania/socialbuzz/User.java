@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.db;
+package no.kristiania.socialbuzz;
 
 public record User(
     int id_user,

@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DaoUser {
@@ -36,11 +35,6 @@ public class DaoUser {
             return users;
         }
 
-    }
-
-    public List<User> getAllUsers() {
-
-        return null;
     }
 
 }
