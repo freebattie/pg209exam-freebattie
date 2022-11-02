@@ -32,7 +32,7 @@ public class DaoUser {
             while (result.next()) {
                 var tmpUser = new User();
                 tmpUser.setId_user(result.getInt(1));
-                tmpUser.setUsername(result.getString("2"));
+                tmpUser.setUsername(result.getString(2));
                 users.add(tmpUser);
             }
 

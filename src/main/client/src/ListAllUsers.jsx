@@ -16,33 +16,39 @@ export function ListAllUsers() {
 
 
 
-    const [users, setUsers] = useState(["bjartes","snorre"]);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState("Users");
 
     useEffect(async () => {
         const res = await fetch("/api/user-login");
+
         setUsers(await res.json());
-        //setUsers({});
+
         setLoading(false);
+
+
+
     }, []);
 
     if (loading) {
+
         return (
             <div>Loading...</div>
+
         )
     }
 
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+
 
     const toggling = () => setIsOpen(!isOpen);
 
     const onOptionClicked = value => () => {
         setSelectedUser(value);
         setIsOpen(false);
-        console.log(selectedUser);
+
     };
 
     return (
@@ -57,8 +63,8 @@ export function ListAllUsers() {
                     <DropDownListContainer>
                         <DropDownList>
                             {users.map(option => (
-                                <ListItem onClick={onOptionClicked(option)} key={Math.random()}>
-                                    {option}
+                                <ListItem onClick={onOptionClicked(option.username)} id={option.id_user} key={option.id_user}>
+                                    {option.username}
                                 </ListItem>
                             ))}
                         </DropDownList>
