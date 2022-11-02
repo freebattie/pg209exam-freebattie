@@ -2,7 +2,6 @@ package no.kristiania.socialbuzz.db;
 
 import jakarta.inject.Inject;
 import no.kristiania.socialbuzz.Product;
-import no.kristiania.webshop.Product;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
