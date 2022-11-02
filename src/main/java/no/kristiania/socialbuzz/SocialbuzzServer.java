@@ -21,12 +21,12 @@ import java.net.URL;
 import java.util.EnumSet;
 import java.util.Optional;
 
-public class Socialbuzz {
+public class SocialbuzzServer {
 
     private final Server server;
-    private final static Logger logger = LoggerFactory.getLogger(Socialbuzz.class);
+    private final static Logger logger = LoggerFactory.getLogger(SocialbuzzServer.class);
 
-    public Socialbuzz(int port, DataSource dataSource) throws IOException {
+    public SocialbuzzServer(int port, DataSource dataSource) throws IOException {
         this.server = new Server(port);
         server.setHandler(createWebApp(dataSource));
     }
@@ -90,7 +90,7 @@ public class Socialbuzz {
         int port = Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
                 .map(Integer::parseInt)
                 .orElse(8080);
-        new Socialbuzz(port, dataSource).start();
+        new SocialbuzzServer(port, dataSource).start();
     }
 
 }
