@@ -20,14 +20,14 @@ export function ListAllUsers() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-   /* useEffect(async () => {
-        //const res = await fetch("/api/users");
-        //setUsers(await res.json());
+    useEffect(async () => {
+        const res = await fetch("/api/user-login");
+        setUsers(await res.json());
         setUsers({});
         setLoading(false);
-    }, []);*/
+    }, []);
 
-    if (false) {
+    if (loading) {
         return (
             <div>Loading...</div>
         )
