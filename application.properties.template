@@ -1,4 +1,4 @@
-#docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Shopweb!" -p 1430:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+#docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=" -p 1430:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 jdbc.url=jdbc:sqlserver://localhost:1433;encrypt=true; trustServerCertificate=true
 jdbc.username=sa
 jdbc.password=
