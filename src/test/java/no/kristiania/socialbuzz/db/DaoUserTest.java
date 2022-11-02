@@ -32,20 +32,14 @@ public class DaoUserTest {
         var dao = new DaoUser(connection);
         populateUsers();
 
-        var statement = connection.prepareStatement("""
-            SELECT id_user, username
-            FROM users;
-        """);
-        var result = statement.executeQuery();
-
-        result.next();
-        assertThat(result.getInt(1))
-                .as("Check if id_user is correct")
-                .isEqualTo(1);
-
-        assertThat(result.getString(2))
-                .as("Check if username is correct")
+        var result = dao.getAllUserLogin();
+        assertThat(result.get(1))
+                .as("Check if id_user and username match")
                 .isEqualTo("Errons1");
+
+        assertThat(result.get(2))
+                .as("Check if id_user and username match")
+                .isEqualTo("Freebattie");
     }
 
 }
