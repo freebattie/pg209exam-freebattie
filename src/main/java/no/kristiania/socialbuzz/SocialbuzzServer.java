@@ -2,7 +2,6 @@ package no.kristiania.socialbuzz;
 
 import jakarta.servlet.DispatcherType;
 import no.kristiania.socialbuzz.db.DataSourceFilter;
-import no.kristiania.socialbuzz.db.Database;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.EnumSet;
-import java.util.Optional;
 
 public class SocialbuzzServer {
 
@@ -43,10 +41,7 @@ public class SocialbuzzServer {
 
         var config = new SocialbuzzEndpointConfig(dataSource);
         webAppContext.addServlet(new ServletHolder(new ServletContainer(config)), "/api/*");
-        //var servletHolder = webAppContext.addServlet(ServletContainer.class, "/api/*");
-        //servletHolder.setInitParameter("jersey.config.server.provider.packages", "no.kristiania.webshop");
         webAppContext.addFilter(new FilterHolder(new DataSourceFilter(config)),"/api/*", EnumSet.of(DispatcherType.REQUEST));
-
 
         return webAppContext;
     }
@@ -81,16 +76,5 @@ public class SocialbuzzServer {
         return server.getURI().toURL();
     }
 
-    public static void main(String[] args) throws Exception {
-        ServerStart();
-    }
-
-    private static void ServerStart() throws Exception {
-        var dataSource = Database.getDataSource();
-        int port = Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
-                .map(Integer::parseInt)
-                .orElse(8080);
-        new SocialbuzzServer(port, dataSource).start();
-    }
 
 }
