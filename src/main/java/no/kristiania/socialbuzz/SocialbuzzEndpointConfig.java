@@ -1,7 +1,6 @@
 package no.kristiania.socialbuzz;
 
-import no.kristiania.socialbuzz.db.JdbcProductDao;
-import no.kristiania.socialbuzz.db.ProductDao;
+import no.kristiania.socialbuzz.endpoints.UserLoginEndpoint;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -10,19 +9,19 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class WebshopEndpointConfig extends ResourceConfig {
+public class SocialbuzzEndpointConfig extends ResourceConfig {
 
     private final ThreadLocal<Connection> requestConnection = new ThreadLocal<>();
     private final DataSource dataSource;
 
-    public WebshopEndpointConfig(DataSource dataSource) {
-        super(ProductEndpoint.class);
+    public SocialbuzzEndpointConfig(DataSource dataSource) {
+        super(UserLoginEndpoint.class);
 
         this.dataSource = dataSource;
         register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(JdbcProductDao.class).to(ProductDao.class);
+//                bind(DaoUser.class).to(DaoUser.class);
                 bindFactory(requestConnection::get)
                         .to(Connection.class)
                         .in(RequestScoped.class);
