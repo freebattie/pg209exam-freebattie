@@ -18,7 +18,8 @@ public class UserLoginEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Map<Integer, String> getAllUserLogin() throws SQLException {
-        return daoUser.getAllUserLogin();
+        var tmp = daoUser.getAllUserLogin();
+        return tmp;
     }
 
 }
