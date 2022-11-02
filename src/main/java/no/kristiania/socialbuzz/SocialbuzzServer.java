@@ -76,5 +76,4 @@ public class SocialbuzzServer {
         return server.getURI().toURL();
     }
 
-
 }

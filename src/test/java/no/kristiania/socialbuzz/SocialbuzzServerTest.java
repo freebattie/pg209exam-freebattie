@@ -1,6 +1,5 @@
 package no.kristiania.socialbuzz;
 
-import jakarta.json.Json;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,35 +35,7 @@ class SocialbuzzServerTest {
         var connection = openConnection("/");
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("<title>shop</title>");
-    }
-
-    @Test
-    public void PostRequestAddProductTest() throws Exception {
-        var postConnection = openConnection("/api/products");
-        postConnection.setRequestMethod("POST");
-        postConnection.setDoOutput(true);
-        postConnection.setRequestProperty("Content-type","application/json");
-        postConnection.getOutputStream().write(Json.createObjectBuilder()
-
-                .add("name","testlaptop")
-                .add("category","pc")
-                .add("img","test")
-                .add("proddesc","alaptop")
-                .add("price",299)
-                .add("stock",100).build()
-                .toString()
-                .getBytes(StandardCharsets.UTF_8)
-        );
-
-        assertThat(postConnection.getResponseCode())
-                .as("Check if POST worked")
-                .isEqualTo(204);
-
-        var getConnection = openConnection("/api/products");
-        assertThat(getConnection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .contains("testlaptop");
+                .contains("<title>SocialBuzz</title>");
     }
 
 
