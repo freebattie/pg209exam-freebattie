@@ -1,7 +1,7 @@
-package no.kristiania.socialbuzz;
+package no.kristiania.socialbuzz.dao;
 
 public class User{
-    Long id_user;
+    long id_user;
     String username;
     String name;
     String tlf;

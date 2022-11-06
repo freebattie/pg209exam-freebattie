@@ -16,25 +16,25 @@ users -- emails
 class chats{
     id_chat int {PK}
     title varchar
-    id_messages {FK}
+    id_message int {FK}
 }
 
 class users_chats{
-    id_user {PK FK}
-    id_chat {PK FK}
+    id_user int {PK FK}
+    id_chat int {PK FK}
 }
 
 class messages {
-    id_chat {FK}
-    id_messages {PK}
-    id_user {FK}
+    id_message int {PK}
     message varchar
+    id_chat int {FK}
+    id_user int {FK}
 }
 
 class lastRead{
-    id_chat {PK FK}
-    id_message {PK FK}
-    id_user {PK FK}
+    id_chat int {PK FK}
+    id_message int {PK FK}
+    id_user int {PK FK}
 }
 
 class users {
