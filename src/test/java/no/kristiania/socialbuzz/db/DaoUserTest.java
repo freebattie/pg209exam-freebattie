@@ -18,6 +18,8 @@ public class DaoUserTest {
     }
 
     private void populateUsers() throws SQLException {
+
+
         var statement = connection.prepareStatement("""
             INSERT INTO users (username, name, tlf)
             VALUES ('Errons1', 'Snorre', '11223344'),
@@ -41,5 +43,35 @@ public class DaoUserTest {
                 .as("Check if id_user and username match")
                 .isEqualTo("Freebattie");
     }
+    @Test
+    public void getUserById() throws SQLException {
+        var dao = new DaoUser(connection);
+        populateUsers();
+        var user = dao.getUser(1);
+
+        // Check that user is the expected user
+        assertThat(user.getUsername())
+                .as("Check that user is ")
+                .isEqualTo("Errons1");
+    }
+    @Test
+    public void getEditedUserBack() throws SQLException {
+        var dao = new DaoUser(connection);
+        populateUsers();
+        var user = dao.getUser(1);
+        user.setUsername("NotErrons1");
+        dao.EditUser(user);
+        var updatedUser = dao.getUser(1);
+
+
+        assertThat(updatedUser.getId_user())
+                .as("check that id is same")
+                .isEqualTo(user.getId_user());
+        assertThat(updatedUser.getUsername())
+                .as("check that username has changed")
+                .isNotEqualTo(user.getUsername());
+    }
+
+    //TODO: EDIT EMAIL and check if updated
 
 }

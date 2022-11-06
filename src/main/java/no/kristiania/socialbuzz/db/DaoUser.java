@@ -6,6 +6,7 @@ import no.kristiania.socialbuzz.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DaoUser {
 
             while (result.next()) {
                 var tmpUser = new User();
-                tmpUser.setId_user(result.getInt(1));
+                tmpUser.setId_user(result.getLong(1));
                 tmpUser.setUsername(result.getString(2));
                 users.add(tmpUser);
             }
@@ -50,19 +51,12 @@ public class DaoUser {
                                 tlf = ?
                            WHERE id_user = ?;
                 """;
-
-        try (var statement = connection.prepareStatement(sql)) {
-            List<User> users = new ArrayList<>();
-            var result = statement.executeQuery();
-
-            while (result.next()) {
-                var tmpUser = new User();
-                tmpUser.setId_user(result.getInt(1));
-                tmpUser.setUsername(result.getString(2));
-                users.add(tmpUser);
-            }
-
-
+        try (var statement = connection.prepareStatement(sql)){
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getTlf());
+            statement.setLong(4, user.getId_user());
+            statement.executeUpdate();
         }
 
     }
