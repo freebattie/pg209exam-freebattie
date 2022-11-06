@@ -12,7 +12,6 @@ public class InMemoryDataSource {
         dataSource.setUrl("jdbc:h2:mem:testDatabase;DB_CLOSE_DELAY=-1;MODE=MSSQLServer");
         var flyway = Flyway.configure()
                 .dataSource(dataSource)
-                .locations("db/migrationTest")
                 .load();
         flyway.migrate();
         return dataSource;

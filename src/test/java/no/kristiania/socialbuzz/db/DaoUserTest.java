@@ -1,5 +1,6 @@
 package no.kristiania.socialbuzz.db;
 
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,18 +12,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DaoUserTest {
 
-    Connection connection;
+
+    private DaoUser dao;
 
     @BeforeEach
     public void h2DbSetup() throws SQLException {
-        var stuff = InMemoryDataSource.createTestDataSource();
-        connection = stuff.getConnection();
+        var con = InMemoryDataSource.createTestDataSource();
+         this.dao = new DaoUser(con.getConnection());
+        populateUsers();
+    }
+    @AfterEach
+    public void Restart() throws SQLException {
+        this.dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
         populateUsers();
     }
 
     private void populateUsers() throws SQLException {
 
-
+        Connection connection = InMemoryDataSource.createTestDataSource().getConnection();
         var statement = connection.prepareStatement("""
             INSERT INTO users (username, name, tlf)
             VALUES ('Errons1', 'Snorre', '11223344'),
@@ -34,36 +41,36 @@ public class DaoUserTest {
 
     @Test
     public void getAllUserLoginTest() throws SQLException {
-        var dao = new DaoUser(connection);
+
 
 
         var result = dao.getAllUserLogin();
         assertThat(result.get(0).getUsername())
                 .as("Check if id_user and username match")
-                .isEqualTo("Errons1");
+                .isEqualTo("Karigirl");
 
         assertThat(result.get(1).getUsername())
                 .as("Check if id_user and username match")
-                .isEqualTo("Freebattie");
+                .isEqualTo("SecretMan");
     }
     @Test
     public void getUserById() throws SQLException {
-        var dao = new DaoUser(connection);
-
-        var user = dao.getUser(1);
+        dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
+        populateUsers();
+        var user = dao.getUser(2);
 
         // Check that user is the expected user
         assertThat(user.getUsername())
                 .as("Check that user is ")
-                .isEqualTo("Errons1");
+                .isEqualTo("SecretMan");
     }
     @Test
     public void getEditedUserBack() throws SQLException {
-        var dao = new DaoUser(connection);
-
+        dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
+        populateUsers();
         var original = dao.getUser(1);
         var editUser = dao.getUser(1);
-        editUser.setUsername("NotErrons1");
+        editUser.setUsername("NotSecretman");
         dao.EditUser(editUser);
         var updatedUser = dao.getUser(1);
 
