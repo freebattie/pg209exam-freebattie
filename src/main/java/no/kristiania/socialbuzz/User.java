@@ -1,16 +1,16 @@
 package no.kristiania.socialbuzz;
 
 public class User{
-    int id_user;
+    Long id_user;
     String username;
     String name;
     String tlf;
 
-    public int getId_user() {
+    public Long getId_user() {
         return id_user;
     }
 
-    public void setId_user(int id_user) {
+    public void setId_user(long id_user) {
         this.id_user = id_user;
     }
 
