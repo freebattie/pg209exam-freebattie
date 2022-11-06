@@ -65,7 +65,7 @@ public class DaoUser {
 
         var sql = """
                 SELECT *
-                FROM user WHERE id = ? ;
+                FROM users WHERE id_user = ? ;
             """;
 
         try (var statement = connection.prepareStatement(sql)) {

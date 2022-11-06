@@ -1,5 +1,6 @@
 package no.kristiania.socialbuzz.db;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,9 @@ public class DaoUserTest {
 
     @BeforeEach
     public void h2DbSetup() throws SQLException {
-        connection = InMemoryDataSource.createTestDataSource().getConnection();
+        var stuff = InMemoryDataSource.createTestDataSource();
+        connection = stuff.getConnection();
+        populateUsers();
     }
 
     private void populateUsers() throws SQLException {
@@ -32,7 +35,7 @@ public class DaoUserTest {
     @Test
     public void getAllUserLoginTest() throws SQLException {
         var dao = new DaoUser(connection);
-        populateUsers();
+
 
         var result = dao.getAllUserLogin();
         assertThat(result.get(0).getUsername())
@@ -46,7 +49,7 @@ public class DaoUserTest {
     @Test
     public void getUserById() throws SQLException {
         var dao = new DaoUser(connection);
-        populateUsers();
+
         var user = dao.getUser(1);
 
         // Check that user is the expected user
@@ -57,19 +60,24 @@ public class DaoUserTest {
     @Test
     public void getEditedUserBack() throws SQLException {
         var dao = new DaoUser(connection);
-        populateUsers();
-        var user = dao.getUser(1);
-        user.setUsername("NotErrons1");
-        dao.EditUser(user);
+
+        var original = dao.getUser(1);
+        var editUser = dao.getUser(1);
+        editUser.setUsername("NotErrons1");
+        dao.EditUser(editUser);
         var updatedUser = dao.getUser(1);
 
 
         assertThat(updatedUser.getId_user())
-                .as("check that id is same")
-                .isEqualTo(user.getId_user());
+                .as("check that id is same as original")
+                .isEqualTo(original.getId_user());
+
         assertThat(updatedUser.getUsername())
-                .as("check that username has changed")
-                .isNotEqualTo(user.getUsername());
+                .as("check that editeted user is same as user in db")
+                .isEqualTo(editUser.getUsername());
+        assertThat(original.getUsername())
+                .as("is not same as original")
+                .isNotEqualTo(editUser.getUsername());
     }
 
     //TODO: EDIT EMAIL and check if updated
