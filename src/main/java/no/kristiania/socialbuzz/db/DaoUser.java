@@ -21,7 +21,7 @@ public class DaoUser {
     public List<User> getAllUserLogin() throws SQLException {
 
         var sql = """
-                SELECT id_user, username
+                SELECT id_user, username, name
                 FROM users;
                 """;
 
@@ -33,6 +33,7 @@ public class DaoUser {
                 var tmpUser = new User();
                 tmpUser.setId_user(result.getInt(1));
                 tmpUser.setUsername(result.getString(2));
+                tmpUser.setName(result.getString(3));
                 users.add(tmpUser);
             }
 

@@ -33,11 +33,11 @@ public class DaoUserTest {
         populateUsers();
 
         var result = dao.getAllUserLogin();
-        assertThat(result.get(1))
+        assertThat(result.get(0).getUsername())
                 .as("Check if id_user and username match")
                 .isEqualTo("Errons1");
 
-        assertThat(result.get(2))
+        assertThat(result.get(1).getUsername())
                 .as("Check if id_user and username match")
                 .isEqualTo("Freebattie");
     }
