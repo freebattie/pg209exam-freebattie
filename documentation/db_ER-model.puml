@@ -1,37 +1,38 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-chats "1" -- "*" users_chats
-chats "1" -- "*" messages
-messages "*" -- "1" users
+chats  --  users_chats
+chats -- messages
+chats --- lastRead
 
-users_chats "*" -- "1" users
-users "1" -- "*" emails
+users_chats -- users
 
-chats -- lastRead
+messages -- users
 messages -- lastRead
-users -- lastRead
+
+users - lastRead
+users -- emails
 
 class chats{
-    id_chats int {PK}
+    id_chat int {PK}
     title varchar
     id_messages {FK}
 }
 
 class users_chats{
     id_user {PK FK}
-    id_thread {PK FK}
+    id_chat {PK FK}
 }
 
 class messages {
-    id_thread {FK}
+    id_chat {FK}
     id_messages {PK}
     id_user {FK}
     message varchar
 }
 
 class lastRead{
-    id_thread {PK FK}
+    id_chat {PK FK}
     id_messages {PK FK}
     id_user {PK FK}
 }
