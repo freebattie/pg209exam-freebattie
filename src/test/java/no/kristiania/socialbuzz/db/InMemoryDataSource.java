@@ -9,8 +9,11 @@ public class InMemoryDataSource {
 
     public static DataSource createTestDataSource() {
         var dataSource = new JdbcDataSource();
-        dataSource.setUrl("jdbc:h2:mem:testDatabase;DB_CLOSE_DELAY=-1;MODE=LEGACY");
-        var flyway = Flyway.configure().dataSource(dataSource).load();
+        dataSource.setUrl("jdbc:h2:mem:testDatabase;DB_CLOSE_DELAY=-1;MODE=MSSQLServer");
+        var flyway = Flyway.configure()
+                .dataSource(dataSource)
+                .locations("db/migration")
+                .load();
         flyway.migrate();
         return dataSource;
     }
