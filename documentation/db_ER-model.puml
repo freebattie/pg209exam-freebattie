@@ -33,7 +33,7 @@ class messages {
 
 class lastRead{
     id_chat {PK FK}
-    id_messages {PK FK}
+    id_message {PK FK}
     id_user {PK FK}
 }
 
