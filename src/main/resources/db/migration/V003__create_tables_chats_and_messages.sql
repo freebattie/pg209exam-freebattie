@@ -4,7 +4,7 @@ create table chats
         constraint chats_pk
             primary key,
     title       varchar(250),
-    id_messages int
+    id_message int
 );
 
 create table messages
@@ -21,7 +21,7 @@ create table messages
 
 alter table chats
     add constraint chats_messages_null_fk
-        foreign key (id_messages) references messages (id_message);
+        foreign key (id_message) references messages (id_message);
 
 alter table messages
     add constraint messages_chats_null_fk
