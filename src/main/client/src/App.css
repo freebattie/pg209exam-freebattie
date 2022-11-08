@@ -2,7 +2,9 @@
     margin: 0;
     padding: 0;
     border: 0;
+    box-sizing: border-box;
 }
+html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%; }
 .navbar{
     font-family: sans-serif;
     display: flex;
@@ -10,8 +12,9 @@
     padding: 1rem;
     justify-content: space-around;
     background: #f0f0f0;
-    height: 5vh;
+    height: 10vh;
 }
+
 .button{
     background-color: #4CAF50; /* Green */
     border: none;
@@ -21,5 +24,30 @@
     text-decoration: none;
     display: inline-block;
     cursor:pointer;
+    margin: 10px;
     font-size: 16px;
+}
+.flex-container {
+    display: flex;
+    background-color: green;
+    height: 100%;
+}
+
+.flex-chats{
+
+    height: 59vh;
+
+    margin: 10px;
+    flex: 10%;
+
+    background-color: blue;
+}
+.flex-chat{
+
+    height: 59vh;
+
+    margin: 10px;
+    flex: 90%;
+
+    background-color: red;
 }

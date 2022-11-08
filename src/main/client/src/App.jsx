@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react'
+
 import './App.css'
-import {HashRouter, Link, Route, Router, Routes, useNavigate} from "react-router-dom";
+import {HashRouter, Route, Router, Routes} from "react-router-dom";
 import {createHashHistory} from 'history';
 import {ListAllUsers} from "./ListAllUsers";
 import {NavBar} from "./Navbar.jsx";
@@ -22,7 +22,39 @@ function FrontPage() {
     )
 }
 
+function Chat() {
+    return <div class="flex-chat">
+        <h1>PEr: hei</h1>
+        <h1>Ppl: neei</h1>
 
+    </div>
+}
+
+function ChatList() {
+    return (
+        <div class ="flex-chats">
+            <ul>
+                <li>PER</li>
+                <li>PÅL</li>
+                <li>Kari</li>
+            </ul>
+
+        </div>
+    );
+}
+
+function UserPage(){
+
+    return(
+        <div>
+            <NavBar/>
+            <div class="flex-container">
+            <ChatList/>
+            <Chat/>
+            </div>
+        </div>
+    );
+}
 
 function App() {
 
@@ -32,7 +64,7 @@ function App() {
             <HashRouter>
                 <Routes>
                     <Route path={"/*"} element={<FrontPage/>}/>
-                    <Route path={"/shop"} element={<ListAllUsers/>}/>
+                    <Route path={"/user"} element={<UserPage/>}/>
                 </Routes>
             </HashRouter>
         </div>
