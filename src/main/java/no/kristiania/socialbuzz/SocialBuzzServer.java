@@ -37,7 +37,7 @@ public class SocialBuzzServer {
         useFolderIfExist(webAppContext, resources);
 //        resource that is read from .../target/classes/...
 
-        webAppContext.setInitParameter(DefaultServlet.CONTEXT_INIT + "useFileMappedBuffer", "false");
+        //webAppContext.setInitParameter(DefaultServlet.CONTEXT_INIT + "useFileMappedBuffer", "false");
 
         var config = new SocialBuzzEndpointConfig(dataSource);
         webAppContext.addServlet(new ServletHolder(new ServletContainer(config)), "/api/*");

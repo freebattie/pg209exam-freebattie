@@ -16,19 +16,19 @@ public class DaoChat {
         this.connection = connection;
     }
 
-    public List<Chat> getAllChats(int idUser) throws SQLException {
+    public List<Chat> getAllChats(Long idUser) throws SQLException {
 
         var sql = """
-                    SELECT chat.id_chat, title, id_message
-                    FROM [users-chats]
-                    JOIN chats chat on [users-chats].id_chat = chat.id_chat
+                SELECT chat.id_chat, title
+                    FROM [userschats]
+                    JOIN chats as chat on [userschats].id_chat = chat.id_chat
                     WHERE id_user = ?;
                 """;
 
         try (var statement = connection.prepareStatement(sql)) {
             List<Chat> chats = new ArrayList<>();
 
-            statement.setInt(1, idUser);
+            statement.setLong(1, idUser);
             var result = statement.executeQuery();
 
             while (result.next()) {
