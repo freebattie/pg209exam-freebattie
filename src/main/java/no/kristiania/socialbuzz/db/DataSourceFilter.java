@@ -1,15 +1,15 @@
 package no.kristiania.socialbuzz.db;
 
 import jakarta.servlet.*;
-import no.kristiania.socialbuzz.SocialbuzzEndpointConfig;
+import no.kristiania.socialbuzz.SocialBuzzEndpointConfig;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class DataSourceFilter implements Filter {
 
-    private final SocialbuzzEndpointConfig config;
-    public DataSourceFilter(SocialbuzzEndpointConfig config) {
+    private final SocialBuzzEndpointConfig config;
+    public DataSourceFilter(SocialBuzzEndpointConfig config) {
         this.config = config;
     }
 

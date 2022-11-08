@@ -40,7 +40,7 @@ public class DaoUserTest {
 
         // Check that user is the expected user
         assertThat(user.getUsername())
-                .as("Check that user is ")
+                .as("Check that user is the expexted user")
                 .isEqualTo("SecretMan");
     }
 

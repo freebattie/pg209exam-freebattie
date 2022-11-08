@@ -19,12 +19,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.EnumSet;
 
-public class SocialbuzzServer {
+public class SocialBuzzServer {
 
     private final Server server;
-    private final static Logger logger = LoggerFactory.getLogger(SocialbuzzServer.class);
+    private final static Logger logger = LoggerFactory.getLogger(SocialBuzzServer.class);
 
-    public SocialbuzzServer(int port, DataSource dataSource) throws IOException {
+    public SocialBuzzServer(int port, DataSource dataSource) throws IOException {
         this.server = new Server(port);
         server.setHandler(createWebApp(dataSource));
     }
@@ -39,7 +39,7 @@ public class SocialbuzzServer {
 
         webAppContext.setInitParameter(DefaultServlet.CONTEXT_INIT + "useFileMappedBuffer", "false");
 
-        var config = new SocialbuzzEndpointConfig(dataSource);
+        var config = new SocialBuzzEndpointConfig(dataSource);
         webAppContext.addServlet(new ServletHolder(new ServletContainer(config)), "/api/*");
         webAppContext.addFilter(new FilterHolder(new DataSourceFilter(config)),"/api/*", EnumSet.of(DispatcherType.REQUEST));
 

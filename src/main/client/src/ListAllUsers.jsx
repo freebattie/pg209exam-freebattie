@@ -21,7 +21,7 @@ export function ListAllUsers() {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState("Users");
 
-    useEffect(async () => {
+   /* useEffect(async () => {
         const res = await fetch("/api/user-login");
 
         setUsers(await res.json());
@@ -38,10 +38,13 @@ export function ListAllUsers() {
             <div>Loading...</div>
 
         )
+    }*/
+
+
+    const options = ['One', 'Two', 'Three', 'Four', 'Five'];
+    const onOptionChangeHandler = (event) => {
+        console.log("User Selected Value - ", event.target.value)
     }
-
-
-
 
     const toggling = () => setIsOpen(!isOpen);
 
@@ -53,25 +56,40 @@ export function ListAllUsers() {
 
     return (
         <div>
-            <div>Load User</div>
-            <DropDownContainer>
+            <center>
+                <h1>Velg en bruker fra dropdown</h1>
+                <img src="static/Logo.png" alt="Girl in a jacket" width="500" height="600"/>
 
-                <DropDownHeader onClick={toggling}>
-                    {selectedUser || "Users"}
-                </DropDownHeader>
-                {isOpen && (
-                    <DropDownListContainer>
-                        <DropDownList>
+
+                <select onChange={onOptionChangeHandler}>
+
+                    <option>Please choose one option</option>
+                    {options.map((option, index) => {
+                        return <option key={index} >
+                            {option}
+                        </option>
+                    })}
+                </select>
+            </center>
+
+            {/*<DropDownContainer>*/}
+
+            {/*    <DropDownHeader onClick={toggling}>*/}
+            {/*        {selectedUser || "Users"}*/}
+            {/*    </DropDownHeader>*/}
+            {/*    {isOpen && (*/}
+            {/*        <DropDownListContainer>*/}
+            {/*            <DropDownList>*/}
                             {users.map(option => (
                                 <ListItem onClick={onOptionClicked(option.username)} id={option.id_user} key={option.id_user}>
                                     {option.username}
                                 </ListItem>
                             ))}
-                        </DropDownList>
-                    </DropDownListContainer>
+            {/*            </DropDownList>*/}
+            {/*        </DropDownListContainer>*/}
 
-                )}
-            </DropDownContainer>
+            {/*    )}*/}
+            {/*</DropDownContainer>*/}
 
         </div>
 
