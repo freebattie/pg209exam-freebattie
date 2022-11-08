@@ -33,6 +33,15 @@ public class DaoChatTest {
                 .as("Check that Chat 1 ID is 1")
                 .isEqualTo(1);
 
+        assertThat(result.get(3).getTitle())
+                .as("Check that Group chat 4 title is Chat 4")
+                .isEqualTo("Chat 4");
+
+        assertThat(result.get(3).getId_chat())
+                .as("Check that Chat 4 ID is 4")
+                .isEqualTo(4);
     }
+
+
 
 }
