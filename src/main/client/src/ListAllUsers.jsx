@@ -9,17 +9,13 @@ import {
 import imgUrl from './static/Logo.png'
 
 
-
-
-
 export function ListAllUsers() {
-
 
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
-   const [selectedUser, setSelectedUser] = useState("");
+    const [selectedUser, setSelectedUser] = useState("");
 
     useEffect(async () => {
         const res = await fetch("/api/user-login");
@@ -27,7 +23,6 @@ export function ListAllUsers() {
         setUsers(await res.json());
 
         setLoading(false);
-
 
 
     }, []);
@@ -57,7 +52,7 @@ export function ListAllUsers() {
 
                     <option>Please choose one option</option>
                     {users.map((option, index) => {
-                        return <option key={index} >
+                        return <option key={index}>
                             {option.username}
                         </option>
                     })}
