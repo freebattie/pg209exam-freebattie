@@ -1,14 +1,10 @@
-import { useEffect, useState} from "react";
-
-import imgUrl from './static/Logo.png'
-
-
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import imgUrl from "./static/Logo.png";
 
 
 
-export function ListAllUsers() {
-
-
+function FrontPage() {
 
 
     const [users, setUsers] = useState({});
@@ -35,18 +31,9 @@ export function ListAllUsers() {
         )
     }
 
-    function onOptionChangeHandler(event) {
-
-
-        console.log("User Selected Value - ", event.target.value)
-
-    }
-
-
-
-
     return (
         <div>
+            <button><Link to={"/user"}>Show all items</Link></button>
             <center>
                 <h1>Velg en bruker fra dropdown</h1>
                 <img src={imgUrl} alt="Social Buzz Logo!" width="200" height="100"/>
@@ -67,5 +54,40 @@ export function ListAllUsers() {
             </center>
         </div>
 
+    );
+
+}
+function UserPage( ){
+
+    const [chats, setChats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(async () => {
+        const res = await fetch("/api/chats/"+1);
+
+        setChats(await res.json());
+
+        setLoading(false);
+
+
+
+    }, []);
+
+    if (loading) {
+
+        return (
+            <div>Loading...</div>
+
+        )
+    }
+    console.log()
+    return(
+
+        <div>
+
+            <div className="flex-container">
+                <ChatList />
+
+            </div>
+        </div>
     );
 }

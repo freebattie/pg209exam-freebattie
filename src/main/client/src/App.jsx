@@ -1,82 +1,79 @@
-
+import {useEffect, useState} from 'react'
 import './App.css'
-import {HashRouter, Route, Router, Routes} from "react-router-dom";
+import {HashRouter, Link, Route, Router, Routes, useNavigate} from "react-router-dom";
 import {createHashHistory} from 'history';
-import {ListAllUsers} from "./ListAllUsers";
-import {NavBar} from "./Navbar.jsx";
-import {useEffect, useState} from "react";
-
 
 const history = createHashHistory();
+import imgUrl from './static/Logo.png'
 
 
 
-function FrontPage() {
-
-    return (
-
-            <div>
-                <ListAllUsers/>
-            </div>
 
 
-    )
+
+
+
+
+
+
+
+ function FrontPage({users,getActiveUser}) {
+
+
+
+
+     return (
+         <div>
+
+             <center>
+                 <h1>Velg en bruker fra dropdown</h1>
+                 <img src={imgUrl} alt="Social Buzz Logo!" width="200" height="100"/>
+
+                 <div>
+
+                 </div>
+
+                 <select onChange={(e)=>getActiveUser(e.target.value)}>
+
+                     <option>Please choose one option</option>
+                     {users.map((option, index) => {
+                         return <option value={option.id_user} key={index}>
+                             {option.username}
+                         </option>
+                     })}
+                 </select>
+                 <br/>
+                 <button><Link to={"/user"}>Show all items</Link></button>
+             </center>
+         </div>
+
+     );
+
 }
 
-function Chat() {
-    return <div class="flex-chat">
-        <div class={"chat-card"}>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <h1>PEr: hei</h1>
-            <h1>Ppl: neei</h1>
-            <div className={"bottom"}>
-                <label>Text: <input className={"input"}/></label>
-                <button className={"buttonSend"}>Send</button>
-            </div>
-        </div>
 
-
-
-    </div>
-}
-
-function ChatList() {
+function ChatList({chats}) {
+    console.log("this is empty",);
     return (
-        <div class ="flex-chats">
+        <div className ="flex-chats">
             <ul>
-                <li class={"button"}>New Chat</li>
-                <li class={"button"}>PER</li>
-                <li class={"button"}>PÅL</li>
-                <li class={"button"}>Kari</li>
+                {chats.map((option, index) => {
+                    return <li className="button"  key={index}>
+                        {option.title}
+                    </li>
+                })}
+
             </ul>
 
         </div>
     );
 }
 
-function UserPage({prop} ){
-    const setChats = prop.setChats;
-    const chats = prop.chats;
+function UserPage({activeUser}) {
+    const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(async () => {
-        const res = await fetch("/api/chat-list");
+        const res = await fetch("/api/chats/"+activeUser);
 
         setChats(await res.json());
 
@@ -93,28 +90,83 @@ function UserPage({prop} ){
 
         )
     }
+    console.log(chats)
     return(
+
         <div>
-            <NavBar/>
-            <div class="flex-container">
-            <ChatList chats={chats}/>
-            <Chat/>
+
+            <div className="flex-container">
+                <ChatList chats={chats}/>
+                <Chat/>
             </div>
         </div>
     );
 }
+function Chat() {
+    return <div className="flex-chat">
+        <div className="chat-card">
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <div className="bottom">
+                <label>Text: <input className="input"/></label>
+                <button className="buttonSend">Send</button>
+            </div>
+        </div>
 
+
+
+    </div>
+}
 function App() {
-    const [chats, setChats] = useState({});
 
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeUser, setActiveUser] = useState([]);
+
+
+
+    useEffect(async () => {
+        const res = await fetch("/api/user-login");
+
+        setUsers(await res.json());
+        setLoading(false);
+    }, []);
+
+    if (loading) {
+        return (
+            <div>Loading...</div>
+        )
+    }
+    function getActiveUser(user){
+        setActiveUser(user)
+    }
 
     return (
         <div className="App">
             <Router basename="/" history={history} location={"/"}></Router>
             <HashRouter>
                 <Routes>
-                    <Route path={"/*"} element={<FrontPage chats={chats}/>}/>
-                    <Route path={"/user"} element={<UserPage setChats={setChats} chats={chats}/>}/>
+                    <Route path={"/user"} element={<UserPage activeUser={activeUser}/>}/>
+                    <Route path={"/*"} element={<FrontPage getActiveUser={getActiveUser} users={users}/>}/>
+
                 </Routes>
             </HashRouter>
         </div>

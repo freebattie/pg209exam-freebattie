@@ -24,9 +24,9 @@ public class SocialBuzzEndpointConfig extends ResourceConfig {
         register(new AbstractBinder() {
             @Override
             protected void configure() {
+
                 bind(DaoChat.class).to(DaoChat.class);
                 bind(DaoUser.class).to(DaoUser.class);
-
                 bindFactory(requestConnection::get)
                         .to(Connection.class)
                         .in(RequestScoped.class);
