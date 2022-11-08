@@ -1,6 +1,5 @@
 package no.kristiania.socialbuzz;
 
-import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.endpoints.UserLoginEndpoint;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
@@ -22,7 +21,7 @@ public class SocialbuzzEndpointConfig extends ResourceConfig {
         register(new AbstractBinder() {
             @Override
             protected void configure() {
-                bind(DaoUser.class).to(DaoUser.class);
+//                bind(DaoUser.class).to(DaoUser.class);
                 bindFactory(requestConnection::get)
                         .to(Connection.class)
                         .in(RequestScoped.class);

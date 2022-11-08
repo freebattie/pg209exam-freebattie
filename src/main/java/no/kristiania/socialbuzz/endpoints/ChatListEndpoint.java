@@ -9,7 +9,7 @@ import no.kristiania.socialbuzz.dao.DaoChat;
 import java.sql.SQLException;
 import java.util.List;
 
-@Path("/chat-list")
+@Path("/chats")
 public class ChatListEndpoint {
 
     @Inject
@@ -17,8 +17,16 @@ public class ChatListEndpoint {
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Chat> getAllChats(int idUser) throws SQLException {
         return daoChat.getAllChats(idUser);
+    }
+
+    @GET
+    @Path("/chats/{id}")
+    public void test() {
+
+
     }
 
 }

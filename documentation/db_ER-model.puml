@@ -1,11 +1,10 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-chats  --  users_chats
+chats -- userschats
 chats -- messages
-chats --- lastRead
 
-users_chats -- users
+userschats -- users
 
 messages -- users
 messages -- lastRead
@@ -15,33 +14,32 @@ users -- emails
 
 class chats{
     id_chat int {PK}
-    title varchar
-    id_message int {FK}
+    title varchar 50
 }
 
-class users_chats{
+class userschats{
     id_user int {PK FK}
     id_chat int {PK FK}
 }
 
 class messages {
     id_message int {PK}
-    message varchar
+    message varchar 8000
     id_chat int {FK}
     id_user int {FK}
+
 }
 
 class lastRead{
-    id_chat int {PK FK}
     id_message int {PK FK}
     id_user int {PK FK}
 }
 
 class users {
     id_user int {PK}
-    username varchar
-    name varchar
-    tlf varchar
+    username varchar 50
+    name varchar 500
+    tlf varchar 15
 }
 
 class emails {
