@@ -6,7 +6,7 @@ import {
     DropDownList,
     DropDownListContainer, ListItem
 } from "./styleComponents/ListAllUsersStyle.jsx";
-
+import imgUrl from './static/Logo.png'
 
 
 
@@ -18,8 +18,8 @@ export function ListAllUsers() {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState("Users");
+
+   const [selectedUser, setSelectedUser] = useState("");
 
     useEffect(async () => {
         const res = await fetch("/api/user-login");
@@ -40,39 +40,29 @@ export function ListAllUsers() {
         )
     }
 
+    const onOptionChangeHandler = (event) => {
+        setSelectedUser(event.target.value)
+        console.log("User Selected Value - ", selectedUser)
+    }
 
-
-
-    const toggling = () => setIsOpen(!isOpen);
-
-    const onOptionClicked = value => () => {
-        setSelectedUser(value);
-        setIsOpen(false);
-
-    };
 
     return (
         <div>
-            <div>Load User</div>
-            <DropDownContainer>
+            <center>
+                <h1>Velg en bruker fra dropdown</h1>
+                <img src={imgUrl} alt="Social Buzz Logo!" width="200" height="100"/>
 
-                <DropDownHeader onClick={toggling}>
-                    {selectedUser || "Users"}
-                </DropDownHeader>
-                {isOpen && (
-                    <DropDownListContainer>
-                        <DropDownList>
-                            {users.map(option => (
-                                <ListItem onClick={onOptionClicked(option.username)} id={option.id_user} key={option.id_user}>
-                                    {option.username}
-                                </ListItem>
-                            ))}
-                        </DropDownList>
-                    </DropDownListContainer>
+                <div></div>
+                <select onChange={onOptionChangeHandler}>
 
-                )}
-            </DropDownContainer>
-
+                    <option>Please choose one option</option>
+                    {users.map((option, index) => {
+                        return <option key={index} >
+                            {option.username}
+                        </option>
+                    })}
+                </select>
+            </center>
         </div>
 
     );

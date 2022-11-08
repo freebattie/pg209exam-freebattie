@@ -1,7 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {MainNavBar} from "./styleComponents/navbarStyle.jsx";
+
 
 function Logo() {
     return (
@@ -37,13 +37,13 @@ function Profile() {
 
 export function NavBar() {
     return(
-        <div>
-            <MainNavBar>
+        <div class={"navbar"}>
+
                 <Logo/>
                 <Chats/>
                 <Posts/>
                 <Profile/>
-            </MainNavBar>
+
         </div>
 
     );

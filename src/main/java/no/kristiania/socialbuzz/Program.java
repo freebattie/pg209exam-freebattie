@@ -10,8 +10,8 @@ public class Program {
         var dataSource = Database.getDataSource();
         int port = Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
                 .map(Integer::parseInt)
-                .orElse(0);
-        new SocialbuzzServer(port, dataSource).start();
+                .orElse(8080);
+        new SocialBuzzServer(port, dataSource).start();
     }
 
 }

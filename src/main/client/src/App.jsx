@@ -15,7 +15,6 @@ function FrontPage() {
     return (
 
             <div>
-                <NavBar/>
                 <ListAllUsers/>
             </div>
 

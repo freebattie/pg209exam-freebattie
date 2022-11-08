@@ -9,12 +9,12 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class SocialbuzzEndpointConfig extends ResourceConfig {
+public class SocialBuzzEndpointConfig extends ResourceConfig {
 
     private final ThreadLocal<Connection> requestConnection = new ThreadLocal<>();
     private final DataSource dataSource;
 
-    public SocialbuzzEndpointConfig(DataSource dataSource) {
+    public SocialBuzzEndpointConfig(DataSource dataSource) {
         super(UserLoginEndpoint.class);
 
         this.dataSource = dataSource;

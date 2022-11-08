@@ -40,7 +40,7 @@ public class DaoUserTest {
 
         // Check that user is the expected user
         assertThat(user.getUsername())
-                .as("Check that user is ")
+                .as("Check that user is the expexted user")
                 .isEqualTo("SecretMan");
     }
 
@@ -64,6 +64,15 @@ public class DaoUserTest {
         assertThat(original.getUsername())
                 .as("is not same as original")
                 .isNotEqualTo(editUser.getUsername());
+        var emails = original.getEmails();
+        //TODO: add a email and check we get new emails
+        assertThat(emails.get(0).toLowerCase())
+                .as("Has Email One")
+                .isEqualTo("Karinordman@online.no".toLowerCase());
+
+        assertThat(emails.get(1).toLowerCase())
+                .as("Has Email Two")
+                .isEqualTo("KariNordman@outlook.no".toLowerCase());
     }
 
     //TODO: EDIT EMAIL and check if updated
