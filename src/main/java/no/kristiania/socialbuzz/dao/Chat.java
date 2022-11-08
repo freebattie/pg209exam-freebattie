@@ -1,6 +1,6 @@
 package no.kristiania.socialbuzz.dao;
 
-public class Chat {
+public class Chat implements Comparable<Chat>{
     long id_chat;
     String title;
 
@@ -18,6 +18,11 @@ public class Chat {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public int compareTo(Chat chat) {
+        return (int) (this.getId_chat() - chat.getId_chat());
     }
 
 }

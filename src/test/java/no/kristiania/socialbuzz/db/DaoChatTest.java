@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DaoChatTest {
 
     private DaoChat dao;
@@ -17,7 +20,18 @@ public class DaoChatTest {
     }
 
     @Test
-    public void getAllChatsFromUserId() {
+    public void getAllChatsFromUserId() throws SQLException {
+        var result = dao.getAllChats(1);
+
+        assertEquals(4, result.size());
+
+        assertThat(result.get(0).getTitle())
+                .as("Check that Chat 1 title is SecretMan")
+                .isEqualTo("SecretMan");
+
+        assertThat(result.get(0).getId_chat())
+                .as("Check that Chat 1 ID is 1")
+                .isEqualTo(1);
 
     }
 
