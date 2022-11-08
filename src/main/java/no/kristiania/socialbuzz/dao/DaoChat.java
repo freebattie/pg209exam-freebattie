@@ -16,7 +16,7 @@ public class DaoChat {
         this.connection = connection;
     }
 
-    public List<Chat> getAllChats(int idUser) throws SQLException {
+    public List<Chat> getAllChats(long idUser) throws SQLException {
         Map<Chat, User> usersChats = new HashMap<>();
 
         var sqlGetChats = """
@@ -34,7 +34,7 @@ public class DaoChat {
                 """;
 
         var statementChats = connection.prepareStatement(sqlGetChats);
-        statementChats.setInt(1, idUser);
+        statementChats.setLong(1, idUser);
         var resultChats = statementChats.executeQuery();
 
         while (resultChats.next()) {
