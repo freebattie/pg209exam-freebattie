@@ -26,8 +26,8 @@ import imgUrl from './static/Logo.png'
          <div>
 
              <center>
-                 <h1>Velg en bruker fra dropdown</h1>
-                 <img src={imgUrl} alt="Social Buzz Logo!" width="200" height="100"/>
+
+                 <img src={imgUrl} alt="Social Buzz Logo!" width="600" height="300"/>
 
                  <div>
 
