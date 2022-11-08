@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 class SocialbuzzServerTest {
 
     private SocialbuzzServer server;
@@ -21,6 +22,7 @@ class SocialbuzzServerTest {
         this.server = new SocialbuzzServer(0, InMemoryDataSource.createTestDataSource());
         server.start();
     }
+
 
     @Test
     public void getStatusCode200Test() throws Exception {

@@ -1,6 +1,6 @@
 package no.kristiania.socialbuzz;
 
-import no.kristiania.socialbuzz.db.DaoUser;
+import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.endpoints.UserLoginEndpoint;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
