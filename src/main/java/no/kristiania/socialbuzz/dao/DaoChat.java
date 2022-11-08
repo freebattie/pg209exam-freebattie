@@ -17,20 +17,18 @@ public class DaoChat {
     }
 
     public List<Chat> getAllChats(int idUser) throws SQLException {
-
         var sql = """
-                    SELECT chat.id_chat, title, id_message
-                    FROM [users-chats]
-                    JOIN chats chat on [users-chats].id_chat = chat.id_chat
+                    SELECT chat.id_chat, title
+                    FROM userschats
+                    JOIN chats chat on userschats.id_chat = chat.id_chat
                     WHERE id_user = ?;
                 """;
 
         try (var statement = connection.prepareStatement(sql)) {
-            List<Chat> chats = new ArrayList<>();
-
             statement.setInt(1, idUser);
             var result = statement.executeQuery();
 
+            List<Chat> chats = new ArrayList<>();
             while (result.next()) {
                 var tmpChat = new Chat();
                 tmpChat.setId_chat(result.getLong(1));
@@ -40,7 +38,6 @@ public class DaoChat {
 
             return chats;
         }
-
     }
 
 }
