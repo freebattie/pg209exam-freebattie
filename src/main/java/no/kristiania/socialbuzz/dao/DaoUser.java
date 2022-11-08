@@ -59,27 +59,49 @@ public class DaoUser {
 
         }
 
+
+
     }
     // get also all emails connected to user
     public User getUser(long id) throws SQLException {
+        User user;
+        List<String> emails = new ArrayList<>();
 
         var sql = """
                 SELECT *
-                FROM users WHERE id_user = ? ;
+                FROM users WHERE id_user = ? 
             """;
 
         try (var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (var resUser = statement.executeQuery()) {
                 if (resUser.next()) {
-                    return fillUser(resUser);
+                    user= fillUser(resUser);
                 } else {
                     return null;
                 }
             }
         }
+         sql = """
+                SELECT email
+                FROM emails WHERE id_user = ?
+            """;
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, 1);
+            try (var resUser = statement.executeQuery()) {
+                while (resUser.next()) {
 
+                    user.addEmail(resUser.getString(1));
+                }
+            }
+        }
+
+
+
+        return user;
     }
+
+
 
     private User fillUser(ResultSet resUser) throws SQLException {
         var user = new User();
@@ -87,6 +109,7 @@ public class DaoUser {
         user.setUsername(resUser.getString(2));
         user.setName(resUser.getString(3));
         user.setTlf(resUser.getString(4));
+
         return user;
     }
 
