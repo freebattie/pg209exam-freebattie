@@ -16,17 +16,12 @@ public class ChatListEndpoint {
     private DaoChat daoChat;
 
     @GET
+//    @Path("/chats/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Chat> getAllChats(int idUser) throws SQLException {
         return daoChat.getAllChats(idUser);
     }
 
-    @GET
-    @Path("/chats/{id}")
-    public void test() {
-
-
-    }
 
 }
