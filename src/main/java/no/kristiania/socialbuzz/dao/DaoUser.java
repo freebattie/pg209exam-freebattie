@@ -58,7 +58,7 @@ public class DaoUser {
             statement.executeUpdate();
 
         }
-       
+
         for (var mail :user.getEmails()) {
             sql = """
                 UPDATE emails
