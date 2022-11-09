@@ -17,7 +17,7 @@ export function FrontPage({users,getActiveUser}) {
 
                 </div>
 
-                <select onChange={(e)=>getActiveUser(e.target.value)}>
+                <select onChange={(e)=>getActiveUser(e.target)}>
 
                     <option>Please choose one option</option>
                     {users.map((option, index) => {

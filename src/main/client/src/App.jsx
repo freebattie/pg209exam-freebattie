@@ -33,7 +33,7 @@ function UserPage({activeUserId}) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(async () => {
-        const res = await fetch("/api/chats/"+activeUserId);
+        const res = await fetch("/api/chats/"+activeUserId.value);
 
         setChats(await res.json());
 
@@ -100,8 +100,8 @@ function App() {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeUserId, setActiveUserId] = useState([]);
-    const [activeUser, setActiveUser] = useState([]);
+    const [activeUserId, setActiveUser] = useState([]);
+
 
 
 
@@ -118,7 +118,7 @@ function App() {
         )
     }
     function getActiveUser(user){
-        setActiveUserId(user)
+        setActiveUser(user)
     }
 
     return (
