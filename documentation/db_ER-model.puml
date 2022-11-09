@@ -43,8 +43,9 @@ class users {
 }
 
 class emails {
-    email varchar {PK}
-    id_user {PK FK}
+    id_email {PK}
+    id_user {FK}
+    email varchar 100
 }
 
 @enduml
