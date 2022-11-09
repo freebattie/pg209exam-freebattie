@@ -104,7 +104,7 @@
                                     <include>*.properties</include>
                                 </includes>
 <!--                                MS have corrected a bug and this line is not needed anymore-->
-                                <targetPath>/site/wwwroot</targetPath>
+                                <!--<targetPath>/site/wwwroot</targetPath>-->
                             </resource>
                         </resources>
                     </deployment>
