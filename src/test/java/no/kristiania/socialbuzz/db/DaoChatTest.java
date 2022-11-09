@@ -1,10 +1,13 @@
 package no.kristiania.socialbuzz.db;
 
 import no.kristiania.socialbuzz.dao.DaoChat;
+import no.kristiania.socialbuzz.dao.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,6 +43,14 @@ public class DaoChatTest {
         assertThat(result.get(3).getId_chat())
                 .as("Check that Chat 4 ID is 4")
                 .isEqualTo(4);
+    }
+
+    @Test
+    public void makeNewOneToOneChat() {
+//        var
+
+        List<User> users = new ArrayList<>();
+//        users.add()
     }
 
 

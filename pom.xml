@@ -158,19 +158,25 @@
             <!-- add an implementation for Jax-RS instead of using Servlet -->
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-binding</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>
@@ -187,11 +193,11 @@
             <version>2.1.1</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>jakarta.activation</groupId>-->
-        <!--            <artifactId>jakarta.activation-api</artifactId>-->
-        <!--            <version>2.1.0</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.1.0</version>
+        </dependency>
 
         <dependency>
             <!-- use parson as implementation for Jakarta.json API -->
