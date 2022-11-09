@@ -23,21 +23,29 @@ public class DataSourceFilter implements Filter {
 
 
         try {
+            var connection = config.createConnectionForRequest();
             HttpServletRequest req = (HttpServletRequest) servletRequest;
             HttpServletResponse res = (HttpServletResponse) servletResponse;
-
             logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
             logger.info("Response Code from Server: {}", res.getStatus());
-//            Get threadsafe connection from HikariCP.
-            var connection = config.createConnectionForRequest();
+            if (req.getMethod().equals("GET")) {
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+
 //            Turn of auto commit, so we can manage connection within filter.
-            connection.setAutoCommit(false);
+                connection.setAutoCommit(false);
 //            Sends the connection of do relevant DAO
-            filterChain.doFilter(servletRequest, servletResponse);
-            connection.commit();
-            connection.close();
+                filterChain.doFilter(servletRequest, servletResponse);
+                connection.commit();
+                connection.close();
 //            Remove closed connection at HikariCP
+
+            }
+
+
             config.cleanRequestConnection();
+//            Get threadsafe connection from HikariCP.
+
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -58,14 +58,25 @@ public class DaoUser {
             statement.executeUpdate();
 
         }
+       
+        for (var mail :user.getEmails()) {
+            sql = """
+                UPDATE emails
+                    Set email =?
+                    Where id_email = ?
+            """;
+            try (var statement = connection.prepareStatement(sql)) {
+                statement.setString(1, mail.getEmail());
+                statement.setLong(2, mail.getId());
+                statement.executeUpdate();
 
-
-
+                }
+            }
     }
     // get also all emails connected to user
     public User getUser(long id) throws SQLException {
         User user;
-        List<String> emails = new ArrayList<>();
+
 
         var sql = """
                 SELECT *
@@ -83,20 +94,21 @@ public class DaoUser {
             }
         }
          sql = """
-                SELECT email
-                FROM emails WHERE id_user = ?
+                SELECT id_email, email
+                FROM emails WHERE id_user = ? 
             """;
         try (var statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, 1);
+            statement.setLong(1, id);
             try (var resUser = statement.executeQuery()) {
-                while (resUser.next()) {
 
-                    user.addEmail(resUser.getString(1));
+                while (resUser.next()) {
+                    EMail mail = new EMail();
+                    mail.setId(resUser.getLong(1));
+                    mail.setEmail(resUser.getString(2));
+                    user.addEmail(mail);
                 }
             }
         }
-
-
 
         return user;
     }

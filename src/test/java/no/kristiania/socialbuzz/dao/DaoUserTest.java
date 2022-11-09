@@ -46,33 +46,66 @@ public class DaoUserTest {
 
     @Test
     public void getEditedUserBack() throws SQLException {
+
+        //TODO: kanskje dele denne opp i flere tester siden vi tester veldig mye her
+
+
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
         var original = dao.getUser(1);
         var editUser = dao.getUser(1);
         editUser.setUsername("NotSecretman");
+        EMail mail = editUser.getEmails().get(0);
+        mail.setEmail("test@test.no");
+        int id = Math.toIntExact(mail.getId());
+        editUser.EditMail(mail,id);
         dao.EditUser(editUser);
         var updatedUser = dao.getUser(1);
 
+
+
+
+
+
+        //CHECK BEFORE EDIT
+        assertThat(original.getUsername())
+                .as("is not same as original")
+                .isNotEqualTo(editUser.getUsername());
+
+        //CHECKING THAT EDITED USER IS SAME AS ORIGINAL
         assertThat(updatedUser.getId_user())
                 .as("check that id is same as original")
                 .isEqualTo(original.getId_user());
 
+        var emails = updatedUser.getEmails();
+
+
+        assertThat(emails.get(0).getEmail().toLowerCase())
+                .as("Has Original Email")
+                .isEqualTo("test@test.no".toLowerCase());
+
+
+
+
+
+        //CHECK AFTER EDIT
+
+        //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
         assertThat(updatedUser.getUsername())
                 .as("check that editeted user is same as user in db")
                 .isEqualTo(editUser.getUsername());
 
-        assertThat(original.getUsername())
-                .as("is not same as original")
-                .isNotEqualTo(editUser.getUsername());
-        var emails = original.getEmails();
-        //TODO: add a email and check we get new emails
-        assertThat(emails.get(0).toLowerCase())
-                .as("Has Email One")
-                .isEqualTo("Karinordman@online.no".toLowerCase());
 
-        assertThat(emails.get(1).toLowerCase())
-                .as("Has Email Two")
-                .isEqualTo("KariNordman@outlook.no".toLowerCase());
+        emails = updatedUser.getEmails();
+
+
+        assertThat(emails.get(0).getEmail().toLowerCase())
+                .as("First email has been updated")
+                .isEqualTo("test@test.no".toLowerCase());
+
+
+
+
+
     }
 
     //TODO: EDIT EMAIL and check if updated
