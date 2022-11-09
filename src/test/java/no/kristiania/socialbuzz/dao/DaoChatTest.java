@@ -1,7 +1,6 @@
-package no.kristiania.socialbuzz.db;
+package no.kristiania.socialbuzz.dao;
 
-import no.kristiania.socialbuzz.dao.DaoChat;
-import no.kristiania.socialbuzz.dao.User;
+import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
