@@ -80,9 +80,12 @@ public class DaoChat {
                 VALUES (?)
                 """;
         try (var statement = connection.prepareStatement(sqlMakeChat, Statement.RETURN_GENERATED_KEYS)) {
-            idChat = statement.getGeneratedKeys().getInt(1);
             statement.setString(1, Objects.requireNonNullElse(title, ""));
             statement.executeUpdate();
+
+            var keys = statement.getGeneratedKeys();
+            keys.next();
+            idChat = keys.getInt(1);
         }
 
         for (var user : users) {
