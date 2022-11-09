@@ -10,8 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-@Path("/user-login")
-public class UserLoginEndpoint {
+@Path("/users")
+public class UsersEndpoint {
 
     @Inject
     private DaoUser daoUser;
@@ -20,6 +20,12 @@ public class UserLoginEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAllUserLogin() throws SQLException {
         return daoUser.getAllUserLogin();
+    }
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getUserById(@PathParam("id") Long id) throws SQLException {
+        return daoUser.getUser(id);
     }
 
 }

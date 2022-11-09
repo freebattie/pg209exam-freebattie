@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Path("/chats")
-public class ChatListEndpoint {
+public class ChatsEndpoint {
 
     @Inject
     private DaoChat daoChat;

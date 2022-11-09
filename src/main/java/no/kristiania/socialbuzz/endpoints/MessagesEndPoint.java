@@ -11,7 +11,7 @@ import no.kristiania.socialbuzz.dao.Message;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MessageEndPoint {
+public class MessagesEndPoint {
 
     @Inject
     private DaoMessage daoMessage;

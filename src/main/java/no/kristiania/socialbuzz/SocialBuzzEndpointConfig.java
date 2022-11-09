@@ -2,8 +2,8 @@ package no.kristiania.socialbuzz;
 
 import no.kristiania.socialbuzz.dao.DaoChat;
 import no.kristiania.socialbuzz.dao.DaoUser;
-import no.kristiania.socialbuzz.endpoints.ChatListEndpoint;
-import no.kristiania.socialbuzz.endpoints.UserLoginEndpoint;
+import no.kristiania.socialbuzz.endpoints.ChatsEndpoint;
+import no.kristiania.socialbuzz.endpoints.UsersEndpoint;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -18,7 +18,7 @@ public class SocialBuzzEndpointConfig extends ResourceConfig {
     private final DataSource dataSource;
 
     public SocialBuzzEndpointConfig(DataSource dataSource) {
-        super(ChatListEndpoint.class,UserLoginEndpoint.class);
+        super(ChatsEndpoint.class, UsersEndpoint.class);
 
         this.dataSource = dataSource;
         register(new AbstractBinder() {

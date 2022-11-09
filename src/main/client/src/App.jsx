@@ -146,7 +146,7 @@ function App() {
 
 
     useEffect(async () => {
-        const res = await fetch("/api/user-login");
+        const res = await fetch("/api/users");
 
         setUsers(await res.json());
         setLoading(false);
