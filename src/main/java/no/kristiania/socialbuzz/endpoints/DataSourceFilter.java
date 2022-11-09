@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.db;
+package no.kristiania.socialbuzz.endpoints;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,7 +1,7 @@
 package no.kristiania.socialbuzz;
 
 import jakarta.servlet.DispatcherType;
-import no.kristiania.socialbuzz.db.DataSourceFilter;
+import no.kristiania.socialbuzz.endpoints.DataSourceFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
