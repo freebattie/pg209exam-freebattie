@@ -1,7 +1,12 @@
 package no.kristiania.socialbuzz.db;
 
 import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import no.kristiania.socialbuzz.SocialBuzzEndpointConfig;
+import no.kristiania.socialbuzz.SocialBuzzServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,11 +17,17 @@ public class DataSourceFilter implements Filter {
     public DataSourceFilter(SocialBuzzEndpointConfig config) {
         this.config = config;
     }
-
+    private static final Logger logger = LoggerFactory.getLogger(SocialBuzzServer.class);
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)  throws IOException, ServletException {
 
+
         try {
+            HttpServletRequest req = (HttpServletRequest) servletRequest;
+            HttpServletResponse res = (HttpServletResponse) servletResponse;
+
+            logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
+            logger.info("Response Code from Server: {}", res.getStatus());
 //            Get threadsafe connection from HikariCP.
             var connection = config.createConnectionForRequest();
 //            Turn of auto commit, so we can manage connection within filter.
