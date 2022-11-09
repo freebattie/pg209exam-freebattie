@@ -5,6 +5,7 @@ import {createHashHistory} from 'history';
 
 const history = createHashHistory();
 import imgUrl from './static/Logo.png'
+import {NavBar} from "./Navbar";
 
 
 
@@ -94,8 +95,9 @@ function UserPage({activeUser}) {
     return(
 
         <div>
-
+            <NavBar activeUser={activeUser}/>
             <div className="flex-container">
+
                 <ChatList chats={chats}/>
                 <Chat/>
             </div>
