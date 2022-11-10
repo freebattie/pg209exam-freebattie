@@ -1,0 +1,2 @@
+Why we dont check the users data on change of user is becuse in real life we belive auth and signed
+cookeis will make sure the user is real.

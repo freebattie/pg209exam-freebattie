@@ -1,41 +1,89 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;background-color: wheat; }
+.navbar{
+    font-family: sans-serif;
+    display: flex;
+
+    padding: 1rem;
+    justify-content: space-around;
+    background: #f0f0f0;
+    height: 10vh;
+    width: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+.button{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+    margin: 10px;
+    font-size: 16px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.buttonSend{
+    background-color: green; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+    height: 40px;
+    font-size: 16px;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.flex-container {
+    display: flex;
+    background-color: wheat;
+    height: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.flex-chats{
+
+    height: 59vh;
+
+    margin: 10px;
+    flex: 10%;
+
+    background-color: wheat;
+}
+.flex-chat {
+
+    height: 59vh;
+    position: relative;
+    margin: 10px;
+    flex: 90%;
+
+    background-color: wheat;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.chat-parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
-
-.card {
-  padding: 2em;
+.bottom{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
 }
-
-.read-the-docs {
-  color: #888;
+.chat-card{
+    width: 50%;
+    background-color: gray;
+    height: 100%;
+    overflow-y: auto;
+    max-height: 93%;
+}
+.input{
+    height: 40px;
+    width: 40%;
 }

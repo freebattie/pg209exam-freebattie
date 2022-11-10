@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz;
+package no.kristiania.socialbuzz.db;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.flywaydb.core.Flyway;

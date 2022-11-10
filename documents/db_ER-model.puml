@@ -1,0 +1,51 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+chats -- userschats
+chats -- messages
+
+userschats -- users
+
+messages -- users
+messages -- lastRead
+
+users - lastRead
+users -- emails
+
+class chats{
+    id_chat int {PK}
+    title varchar 50
+}
+
+class userschats{
+    id_user int {PK FK}
+    id_chat int {PK FK}
+}
+
+class messages {
+    id_message int {PK}
+    message varchar 8000
+    id_chat int {FK}
+    id_user int {FK}
+
+}
+
+class lastRead{
+    id_message int {PK FK}
+    id_user int {PK FK}
+}
+
+class users {
+    id_user int {PK}
+    username varchar 50
+    name varchar 500
+    tlf varchar 15
+}
+
+class emails {
+    id_email {PK}
+    id_user {FK}
+    email varchar 100
+}
+
+@enduml
