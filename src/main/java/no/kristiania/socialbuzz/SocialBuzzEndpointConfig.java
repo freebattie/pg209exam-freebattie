@@ -7,8 +7,6 @@ import no.kristiania.socialbuzz.endpoints.UsersEndpoint;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.process.internal.RequestScoped;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -34,6 +32,7 @@ public class SocialBuzzEndpointConfig extends ResourceConfig {
             }
         });
     }
+
     public Connection createConnectionForRequest() throws SQLException {
         requestConnection.set(dataSource.getConnection());
         return requestConnection.get();
