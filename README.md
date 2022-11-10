@@ -1,6 +1,8 @@
+
 ![coverage](.github/badges/jacoco.svg)
 [![Java CI with Maven](https://github.com/kristiania-pgr209-2022/pg209exam-freebattie/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr209-2022/pg209exam-freebattie/actions/workflows/maven.yml)
 ![branches coverage](.github/badges/branches.svg)
+
 # PG209 Backend programmering eksamen
 
 ## Sjekkliste for innleveringen
@@ -12,18 +14,22 @@
 
 ## README.md
 
+
 * [ ] Inneholder link til Azure Websites deployment
 * [x] Inneholder en korrekt badge til GitHub Actions
+
 * [ ] Beskriver hva dere har løst utover minimum
 * [ ] Inneholder et diagram over databasemodellen
 
 ## Koden
 
 * [x] Oppfyller Java kodestandard med hensyn til indentering og navngiving
+
 * [x] Er deployet korrekt til Azure Websites
 * [ ] Inneholder tester av HTTP og database-logikk
 * [x] Bruker Flyway DB for å sette opp databasen
 * [x] Skriver ut nyttige logmeldinger
+
 
 ## Basisfunksjonalitet
 
