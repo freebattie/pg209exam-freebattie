@@ -61,7 +61,6 @@ function UserPage({activeUser}) {
     return(
 
         <div>
-
             <NavBar activeUser={activeUser}/>
                 <Routes>
                     <Route path={"/*"} element={

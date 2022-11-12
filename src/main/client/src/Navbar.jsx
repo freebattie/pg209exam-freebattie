@@ -29,12 +29,12 @@ function Posts() {
 }
 
 function Profile({activeUser}) {
-   // const [user, setUser] = useState([]);
-    const [userName, setUserName] = useState(activeUser.options[activeUser.value].text);
-    console.log(activeUser.options[1].text)
+    const [loading, setLoading] = useState(true);
+    const [userName, setUserName] = useState("bjarte");
+    const name = activeUser.options[activeUser.value].text;
     return (
         <div>
-            <button className={"button"}><Link to={"/user/edituser"}>{userName}</Link></button>
+            <button className={"button"}><Link to={"/user/edituser"}>{name}</Link></button>
         </div>
     );
 }
@@ -47,6 +47,7 @@ export function NavBar({activeUser}) {
                 <Chats/>
                 <Posts/>
                 <Profile activeUser={activeUser}/>
+
 
         </div>
 
