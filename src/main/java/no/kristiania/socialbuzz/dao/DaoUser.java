@@ -102,7 +102,7 @@ public class DaoUser {
             try (var resUser = statement.executeQuery()) {
 
                 while (resUser.next()) {
-                    EMail mail = new EMail();
+                    Email mail = new Email();
                     mail.setId(resUser.getLong(1));
                     mail.setEmail(resUser.getString(2));
                     user.addEmail(mail);
