@@ -15,9 +15,19 @@ public class Database {
     public static HikariDataSource getDataSource() throws IOException {
         var dataSource = new HikariDataSource();
         dataSource.setAutoCommit(false);
-        dataSource.setJdbcUrl(System.getenv("DB_URL"));
-        dataSource.setUsername(System.getenv("DB_USER"));
-        dataSource.setPassword(System.getenv("DB_PASSWORD"));
+        var properties = new Properties();
+        try (var reader = new FileReader("application.properties")) {
+            properties.load(reader);
+        }
+
+
+        dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
+        dataSource.setUsername(properties.getProperty("jdbc.username"));
+        dataSource.setPassword(properties.getProperty("jdbc.password"));
+
+//        dataSource.setJdbcUrl(System.getenv("DB_URL"));
+//        dataSource.setUsername(System.getenv("DB_USER"));
+//        dataSource.setPassword(System.getenv("DB_PASSWORD"));
 
        //
 
