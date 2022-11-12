@@ -25,7 +25,7 @@ public class MessagesEndPoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(Message message) throws SQLException {
-        daoMessage.sendMessage(message.getMessage());
+        daoMessage.sendMessage(message);
         daoMessage.updateLastRead(message.getIdChat(), message.getUser().getId_user());
     }
 
