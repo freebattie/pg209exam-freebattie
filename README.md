@@ -1,7 +1,6 @@
 
 ![coverage](.github/badges/jacoco.svg)
 [![Java CI with Maven](https://github.com/kristiania-pgr209-2022/pg209exam-freebattie/actions/workflows/maven.yml/badge.svg)](https://github.com/kristiania-pgr209-2022/pg209exam-freebattie/actions/workflows/maven.yml)
-![branches coverage](.github/badges/branches.svg)
 
 # PG209 Backend programmering eksamen
 
