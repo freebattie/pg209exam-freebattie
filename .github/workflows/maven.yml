@@ -7,7 +7,7 @@
 # documentation.
 env:
   AZURE_WEBAPP_NAME: pgr209-exam-socialbuzz-user    # set this to the name of your Azure Web App
-name: Java CI and CD with Maven
+name: Java CI and CD with Maven on Main Branch
 
 on:
   push:
