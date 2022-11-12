@@ -11,7 +11,6 @@ public class Program {
         int port = Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
                 .map(Integer::parseInt)
                 .orElse(8080);
-
         new SocialBuzzServer(port, dataSource).start();
     }
 
