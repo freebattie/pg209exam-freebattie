@@ -4,7 +4,7 @@ import {HashRouter, Link, Route, Router, Routes, useNavigate} from "react-router
 import {createHashHistory} from 'history';
 
 const history = createHashHistory();
-import imgUrl from './static/Logo.png'
+
 import {NavBar} from "./Navbar";
 import {FrontPage} from "./fronpage.jsx";
 
@@ -29,11 +29,17 @@ function ChatList({chats}) {
     );
 }
 
-function UserPage({activeUserId}) {
+function EditUser({activeUser}) {
+    return <h1>DID WE GET HERE</h1>
+}
+
+
+
+function UserPage({activeUser}) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(async () => {
-        const res = await fetch("/api/chats/"+activeUserId.value);
+        const res = await fetch("/api/chats/"+activeUser.value);
 
         setChats(await res.json());
 
@@ -50,16 +56,33 @@ function UserPage({activeUserId}) {
 
         )
     }
-    console.log(chats)
+
     return(
 
         <div>
-            <NavBar activeUserId={activeUserId}/>
-            <div className="flex-container">
 
-                <ChatList chats={chats}/>
-                <Chat/>
-            </div>
+            <NavBar activeUser={activeUser}/>
+                <Routes>
+                    <Route path={"/*"} element={
+                        <div>
+                            <div className="flex-container">
+                                <ChatList chats={chats}/>
+                                <Chat/>
+                            </div>
+                        </div>
+                    }/>
+                    <Route path={"/edituser"} element={
+                        <div>
+
+                            <div className="flex-container">
+                                <EditUser activeUser={activeUser}/>
+                                <Chat/>
+                            </div>
+                        </div>
+                    }/>
+
+                </Routes>
+
         </div>
     );
 }
@@ -100,7 +123,7 @@ function App() {
 
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [activeUserId, setActiveUser] = useState([]);
+    const [activeUser, setActiveUser] = useState([]);
 
 
 
@@ -126,7 +149,7 @@ function App() {
             <Router basename="/" history={history} location={"/"}></Router>
             <HashRouter>
                 <Routes>
-                    <Route path={"/user"} element={<UserPage activeUserId={activeUserId}/>}/>
+                    <Route path={"/user"} element={<UserPage activeUser={activeUser}/>}/>
                     <Route path={"/*"} element={<FrontPage getActiveUser={getActiveUser} users={users}/>}/>
 
                 </Routes>

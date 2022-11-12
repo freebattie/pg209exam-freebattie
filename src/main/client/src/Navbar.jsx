@@ -1,5 +1,6 @@
 
 import React, {useEffect, useState} from 'react'
+import {Link} from "react-router-dom";
 
 
 
@@ -28,29 +29,12 @@ function Posts() {
 }
 
 function Profile({activeUser}) {
-    const [user, setUser] = useState([]);
-    const [loading, setLoading] = useState(true);
-    useEffect(async () => {
-        const res = await fetch("/api/chats/"+activeUser);
-
-        setUser(await res.json());
-
-        setLoading(false);
-
-
-
-    }, []);
-
-    if (loading) {
-
-        return (
-            <div>Loading...</div>
-
-        )
-    }
+   // const [user, setUser] = useState([]);
+    const [userName, setUserName] = useState(activeUser.options[activeUser.value].text);
+    console.log(activeUser.options[1].text)
     return (
         <div>
-            <button class={"button"} >{activeUser}</button>
+            <button className={"button"}><Link to={"/user/edituser"}>{userName}</Link></button>
         </div>
     );
 }
