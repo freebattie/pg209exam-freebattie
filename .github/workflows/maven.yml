@@ -67,11 +67,6 @@ jobs:
         name: java-app
         path: '${{ github.workspace }}/target/pgr209-exam-socialbuzz-1.0-SNAPSHOT.jar'
   deploy:
-    on:
-      push:
-        branches: [ "main"]
-      pull_request:
-        branches: [ "main"]
     permissions:
       contents: none
     runs-on: windows-latest
