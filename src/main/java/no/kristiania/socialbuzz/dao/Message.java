@@ -1,10 +1,14 @@
 package no.kristiania.socialbuzz.dao;
 
-public class Message {
+import java.util.List;
+
+public class Message implements Comparable<Message> {
     long idMessage;
-    String message;
     long idChat;
-    long idUser;
+    User user;
+    String message;
+    String timestamp;
+    List<String> lastReads;
 
     public long getIdMessage() {
         return idMessage;
@@ -12,14 +16,6 @@ public class Message {
 
     public void setIdMessage(long idMessage) {
         this.idMessage = idMessage;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     public long getIdChat() {
@@ -30,11 +26,41 @@ public class Message {
         this.idChat = idChat;
     }
 
-    public long getIdUser() {
-        return idUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setIdUser(long idUser) {
-        this.idUser = idUser;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public List<String> getLastReads() {
+        return lastReads;
+    }
+
+    public void setLastReads(List<String> lastReads) {
+        this.lastReads = lastReads;
+    }
+
+    @Override
+    public int compareTo(Message message) {
+        return (int) (this.getIdMessage() - message.getIdMessage());
+    }
+
 }

@@ -73,7 +73,7 @@ public class DaoChat {
     }
 
     public void makeNewChat(List<User> users, String title) throws SQLException {
-        var idChat = 0;
+        int idChat;
 
         var sqlMakeChat = """
                 INSERT INTO chats (title)

@@ -8,7 +8,7 @@ public class User{
     String username;
     String name;
     String tlf;
-    List<EMail> eMails = new ArrayList<>();
+    List<Email> emails = new ArrayList<>();
 
     public Long getId_user() {
         return id_user;
@@ -42,14 +42,14 @@ public class User{
         this.tlf = tlf;
     }
 
-    public void addEmail(EMail mail) {
-        eMails.add(mail);
+    public void addEmail(Email mail) {
+        emails.add(mail);
     }
-    public List<EMail> getEmails() {
-        return  eMails;
+    public List<Email> getEmails() {
+        return emails;
     }
 
-    public void EditMail(EMail mail, int id) {
-        eMails.set(id,mail);
+    public void EditMail(Email mail, int id) {
+        emails.set(id,mail);
     }
 }

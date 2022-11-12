@@ -1,6 +1,6 @@
 package no.kristiania.socialbuzz.dao;
 
-public class EMail {
+public class Email {
     private Long id;
     private String email;
 

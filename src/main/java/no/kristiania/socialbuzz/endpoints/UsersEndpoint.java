@@ -21,11 +21,13 @@ public class UsersEndpoint {
     public List<User> getAllUserLogin() throws SQLException {
         return daoUser.getAllUserLogin();
     }
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void editUser(User user) throws SQLException {
         daoUser.EditUser(user);
     }
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
