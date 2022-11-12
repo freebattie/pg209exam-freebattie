@@ -5,7 +5,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
-
+env:
+  AZURE_WEBAPP_NAME: socialbuzz    # set this to the name of your Azure Web App
+  JAVA_VERSION: '17'                  # set this to the Java version to use
+  DISTRIBUTION: zulu                  # set this to the Java distribution
 name: Java CI with Maven
 
 on:
@@ -58,5 +61,41 @@ jobs:
       with:
         name: jacoco-report
         path: target/site/jacoco/
+    - name: Upload artifact for deployment job
+      on:
+        push:
+          branches: [ "main" ]
+        pull_request:
+          branches: [ "main" ]
+      uses: actions/upload-artifact@v3
+      with:
+        name: java-app
+        path: '${{ github.workspace }}/target/pgr209-exam-socialbuzz-1.0-SNAPSHOT.jar'
+  deploy:
+    on:
+      push:
+        branches: [ "main"]
+      pull_request:
+        branches: [ "main"]
+    permissions:
+      contents: none
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '*.jar'
 
