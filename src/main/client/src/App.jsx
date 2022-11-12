@@ -1,35 +1,139 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
+import {useEffect, useState} from 'react'
 import './App.css'
+import {HashRouter, Link, Route, Router, Routes, useNavigate} from "react-router-dom";
+import {createHashHistory} from 'history';
 
-function App() {
-  const [count, setCount] = useState(0)
+const history = createHashHistory();
+import imgUrl from './static/Logo.png'
+import {NavBar} from "./Navbar";
+import {FrontPage} from "./fronpage.jsx";
 
-  return (
-    <div className="App">
-      <div>
 
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+
+
+function ChatList({chats}) {
+    console.log("this is empty",);
+    return (
+        <div className ="flex-chats">
+            <ul>
+                {chats.map((option, index) => {
+                    return <li className="button"  key={index}>
+                        {option.title}
+                    </li>
+                })}
+
+            </ul>
+
+        </div>
+    );
+}
+
+function UserPage({activeUserId}) {
+    const [chats, setChats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(async () => {
+        const res = await fetch("/api/chats/"+activeUserId.value);
+
+        setChats(await res.json());
+
+        setLoading(false);
+
+
+
+    }, []);
+
+    if (loading) {
+
+        return (
+            <div>Loading...</div>
+
+        )
+    }
+    console.log(chats)
+    return(
+
+        <div>
+            <NavBar activeUserId={activeUserId}/>
+            <div className="flex-container">
+
+                <ChatList chats={chats}/>
+                <Chat/>
+            </div>
+        </div>
+    );
+}
+function Chat() {
+    return <div className="flex-chat">
+        <div className="chat-card">
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <h1>PEr: hei</h1>
+            <h1>Ppl: neei</h1>
+            <div className="bottom">
+                <label>Text: <input className="input"/></label>
+                <button className="buttonSend">Send</button>
+            </div>
+        </div>
+
+
+
     </div>
-  )
+}
+function App() {
+
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeUserId, setActiveUser] = useState([]);
+
+
+
+
+    useEffect(async () => {
+        const res = await fetch("/api/users");
+
+        setUsers(await res.json());
+        setLoading(false);
+    }, []);
+
+    if (loading) {
+        return (
+            <div>Loading...</div>
+        )
+    }
+    function getActiveUser(user){
+        setActiveUser(user)
+    }
+
+    return (
+        <div className="App">
+            <Router basename="/" history={history} location={"/"}></Router>
+            <HashRouter>
+                <Routes>
+                    <Route path={"/user"} element={<UserPage activeUserId={activeUserId}/>}/>
+                    <Route path={"/*"} element={<FrontPage getActiveUser={getActiveUser} users={users}/>}/>
+
+                </Routes>
+            </HashRouter>
+        </div>
+    )
+
 }
 
 export default App
