@@ -5,6 +5,8 @@ import org.flywaydb.core.Flyway;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
 
 public class Database {
@@ -13,9 +15,9 @@ public class Database {
         var properties = new Properties();
         var dataSource = new HikariDataSource();
         dataSource.setAutoCommit(false);
-        FileReader reader = new FileReader("application.properties");
-
-        if(reader != null) {
+        FileReader reader;
+        if (Files.exists(Path.of("application.properties"))){
+            reader = new FileReader("application.properties");
             properties.load(reader);
 
             dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
