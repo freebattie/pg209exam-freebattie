@@ -63,6 +63,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: java-app
+        run: mvn -B package --file pom.xml --fail-at-end
         path: '${{ github.workspace }}/target/pgr209-exam-socialbuzz-1.0-SNAPSHOT.jar'
   deploy:
     permissions:
