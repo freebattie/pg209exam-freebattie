@@ -3,6 +3,7 @@
 
 chats -- userschats
 chats -- messages
+chats --- lastRead
 
 userschats -- users
 
