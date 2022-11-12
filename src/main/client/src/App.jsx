@@ -13,7 +13,7 @@ import {FrontPage} from "./fronpage.jsx";
 
 
 function ChatList({chats}) {
-    console.log("this is empty",);
+
     return (
         <div className ="flex-chats">
             <ul>
@@ -38,6 +38,7 @@ function EditUser({activeUser}) {
 function UserPage({activeUser}) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
+    console.log(activeUser)
     useEffect(async () => {
         const res = await fetch("/api/chats/"+activeUser.value);
 
