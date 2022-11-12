@@ -14,6 +14,7 @@ public class Database {
         var dataSource = new HikariDataSource();
         dataSource.setAutoCommit(false);
         FileReader reader = new FileReader("application.properties");
+
         if(reader != null) {
             properties.load(reader);
 
@@ -28,12 +29,9 @@ public class Database {
             dataSource.setUsername(System.getenv("DB_USER"));
             dataSource.setPassword(System.getenv("DB_PASSWORD"));
         }
+       
         var flyway = Flyway.configure().dataSource(dataSource).load();
         flyway.migrate();
-
-/*
-
-*/
         return dataSource;
     }
 }
