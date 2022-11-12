@@ -18,14 +18,7 @@ public class Database {
         dataSource.setJdbcUrl(System.getenv("DB_URL"));
         dataSource.setUsername(System.getenv("DB_USER"));
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
-        if (new File("application.properties").exists()){
 
-
-
-        }
-        else{
-
-        }
        //
 
         var flyway = Flyway.configure().dataSource(dataSource).load();
