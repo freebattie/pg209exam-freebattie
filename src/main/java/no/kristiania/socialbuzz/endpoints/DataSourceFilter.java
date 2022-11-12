@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 public class DataSourceFilter implements Filter {
@@ -21,33 +22,34 @@ public class DataSourceFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)  throws IOException, ServletException {
 
-
+        Connection connection;
         try {
-            var connection = config.createConnectionForRequest();
+            //Get connection from HikariCP.
+            connection = config.createConnectionForRequest();
+
             HttpServletRequest req = (HttpServletRequest) servletRequest;
             HttpServletResponse res = (HttpServletResponse) servletResponse;
+
             logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
             logger.info("Response Code from Server: {}", res.getStatus());
+//          if get dont do commit
             if (req.getMethod().equals("GET")) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
 
-//            Turn of auto commit, so we can manage connection within filter.
-                connection.setAutoCommit(false);
-//            Sends the connection of do relevant DAO
+
                 filterChain.doFilter(servletRequest, servletResponse);
                 connection.commit();
-                connection.close();
-//            Remove closed connection at HikariCP
-
             }
 
-
+//          Remove closed connection at HikariCP after each get/put/post/delete
+            connection.close();
             config.cleanRequestConnection();
-//            Get threadsafe connection from HikariCP.
+
 
 
         } catch (SQLException e) {
+
             e.printStackTrace();
         }
 

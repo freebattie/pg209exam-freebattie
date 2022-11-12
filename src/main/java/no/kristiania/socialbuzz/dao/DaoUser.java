@@ -36,7 +36,7 @@ public class DaoUser {
                 tmpUser.setUsername(result.getString(2));
                 users.add(tmpUser);
             }
-            statement.close();
+
             return users;
         }
 
@@ -80,7 +80,7 @@ public class DaoUser {
 
         var sql = """
                 SELECT *
-                FROM users WHERE id_user = ? 
+                FROM users WHERE id_user = ?
             """;
 
         try (var statement = connection.prepareStatement(sql)) {
@@ -95,14 +95,14 @@ public class DaoUser {
         }
          sql = """
                 SELECT id_email, email
-                FROM emails WHERE id_user = ? 
+                FROM emails WHERE id_user = ?
             """;
         try (var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (var resUser = statement.executeQuery()) {
 
                 while (resUser.next()) {
-                    EMail mail = new EMail();
+                    Email mail = new Email();
                     mail.setId(resUser.getLong(1));
                     mail.setEmail(resUser.getString(2));
                     user.addEmail(mail);
