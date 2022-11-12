@@ -4,8 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pgr209-exam-socialbuzz</groupId>
-    <artifactId>no.kristiania.socialbuzz</artifactId>
+    <groupId>no.kristiania.socialbuzz</groupId>
+    <artifactId>pgr209-exam-socialbuzz</artifactId>
+
     <version>1.0-SNAPSHOT</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,6 +23,34 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/*TestCases.java</include>
+                        <include>**/*Tests.java</include>
+                        <include>**/*TestCase.java</include>
+                        <include>**/*Test.java</include>
+                        <include>**/Test*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>generate-code-coverage-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -31,7 +60,7 @@
                     <archive>
                         <manifest>
                             <!--                            VVV this is the config for .jar executable methode-->
-                            <mainClass>no.kristiania.webshop.WebShop</mainClass>
+                            <mainClass>no.kristiania.socialbuzz.Program</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -102,7 +131,8 @@
                                 <includes>
                                     <include>*.properties</include>
                                 </includes>
-                                <targetPath>/site/wwwroot</targetPath>
+<!--                                MS have corrected a bug and this line is not needed anymore-->
+                                <!--<targetPath>/site/wwwroot</targetPath>-->
                             </resource>
                         </resources>
                     </deployment>
@@ -157,19 +187,25 @@
             <!-- add an implementation for Jax-RS instead of using Servlet -->
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-binding</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
-            <version>3.0.8</version>
+            <version>3.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>4.0.0</version>
         </dependency>
 
         <dependency>
@@ -186,11 +222,11 @@
             <version>2.1.1</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>jakarta.activation</groupId>-->
-        <!--            <artifactId>jakarta.activation-api</artifactId>-->
-        <!--            <version>2.1.0</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>2.1.0</version>
+        </dependency>
 
         <dependency>
             <!-- use parson as implementation for Jakarta.json API -->
@@ -215,13 +251,13 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>9.4.0</version>
+            <version>9.6.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-sqlserver</artifactId>
-            <version>9.4.0</version>
+            <version>9.6.0</version>
         </dependency>
 
 
