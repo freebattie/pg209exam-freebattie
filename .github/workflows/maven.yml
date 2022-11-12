@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 env:
-  AZURE_WEBAPP_NAME: asp-pgr209-exam-socialbuzz-user    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_NAME: pgr209-exam-socialbuzz-user    # set this to the name of your Azure Web App
   JAVA_VERSION: '17'                  # set this to the Java version to use
   DISTRIBUTION: zulu                  # set this to the Java distribution
 name: Java CI with Maven
