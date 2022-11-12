@@ -62,11 +62,6 @@ jobs:
         name: jacoco-report
         path: target/site/jacoco/
     - name: Upload artifact for deployment job
-      on:
-        push:
-          branches: [ "main" ]
-        pull_request:
-          branches: [ "main" ]
       uses: actions/upload-artifact@v3
       with:
         name: java-app
