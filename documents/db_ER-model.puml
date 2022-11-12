@@ -25,12 +25,14 @@ class userschats{
 class messages {
     id_message int {PK}
     message varchar 8000
+    timestamp long
     id_chat int {FK}
     id_user int {FK}
 
 }
 
 class lastRead{
+    id_chat int {PK FK}
     id_message int {PK FK}
     id_user int {PK FK}
 }
