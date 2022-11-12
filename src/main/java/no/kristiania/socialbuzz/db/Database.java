@@ -17,22 +17,19 @@ public class Database {
         var dataSource = new HikariDataSource();
         dataSource.setAutoCommit(false);
         FileReader reader;
+        dataSource.setJdbcUrl(System.getenv("DB_URL"));
+        dataSource.setUsername(System.getenv("DB_USER"));
+        dataSource.setPassword(System.getenv("DB_PASSWORD"));
         if (new File("application.properties").exists()){
-            reader = new FileReader("application.properties");
-            properties.load(reader);
 
-            dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
-            dataSource.setUsername(properties.getProperty("jdbc.username"));
-            dataSource.setPassword(properties.getProperty("jdbc.password"));
 
 
         }
         else{
-            dataSource.setJdbcUrl(System.getenv("DB_URL"));
-            dataSource.setUsername(System.getenv("DB_USER"));
-            dataSource.setPassword(System.getenv("DB_PASSWORD"));
+
         }
-       
+       //
+
         var flyway = Flyway.configure().dataSource(dataSource).load();
         flyway.migrate();
         return dataSource;
