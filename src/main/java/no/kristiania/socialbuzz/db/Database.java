@@ -17,16 +17,19 @@ public class Database {
         try (reader) {
             properties.load(reader);
             dataSource.setAutoCommit(false);
-            dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
-            dataSource.setUsername(properties.getProperty("jdbc.username"));
-            dataSource.setPassword(properties.getProperty("jdbc.password"));
+            dataSource.setJdbcUrl(System.getenv("DB_URL"));
+            dataSource.setUsername(System.getenv("DB_USER"));
+            dataSource.setPassword(System.getenv("DB_PASSWORD"));
+
         }
         var flyway = Flyway.configure().dataSource(dataSource).load();
         flyway.migrate();
-        //TODO: add github action deployment
-//        dataSource.setJdbcUrl(System.getenv("DB_URL"));
-//        dataSource.setUsername(System.getenv("DB_USER"));
-//        dataSource.setPassword(System.getenv("DB_PASSWORD"));
+
+/*
+            dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
+            dataSource.setUsername(properties.getProperty("jdbc.username"));
+            dataSource.setPassword(properties.getProperty("jdbc.password"));
+*/
         return dataSource;
     }
 }
