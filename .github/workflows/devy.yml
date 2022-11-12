@@ -19,7 +19,7 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
           cache: maven
-      - name: Build with Maven
+      - name: Build with Maven on Dev Branch
         run: mvn -B package --file pom.xml --fail-at-end
       - name: Publish Test Report
         if: ${{ always() }}

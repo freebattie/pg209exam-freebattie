@@ -3,6 +3,7 @@ package no.kristiania.socialbuzz.db;
 import com.zaxxer.hikari.HikariDataSource;
 import org.flywaydb.core.Flyway;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,7 +17,7 @@ public class Database {
         var dataSource = new HikariDataSource();
         dataSource.setAutoCommit(false);
         FileReader reader;
-        if (Files.exists(Path.of("application.properties"))){
+        if (new File("application.properties").exists()){
             reader = new FileReader("application.properties");
             properties.load(reader);
 
