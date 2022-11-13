@@ -1,12 +1,18 @@
 import imgUrl from "./static/Logo.png";
-import {Link} from "react-router-dom";
-
-export function FrontPage({users,getActiveUser}) {
-
+import { useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 
+
+export function FrontPage({users,setUserTo}) {
+    const navigate = useNavigate();
+
+    function handelNavigate() {
+        navigate("/user");
+    }
 
     return (
+
         <div>
 
             <center>
@@ -17,7 +23,7 @@ export function FrontPage({users,getActiveUser}) {
 
                 </div>
 
-                <select onChange={(e)=>getActiveUser(e.target)}>
+                <select onChange={(e)=>setUserTo(e)}>
 
                     <option>Please choose one option</option>
                     {users.map((option, index) => {
@@ -27,8 +33,9 @@ export function FrontPage({users,getActiveUser}) {
                     })}
                 </select>
                 <br/>
-                <button><Link to={"/user"}>Show all items</Link></button>
+                <button className={"button"} onClick={()=>handelNavigate()}></button>
             </center>
+
         </div>
 
     );
