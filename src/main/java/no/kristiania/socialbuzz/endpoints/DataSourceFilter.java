@@ -31,7 +31,7 @@ public class DataSourceFilter implements Filter {
             HttpServletResponse res = (HttpServletResponse) servletResponse;
 
             logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
-            logger.info("Response Code from Server: {}", res.getStatus());
+
 //          if get dont do commit
             if (req.getMethod().equals("GET")) {
                 filterChain.doFilter(servletRequest, servletResponse);

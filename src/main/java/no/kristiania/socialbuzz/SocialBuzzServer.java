@@ -30,8 +30,10 @@ public class SocialBuzzServer {
     }
 
     private static WebAppContext createWebApp(DataSource dataSource) throws IOException {
+        var config = new SocialBuzzEndpointConfig(dataSource);
         var webAppContext = new WebAppContext();
         webAppContext.setContextPath("/");
+        webAppContext.addFilter(new FilterHolder(new DataSourceFilter(config)),"/*",EnumSet.of(DispatcherType.REQUEST));
         var resources = Resource.newClassPathResource("/webapp");
 
         useFolderIfExist(webAppContext, resources);
@@ -39,9 +41,9 @@ public class SocialBuzzServer {
 
         webAppContext.setInitParameter(DefaultServlet.CONTEXT_INIT + "useFileMappedBuffer", "false");
 
-        var config = new SocialBuzzEndpointConfig(dataSource);
+
         webAppContext.addServlet(new ServletHolder(new ServletContainer(config)), "/api/*");
-        webAppContext.addFilter(new FilterHolder(new DataSourceFilter(config)),"/api/*", EnumSet.of(DispatcherType.REQUEST));
+        //webAppContext.addFilter(new FilterHolder(new DataSourceFilter(config)),"/api/*", EnumSet.of(DispatcherType.REQUEST));
 
         return webAppContext;
     }
