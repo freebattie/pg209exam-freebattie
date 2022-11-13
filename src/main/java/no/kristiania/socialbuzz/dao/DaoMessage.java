@@ -5,6 +5,9 @@ import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,14 +56,15 @@ public class DaoMessage {
 
 //        Update what the newest message is.
         var sqlUpdate = """
-                INSERT INTO lastRead (id_chat, id_message, id_user)
-                VALUES (?, ?, ?);
+                INSERT INTO lastRead (id_chat, id_message, id_user, timestamp)
+                VALUES (?, ?, ?, ?);
                 """;
 
         try (var statement = connection.prepareStatement(sqlUpdate)) {
             statement.setLong(1, idChat);
             statement.setLong(2, idMessage);
             statement.setLong(3, idUser);
+            statement.setLong(4, Instant.now().getEpochSecond());
             statement.executeUpdate();
         }
 
@@ -77,7 +81,7 @@ public class DaoMessage {
                 """;
 
         var sqlLastRead = """
-                SELECT username
+                SELECT username, timestamp
                 FROM lastRead l
                 JOIN users u on l.id_user = u.id_user
                 WHERE id_chat = ? AND id_message = ?;
@@ -91,25 +95,26 @@ public class DaoMessage {
 
             while (resultMessages.next()) {
                 var tmpMessage = new Message();
-                List<User> users = new ArrayList<>();
+                List<LastRead> lastReadList = new ArrayList<>();
 
-                try (var statementUsers = connection.prepareStatement(sqlLastRead)) {
-                    statementUsers.setLong(1, idChat);
-                    statementUsers.setLong(2, resultMessages.getLong(1));
-                    var resultUsers = statementUsers.executeQuery();
+                try (var statementLastRead = connection.prepareStatement(sqlLastRead)) {
+                    statementLastRead.setLong(1, idChat);
+                    statementLastRead.setLong(2, resultMessages.getLong(1));
+                    var resultLastRead = statementLastRead.executeQuery();
 
-                    while (resultUsers.next()) {
-                        var tmpUser = new User();
-                        tmpUser.setUsername(resultUsers.getString(1));
-                        users.add(tmpUser);
+                    while (resultLastRead.next()) {
+                        var lastRead = new LastRead();
+                        lastRead.setUsername(resultLastRead.getString(1));
+                        lastRead.setTimestamp(getStringOfDateLastRead(resultLastRead.getLong(2)));
+                        lastReadList.add(lastRead);
                     }
                 }
 
                 tmpMessage.setIdMessage(resultMessages.getLong(1));
                 tmpMessage.setMessage(resultMessages.getString(2));
                 // TODO: 12.11.2022 implement long -> (String) date
-                tmpMessage.setMessage(resultMessages.getString(3));
-                tmpMessage.setLastReads(users);
+                tmpMessage.setTimestamp(getStringOfDateMessage(resultMessages.getLong(3)));
+                tmpMessage.setLastReads(lastReadList);
                 messages.add(tmpMessage);
             }
 
@@ -130,6 +135,117 @@ public class DaoMessage {
             statement.setLong(4, message.getUser().id_user);
             statement.executeUpdate();
         }
+    }
+
+    private String getStringOfDateMessage(long timeThen) {
+        var builder = new StringBuilder();
+        var timeNow = Instant.now().getEpochSecond();
+        var time = LocalDateTime.ofEpochSecond(timeThen, 0, ZoneOffset.ofHours(1));
+
+//        Message within one day
+        if (timeNow - timeThen < 86_400) {
+            var format = DateTimeFormatter.ofPattern("HH:mm");
+            var string = time.format(format);
+
+            builder.append("Today at ");
+            builder.append(string);
+        }
+//        Message within two days
+        else if (timeNow - timeThen < 172_800) {
+            var format = DateTimeFormatter.ofPattern("HH:mm");
+            var string = time.format(format);
+
+            builder.append("Yesterday at ");
+            builder.append(string);
+        }
+//        Message within one year
+        else if (timeNow - timeThen < 31_536_000) {
+            var format1 = DateTimeFormatter.ofPattern("d MMM");
+            var format2 = DateTimeFormatter.ofPattern("HH:mm");
+            var string1 = time.format(format1);
+            var string2 = time.format(format2);
+
+            builder.append(string1);
+            builder.append(" at ");
+            builder.append(string2);
+        }
+//        Everything older than one year
+        else {
+            var format1 = DateTimeFormatter.ofPattern("d MMM uuuu");
+            var format2 = DateTimeFormatter.ofPattern("HH:mm");
+            var string1 = time.format(format1);
+            var string2 = time.format(format2);
+
+            builder.append(string1);
+            builder.append(" at ");
+            builder.append(string2);
+        }
+
+        return builder.toString();
+    }
+
+    private String getStringOfDateLastRead(long timeThen) {
+        var builder = new StringBuilder();
+        var timeNow = Instant.now().getEpochSecond();
+        var time = LocalDateTime.ofEpochSecond(timeNow - timeThen, 0, ZoneOffset.ofHours(1));
+
+//        Message within one min
+        if (timeNow - timeThen < 60) {
+            var format = DateTimeFormatter.ofPattern("S");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" seconds");
+        }
+//        Message within one hour
+        else if (timeNow - timeThen < 3_600) {
+            var format = DateTimeFormatter.ofPattern("m");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" minutes");
+        }
+//        Message within one day
+        else if (timeNow - timeThen < 86_400) {
+            var format = DateTimeFormatter.ofPattern("H");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" hours");
+        }
+//        Message within one week
+        else if (timeNow - timeThen < 604_800) {
+            var format = DateTimeFormatter.ofPattern("F");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" days");
+        }
+//        Message within one month
+        else if (timeNow - timeThen < 2_592_000) {
+            var format = DateTimeFormatter.ofPattern("W");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" weeks");
+        }
+//        Message within one year
+        else if (timeNow - timeThen < 31_536_000) {
+            var format = DateTimeFormatter.ofPattern("M");
+            var string = time.format(format);
+
+            builder.append(string);
+            builder.append(" months");
+        }
+//        Everything older than one year
+        else {
+            long years = (timeNow - timeThen) / 31_536_000;
+
+            builder.append(years);
+            builder.append(" years");
+        }
+
+        return builder.toString();
     }
 
 }
