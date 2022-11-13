@@ -46,6 +46,7 @@ public class DataSourceFilter implements Filter {
             connection.close();
             config.cleanRequestConnection();
 
+            logger.info("Response Code from Server: {}", res.getStatus());
 
 
         } catch (SQLException e) {

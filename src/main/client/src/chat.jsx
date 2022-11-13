@@ -3,9 +3,11 @@ import {useEffect, useState} from "react";
 export function Chat({chat, activeUserId}) {
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [myUserChat, setMyUserChat] = useState(1);
+
     useEffect(async () => {
-        const res = await fetch("/api/messages/"+  new URLSearchParams({
-            idChat: 1,
+        const res = await fetch("/api/messages?"+  new URLSearchParams({
+            idChat: myUserChat,
             idUser: activeUserId
         }));
 
@@ -15,8 +17,8 @@ export function Chat({chat, activeUserId}) {
 
 
 
-    }, []);
-    console.log("Why u empty "+chat.id_chat)
+    }, [myUserChat]);
+    console.log(messages)
     if (loading) {
 
         return (
