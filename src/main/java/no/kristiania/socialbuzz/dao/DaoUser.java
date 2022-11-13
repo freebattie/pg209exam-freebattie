@@ -17,7 +17,7 @@ public class DaoUser {
         this.connection = connection;
     }
 
-//    Used for getting the necessary info at login
+    //    Used for getting the necessary info at login
     public List<User> getAllUserLogin() throws SQLException {
 
         var sql = """
@@ -41,6 +41,7 @@ public class DaoUser {
         }
 
     }
+
     public void EditUser(User user) throws SQLException {
 
         var sql = """
@@ -50,7 +51,8 @@ public class DaoUser {
                                 tlf = ?
                            WHERE id_user = ?;
                 """;
-        try (var statement = connection.prepareStatement(sql)){
+
+        try (var statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getUsername());
             statement.setString(2, user.getName());
             statement.setString(3, user.getTlf());
@@ -59,44 +61,47 @@ public class DaoUser {
 
         }
 
-        for (var mail :user.getEmails()) {
+        for (var mail : user.getEmails()) {
             sql = """
-                UPDATE emails
-                    Set email =?
-                    Where id_email = ?
-            """;
+                        UPDATE emails
+                            Set email =?
+                            Where id_email = ?
+                    """;
+
             try (var statement = connection.prepareStatement(sql)) {
                 statement.setString(1, mail.getEmail());
                 statement.setLong(2, mail.getId());
                 statement.executeUpdate();
 
-                }
             }
+        }
     }
+
     // get also all emails connected to user
     public User getUser(long id) throws SQLException {
         User user;
 
-
         var sql = """
-                SELECT *
-                FROM users WHERE id_user = ?
-            """;
+                    SELECT *
+                    FROM users WHERE id_user = ?
+                """;
 
         try (var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (var resUser = statement.executeQuery()) {
                 if (resUser.next()) {
-                    user= fillUser(resUser);
+                    user = fillUser(resUser);
                 } else {
                     return null;
                 }
             }
         }
-         sql = """
-                SELECT id_email, email
-                FROM emails WHERE id_user = ?
-            """;
+
+        sql = """
+                    SELECT id_email, email
+                    FROM emails WHERE id_user = ?
+                """;
+
         try (var statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
             try (var resUser = statement.executeQuery()) {
@@ -112,7 +117,6 @@ public class DaoUser {
 
         return user;
     }
-
 
 
     private User fillUser(ResultSet resUser) throws SQLException {

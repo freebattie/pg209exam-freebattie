@@ -16,7 +16,7 @@ public class DaoUserTest {
     @BeforeEach
     public void h2DbSetup() throws SQLException {
         var con = InMemoryDataSource.createTestDataSource();
-         this.dao = new DaoUser(con.getConnection());
+        this.dao = new DaoUser(con.getConnection());
     }
 
 
@@ -57,13 +57,9 @@ public class DaoUserTest {
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
         int id = Math.toIntExact(mail.getId());
-        editUser.EditMail(mail,id);
+        editUser.EditMail(mail, id);
         dao.EditUser(editUser);
         var updatedUser = dao.getUser(1);
-
-
-
-
 
 
         //CHECK BEFORE EDIT
@@ -84,9 +80,6 @@ public class DaoUserTest {
                 .isEqualTo("test@test.no".toLowerCase());
 
 
-
-
-
         //CHECK AFTER EDIT
 
         //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
@@ -101,9 +94,6 @@ public class DaoUserTest {
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")
                 .isEqualTo("test@test.no".toLowerCase());
-
-
-
 
 
     }

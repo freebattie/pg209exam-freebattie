@@ -71,7 +71,7 @@ public class DaoMessage {
 
     }
 
-    public List<Message> getAllMessages(long idChat) throws SQLException {
+    public List<Message> getAllMessages(long idChat, long idUser) throws SQLException {
 
         var sqlMessages = """
                 SELECT id_message, message, timestamp
@@ -81,7 +81,7 @@ public class DaoMessage {
                 """;
 
         var sqlLastRead = """
-                SELECT username, timestamp
+                SELECT username, timestamp, l.id_user
                 FROM lastRead l
                 JOIN users u on l.id_user = u.id_user
                 WHERE id_chat = ? AND id_message = ?;
@@ -103,6 +103,7 @@ public class DaoMessage {
                     var resultLastRead = statementLastRead.executeQuery();
 
                     while (resultLastRead.next()) {
+                        if (resultLastRead.getLong(3) == idUser) continue;
                         var lastRead = new LastRead();
                         lastRead.setUsername(resultLastRead.getString(1));
                         lastRead.setTimestamp(getStringOfDateLastRead(resultLastRead.getLong(2)));
@@ -121,17 +122,24 @@ public class DaoMessage {
         }
     }
 
-    public void sendMessage(String message, long idChat, long idUser) throws SQLException {
+    /**
+     * Saves message to database
+     * @param message subparam:
+     *                String message
+     *                int idChat
+     *                int idUser
+     */
+    public void sendMessage(Message message) throws SQLException {
         var sqlMessage = """
                 INSERT INTO messages (message, timestamp, id_chat, id_user)
                 VALUES (?, ?, ?, ?);
                 """;
 
         try (var statement = connection.prepareStatement(sqlMessage)) {
-            statement.setString(1, message);
+            statement.setString(1, message.getMessage());
             statement.setLong(2, Instant.now().getEpochSecond());
-            statement.setLong(3, idChat);
-            statement.setLong(4, idUser);
+            statement.setLong(3, message.getIdChat());
+            statement.setLong(4, message.getUser().id_user);
             statement.executeUpdate();
         }
     }

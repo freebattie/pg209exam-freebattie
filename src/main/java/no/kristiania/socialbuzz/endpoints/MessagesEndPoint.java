@@ -19,13 +19,13 @@ public class MessagesEndPoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> getAllMessages(@QueryParam("idChat") long idChat, @QueryParam("idUser") long idUser) throws SQLException {
         daoMessage.updateLastRead(idChat, idUser);
-        return daoMessage.getAllMessages(idChat);
+        return daoMessage.getAllMessages(idChat, idUser);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(Message message) throws SQLException {
-        daoMessage.sendMessage(message.getMessage(), message.getIdChat(), message.getUser().getId_user());
+        daoMessage.sendMessage(message);
         daoMessage.updateLastRead(message.getIdChat(), message.getUser().getId_user());
     }
 
