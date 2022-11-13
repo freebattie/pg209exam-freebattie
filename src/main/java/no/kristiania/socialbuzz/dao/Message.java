@@ -8,7 +8,7 @@ public class Message implements Comparable<Message> {
     User user;
     String message;
     String timestamp;
-    List<User> lastReads;
+    List<LastRead> lastReads;
 
     public long getIdMessage() {
         return idMessage;
@@ -50,11 +50,11 @@ public class Message implements Comparable<Message> {
         this.timestamp = timestamp;
     }
 
-    public List<User> getLastReads() {
+    public List<LastRead> getLastReads() {
         return lastReads;
     }
 
-    public void setLastReads(List<User> lastReads) {
+    public void setLastReads(List<LastRead> lastReads) {
         this.lastReads = lastReads;
     }
 
