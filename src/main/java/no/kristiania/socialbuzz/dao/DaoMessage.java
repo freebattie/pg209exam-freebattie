@@ -112,7 +112,6 @@ public class DaoMessage {
 
                 tmpMessage.setIdMessage(resultMessages.getLong(1));
                 tmpMessage.setMessage(resultMessages.getString(2));
-                // TODO: 12.11.2022 implement long -> (String) date
                 tmpMessage.setTimestamp(getStringOfDateMessage(resultMessages.getLong(3)));
                 tmpMessage.setLastReads(lastReadList);
                 messages.add(tmpMessage);
@@ -122,17 +121,17 @@ public class DaoMessage {
         }
     }
 
-    public void sendMessage(Message message) throws SQLException {
+    public void sendMessage(String message, long idChat, long idUser) throws SQLException {
         var sqlMessage = """
                 INSERT INTO messages (message, timestamp, id_chat, id_user)
                 VALUES (?, ?, ?, ?);
                 """;
 
         try (var statement = connection.prepareStatement(sqlMessage)) {
-            statement.setString(1, message.getMessage());
+            statement.setString(1, message);
             statement.setLong(2, Instant.now().getEpochSecond());
-            statement.setLong(3, message.getIdChat());
-            statement.setLong(4, message.getUser().id_user);
+            statement.setLong(3, idChat);
+            statement.setLong(4, idUser);
             statement.executeUpdate();
         }
     }
