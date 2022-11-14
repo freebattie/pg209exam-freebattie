@@ -22,6 +22,7 @@ public class DaoMessage {
     public void updateLastRead(long idChat, long idUser) throws SQLException {
 
 //        Check last message is not yours
+        long idMessage;
         var sqlCheck = """
                 SELECT id_message, id_user
                 FROM messages
@@ -39,6 +40,8 @@ public class DaoMessage {
             if (!result.next()) return;
 //            If last message is your own, don't update
             if (idUser == result.getLong(2)) return;
+            //        Get newest message ID
+            idMessage = result.getLong(1);
         }
 
 //        Delete current status on lastRead
@@ -51,24 +54,6 @@ public class DaoMessage {
             statement.setLong(1, idChat);
             statement.setLong(2, idUser);
             statement.executeUpdate();
-        }
-
-//        Get newest message ID
-        long idMessage;
-        var sqlIdMessage = """
-                SELECT id_message
-                FROM messages
-                WHERE id_chat = ?
-                ORDER BY id_message DESC
-                OFFSET 0 ROW
-                FETCH NEXT 1 ROW ONLY;
-                """;
-
-        try (var statement = connection.prepareStatement(sqlIdMessage)) {
-            statement.setLong(1, idChat);
-            var result = statement.executeQuery();
-
-            idMessage = result.getLong(1);
         }
 
 
