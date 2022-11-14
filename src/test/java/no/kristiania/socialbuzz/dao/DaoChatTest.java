@@ -21,7 +21,6 @@ public class DaoChatTest {
         this.dao = new DaoChat(con.getConnection());
     }
 
-
     @Test
     public void getAllChatsFromUserId() throws SQLException {
         var result = dao.getAllChats(1);
@@ -44,7 +43,6 @@ public class DaoChatTest {
                 .as("Check that Chat 4 ID is 4")
                 .isEqualTo(4);
     }
-
 
     @Test
     public void makeNewOneToOneChat() throws SQLException {
@@ -86,7 +84,5 @@ public class DaoChatTest {
                 .as("Check that new Chat title is Group chat number 2")
                 .isEqualTo("Group chat number 2");
     }
-
-
 
 }

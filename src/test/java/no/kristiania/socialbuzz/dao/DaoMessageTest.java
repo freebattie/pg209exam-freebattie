@@ -20,7 +20,7 @@ public class DaoMessageTest {
 
     @Test
     public void updateLastRead() throws SQLException {
-        var messages = dao.getAllMessages(4, 2);
+        var messages = dao.getAllMessages(4, 3);
         var lastMessage = new Message();
 
         for (var message : messages) {
@@ -31,11 +31,13 @@ public class DaoMessageTest {
         }
 
         assertThat(lastMessage.getLastReads().size())
-                .as("Confirm only us two out of three user read last message")
+                .as("Confirm only us zero out of two timestamp is on last message")
                 .isEqualTo(0);
 
         dao.updateLastRead(4, 1);
-        messages = dao.getAllMessages(4, 2);
+        dao.updateLastRead(4, 2);
+        dao.updateLastRead(4, 3);
+        messages = dao.getAllMessages(4, 3);
         lastMessage = new Message();
 
         for (var message : messages) {
@@ -46,13 +48,8 @@ public class DaoMessageTest {
         }
 
         assertThat(lastMessage.getLastReads().size())
-                .as("Confirm only us three out of three user read last message")
-                .isEqualTo(1);
-
-        assertThat(lastMessage.getLastReads().get(0).getUsername())
-                .as("Check that it is Karigirl who have updated her lastRead")
-                .isEqualTo("Karigirl");
-
+                .as("Confirm only us two out of two timestamp is on last message")
+                .isEqualTo(2);
     }
 
     @Test
@@ -73,8 +70,5 @@ public class DaoMessageTest {
                 .as("Check last message is same")
                 .isEqualTo("This is a test message!");
     }
-
-
-
 
 }

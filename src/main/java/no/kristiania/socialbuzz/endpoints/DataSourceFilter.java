@@ -15,12 +15,15 @@ import java.sql.SQLException;
 public class DataSourceFilter implements Filter {
 
     private final SocialBuzzEndpointConfig config;
+
     public DataSourceFilter(SocialBuzzEndpointConfig config) {
         this.config = config;
     }
+
     private static final Logger logger = LoggerFactory.getLogger(SocialBuzzServer.class);
+
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)  throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
         Connection connection;
         try {
@@ -28,16 +31,14 @@ public class DataSourceFilter implements Filter {
             HttpServletResponse res = (HttpServletResponse) servletResponse;
 
             // if invalid path redirect to / and index.html
-            if (!req.getRequestURI().contains("/api/") && !req.getRequestURI().contains("/assets") && !req.getRequestURI().equals("/")){
+            if (!req.getRequestURI().contains("/api/") && !req.getRequestURI().contains("/assets") && !req.getRequestURI().equals("/")) {
                 logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
                 ((HttpServletResponse) servletResponse).sendRedirect("/");
                 logger.info("Response Code from Server: {}", res.getStatus());
-            }
 
-            else{
+            } else {
                 //Get connection from HikariCP.
                 connection = config.createConnectionForRequest();
-
 
 //              if get dont do commit
                 if (req.getMethod().equals("GET")) {
@@ -62,14 +63,10 @@ public class DataSourceFilter implements Filter {
                 connection.commit();
                 connection.close();
                 config.cleanRequestConnection();
-
                 logger.info("Response Code from Server: {}", res.getStatus());
             }
 
-
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
 

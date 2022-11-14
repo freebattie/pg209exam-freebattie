@@ -19,7 +19,6 @@ public class DaoUserTest {
         this.dao = new DaoUser(con.getConnection());
     }
 
-
     @Test
     public void getAllUserLoginTest() throws SQLException {
         var result = dao.getAllUserLogin();
@@ -98,5 +97,4 @@ public class DaoUserTest {
     }
 
     //TODO: EDIT EMAIL and check if updated
-
 }

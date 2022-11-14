@@ -16,13 +16,11 @@ class SocialBuzzServerTest {
 
     private SocialBuzzServer server;
 
-
     @BeforeEach
     public void setupServer() throws Exception {
         this.server = new SocialBuzzServer(0, InMemoryDataSource.createTestDataSource());
         server.start();
     }
-
 
     @Test
     public void getStatusCode200Test() throws Exception {
