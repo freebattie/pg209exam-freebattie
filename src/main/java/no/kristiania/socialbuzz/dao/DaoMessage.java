@@ -21,6 +21,24 @@ public class DaoMessage {
 
     public void updateLastRead(long idChat, long idUser) throws SQLException {
 
+//        Check last message is not yours
+        var sqlCheck = """
+                SELECT id_message, id_user
+                FROM messages
+                WHERE id_chat = ?
+                ORDER BY id_message DESC
+                OFFSET 0 ROW
+                FETCH NEXT 1 ROW ONLY;
+                """;
+
+        try (var statment = connection.prepareStatement(sqlCheck)) {
+            statment.setLong(1, idChat);
+            var result = statment.executeQuery();
+
+            if (!result.next()) return;
+            if (idUser == result.getLong(1)) return;
+        }
+
 //        Delete current status on lastRead
         var sqlDelete = """
                 DELETE FROM lastRead
