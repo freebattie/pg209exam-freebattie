@@ -3,15 +3,19 @@ import {useEffect, useState} from "react";
 import {ChatList} from "./chatlist.jsx";
 import {createHashHistory} from 'history';
 import {Chat} from "./chat";
+import {Router, useNavigate} from "react-router-dom";
 
 const history = createHashHistory();
 
-export function UserPage({activeUserId, activeUserName}) {
+export function UserPage({activeUserId, activeUserName,setActiveChat}) {
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [chat, setChat] = useState([]);
+    const navigate = useNavigate()
     const getActiveChat =(activChat)=>{
         setChat(activChat)
+        setActiveChat(activChat)
+        navigate("/user")
         console.log("this chat "+activChat);
     }
     function handelNavigate(path) {
@@ -37,13 +41,35 @@ export function UserPage({activeUserId, activeUserName}) {
 
         )
     }
-    return  <div>
-        <div className="flex-container">
-            <h1>{activeUserName}</h1>
-            <ChatList className={"flex-chats" } chats={chats}  getActiveChat={getActiveChat}/>
-            <Chat chat={chat} activeUserId={activeUserId}/>
-            <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users</button>
-            <button className={"button"} onClick={()=>handelNavigate('/edituser')}>Edit user</button>
+    if (chat.length == 0){
+        return  <div>
+            <div className="flex-container">
+
+
+                <h1>{activeUserName}</h1>
+                <ChatList className={"flex-chats" } chats={chats}  getActiveChat={getActiveChat}/>
+
+                <h1 className={"flex-chat"}>Plese select a chat</h1>
+
+                <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users2</button>
+                <button className={"button"} onClick={()=>handelNavigate('/edituser')}>Edit user</button>
+                <button className={"button"} onClick={()=>handelNavigate('/newmessage')}>New Message</button>
+            </div>
         </div>
-    </div>
+    }
+    else{
+        return  <div>
+            <div className="flex-container">
+
+
+                <h1>{activeUserName}</h1>
+                <ChatList className={"flex-chats" } chats={chats}  getActiveChat={getActiveChat}/>
+                <Chat chat={chat} activeUserId={activeUserId}/>
+                <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users2</button>
+                <button className={"button"} onClick={()=>handelNavigate('/edituser')}>Edit user</button>
+                <button className={"button"} onClick={()=>handelNavigate('/newmessage')}>New Message</button>
+            </div>
+        </div>
+    }
+
 }

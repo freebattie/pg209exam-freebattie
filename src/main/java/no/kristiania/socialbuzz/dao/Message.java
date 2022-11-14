@@ -5,7 +5,7 @@ import java.util.List;
 public class Message implements Comparable<Message> {
     long idMessage;
     long idChat;
-    User user;
+    User user; //TODO: change to string
     String message;
     String timestamp;
     List<LastRead> lastReads;

@@ -3,7 +3,7 @@ import './App.css';
 
 import {FrontPage} from "./frontpage";
 import {UserPage} from "./userpage";
-import {HashRouter, Route, Router, Routes} from "react-router-dom";
+import {HashRouter, Route, Router, Routes, useNavigate} from "react-router-dom";
 import {createHashHistory} from 'history';
 import {useEffect, useState} from "react";
 
@@ -13,10 +13,15 @@ function EditUser() {
     return <h1>TEST</h1>
 }
 
+
+
+
+
 function App() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeUserId, setActiveUserId] = useState(0);
+    const [activeChat, setActiveChat] = useState(0);
     const [activeUserName, setActiveUserName] = useState("");
     useEffect(async () => {
         const res = await fetch("/api/users");
@@ -41,8 +46,9 @@ function App() {
             <HashRouter>
                 <Routes>
                     <Route path={"/"} element={<FrontPage users={users} setUserTo={setUserTo}/> }/>
-                    <Route path={"/user"} element={<UserPage activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
-                    <Route path={"/edituser"} element={<EditUser />}/>
+                    <Route path={"/user/*"} element={<UserPage setActiveChat={setActiveChat} activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
+                    <Route path={"/edituser"} element={<EditUser activeUserId={activeUserId}/>}/>
+
                 </Routes>
             </HashRouter>
 

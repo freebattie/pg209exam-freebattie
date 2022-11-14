@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.IllegalFormatCodePointException;
 
 public class DataSourceFilter implements Filter {
 
@@ -24,29 +25,38 @@ public class DataSourceFilter implements Filter {
 
         Connection connection;
         try {
-            //Get connection from HikariCP.
-            connection = config.createConnectionForRequest();
-
             HttpServletRequest req = (HttpServletRequest) servletRequest;
             HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-            logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
+            // if invalid path redirect to / and index.html
+            if (!req.getRequestURI().contains("/api/") && !req.getRequestURI().contains("/assets") && !req.getRequestURI().equals("/")){
+                logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
+                ((HttpServletResponse) servletResponse).sendRedirect("/");
+                logger.info("Response Code from Server: {}", res.getStatus());
+            }
+            else{
+                //Get connection from HikariCP.
+                connection = config.createConnectionForRequest();
 
-//          if get dont do commit
-            if (req.getMethod().equals("GET")) {
-                filterChain.doFilter(servletRequest, servletResponse);
-            } else {
 
+//              if get dont do commit
+                if (req.getMethod().equals("GET")) {
+                    //re direct to index.html if not a /api or valid path
+                    filterChain.doFilter(servletRequest, servletResponse);
 
-                filterChain.doFilter(servletRequest, servletResponse);
-                connection.commit();
+                } else {
+                    filterChain.doFilter(servletRequest, servletResponse);
+
+                    connection.commit();
+                }
+                logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
+//              Remove closed connection at HikariCP after each get/put/post/delete
+                connection.close();
+                config.cleanRequestConnection();
+
+                logger.info("Response Code from Server: {}", res.getStatus());
             }
 
-//          Remove closed connection at HikariCP after each get/put/post/delete
-            connection.close();
-            config.cleanRequestConnection();
-
-            logger.info("Response Code from Server: {}", res.getStatus());
 
 
         } catch (SQLException e) {
