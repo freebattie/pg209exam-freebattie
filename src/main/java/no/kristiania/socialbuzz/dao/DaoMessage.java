@@ -40,9 +40,8 @@ public class DaoMessage {
             if (!result.next()) return;
 //            If last message is your own, don't update
             if (idUser == result.getLong(2)) return;
-//        Get newest message ID
+//            Get newest message ID
             idMessage = result.getLong(1);
-            connection.commit();
         }
 
 //        Delete current status on lastRead
@@ -55,7 +54,7 @@ public class DaoMessage {
             statement.setLong(1, idChat);
             statement.setLong(2, idUser);
             statement.executeUpdate();
-            connection.commit();
+//            connection.commit();
         }
 
 
@@ -71,7 +70,7 @@ public class DaoMessage {
             statement.setLong(3, idUser);
             statement.setLong(4, Instant.now().getEpochSecond());
             statement.executeUpdate();
-            connection.commit();
+//            connection.commit();
         }
 
 
@@ -116,7 +115,7 @@ public class DaoMessage {
                         lastRead.setUsername(resultLastRead.getString(1));
                         lastRead.setTimestamp(getStringOfDateLastRead(resultLastRead.getLong(2)));
                         lastReadList.add(lastRead);
-                        connection.commit();
+
                     }
                 }
 
@@ -133,7 +132,7 @@ public class DaoMessage {
                 tmpUser.setUsername(resultMessages.getString(5));
                 tmpMessage.setUser(tmpUser);
                 messages.add(tmpMessage);
-                connection.commit();
+
             }
 
             return messages;
@@ -142,10 +141,7 @@ public class DaoMessage {
 
     /**
      * Saves message to database
-     * @param message subparam:
-     *                String message
-     *                int idChat
-     *                int idUser
+     * @param message subparam: String message, int idChat and int idUser
      */
     public void sendMessage(Message message) throws SQLException {
         var sqlMessage = """
@@ -159,7 +155,7 @@ public class DaoMessage {
             statement.setLong(3, message.getIdChat());
             statement.setLong(4, message.getUser().getId_user());
             statement.executeUpdate();
-            connection.commit();
+
         }
     }
 

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.IllegalFormatCodePointException;
 
 public class DataSourceFilter implements Filter {
 
@@ -34,6 +33,7 @@ public class DataSourceFilter implements Filter {
                 ((HttpServletResponse) servletResponse).sendRedirect("/");
                 logger.info("Response Code from Server: {}", res.getStatus());
             }
+
             else{
                 //Get connection from HikariCP.
                 connection = config.createConnectionForRequest();
@@ -47,10 +47,19 @@ public class DataSourceFilter implements Filter {
                 } else {
                     filterChain.doFilter(servletRequest, servletResponse);
 
-                    connection.commit();
                 }
                 logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
 //              Remove closed connection at HikariCP after each get/put/post/delete
+
+                // TODO: 14.11.2022 Test that rollback works, then crash and burn!
+//                try {
+//                    connection.commit();
+//                } catch (SQLException e) {
+//                    connection.rollback();
+//                    e.printStackTrace();
+//                }
+
+                connection.commit();
                 connection.close();
                 config.cleanRequestConnection();
 
