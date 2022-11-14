@@ -12,9 +12,18 @@ export function UserPage({activeUserId, activeUserName,setActiveChat}) {
     const [loading, setLoading] = useState(true);
     const [chat, setChat] = useState([]);
     const navigate = useNavigate()
-    const getActiveChat =(activChat)=>{
+    const [messages, setMessages] = useState([]);
+    const getActiveChat = async (activChat)=>{
         setChat(activChat)
         setActiveChat(activChat)
+        const res = await fetch("/api/messages?"+  new URLSearchParams({
+            idChat: activChat.id_chat,
+            idUser: activeUserId
+        }));
+
+        setMessages(await res.json());
+
+        setLoading(false);
         navigate("/user")
         console.log("this chat "+activChat);
     }
@@ -64,7 +73,7 @@ export function UserPage({activeUserId, activeUserName,setActiveChat}) {
 
                 <h1>{activeUserName}</h1>
                 <ChatList className={"flex-chats" } chats={chats}  getActiveChat={getActiveChat}/>
-                <Chat chat={chat} activeUserId={activeUserId}/>
+                <Chat chat={chat} activeUserId={activeUserId} messages={messages} setMessages={setMessages}/>
                 <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users2</button>
                 <button className={"button"} onClick={()=>handelNavigate('/edituser')}>Edit user</button>
                 <button className={"button"} onClick={()=>handelNavigate('/newmessage')}>New Message</button>

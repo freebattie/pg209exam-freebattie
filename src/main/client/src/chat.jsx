@@ -1,32 +1,18 @@
 import {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export function Chat({chat, activeUserId}) {
-    const navigate = useNavigate();
+export function Chat({chat, activeUserId, messages,setMessages}) {
 
-
-    const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [myUserChat, setMyUserChat] = useState("");
+
     const [myMessage, setMyMessage] = useState();
     const AlwaysScrollToBottom = () => {
         const elementRef = useRef();
         useEffect(() => elementRef.current.scrollIntoView());
         return <div ref={elementRef} />;
     };
-    useEffect(async () => {
-        const res = await fetch("/api/messages?"+  new URLSearchParams({
-            idChat: chat.id_chat,
-            idUser: activeUserId
-        }));
-
-        setMessages(await res.json());
-
-        setLoading(false);
 
 
-
-    }, [chat,myUserChat]);
     console.log(messages)
     if (loading) {
 
@@ -68,7 +54,7 @@ export function Chat({chat, activeUserId}) {
             {messages.map((option, index) => {
                 return <div>
                     <h1  key={index}>
-                        {option.idMessage} @{option.timestamp}
+                        {option.user.username} @{option.timestamp}
                     </h1>
                     <h2>{option.message}</h2>
                 </div>
