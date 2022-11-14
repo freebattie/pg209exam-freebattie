@@ -48,7 +48,9 @@ public class DaoMessage {
             statement.setLong(1, idChat);
             var result = statement.executeQuery();
 
-            result.next();
+//            Is here for preventing crash on empty chats
+            if (!result.next()) return;
+
             idMessage = result.getLong(1);
         }
 
