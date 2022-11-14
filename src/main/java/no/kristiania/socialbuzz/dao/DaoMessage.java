@@ -50,7 +50,6 @@ public class DaoMessage {
 
 //            Is here for preventing crash on empty chats
             if (!result.next()) return;
-
             idMessage = result.getLong(1);
         }
 
