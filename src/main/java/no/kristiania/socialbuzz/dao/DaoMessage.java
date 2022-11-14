@@ -149,7 +149,7 @@ public class DaoMessage {
             statement.setString(1, message.getMessage());
             statement.setLong(2, Instant.now().getEpochSecond());
             statement.setLong(3, message.getIdChat());
-            statement.setLong(4, message.getUser().id_user);
+            statement.setLong(4, message.getUser().getId_user());
             statement.executeUpdate();
         }
     }

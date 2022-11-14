@@ -1,8 +1,8 @@
 package no.kristiania.socialbuzz.dao;
 
 public class Chat implements Comparable<Chat>{
-    long id_chat;
-    String title;
+    private long id_chat;
+    private String title;
 
     public long getId_chat() {
         return id_chat;
