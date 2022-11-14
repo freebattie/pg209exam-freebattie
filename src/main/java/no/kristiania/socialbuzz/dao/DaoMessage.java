@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public class DaoMessage {
                 tmpMessage.setLastReads(lastReadList);
 //                Set username
                 var tmpUser = new User();
-                tmpUser.setName(resultMessages.getString(5));
+                tmpUser.setUsername(resultMessages.getString(5));
                 tmpMessage.setUser(tmpUser);
                 messages.add(tmpMessage);
             }
@@ -157,11 +158,11 @@ public class DaoMessage {
         var timeNow = Instant.now().getEpochSecond();
         var time = LocalDateTime.ofEpochSecond(timeThen, 0, ZoneOffset.ofHours(1));
 
+        var midnightToday = Instant.now().truncatedTo(ChronoUnit.DAYS).getEpochSecond();
+        var midnightYesterday = midnightToday - 86_400;
 
-        // TODO: 14.11.2022 fix bug for timestamp today and yesterday
-        var midnight = LocalTime.MIDNIGHT.toEpochSecond(LocalDate.now(), ZoneOffset.ofHours(1));
 //        Message within one day
-        if (timeNow - timeThen < midnight) {
+        if (timeThen - midnightToday > 0) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
@@ -169,7 +170,7 @@ public class DaoMessage {
             builder.append(string);
         }
 //        Message within two days
-        else if (timeNow - timeThen < LocalTime.MIDNIGHT.toEpochSecond(LocalDate.now(), ZoneOffset.ofHours(-23))) {
+        else if (timeThen - midnightYesterday > 0) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
