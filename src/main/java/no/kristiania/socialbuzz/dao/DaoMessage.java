@@ -4,9 +4,7 @@ import jakarta.inject.Inject;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +72,7 @@ public class DaoMessage {
     public List<Message> getAllMessages(long idChat, long idUser) throws SQLException {
 
         var sqlMessages = """
-                SELECT id_message, message, timestamp
+                SELECT id_message, message, timestamp, m.id_user, username
                 FROM messages m
                 JOIN users u on m.id_user = u.id_user
                 WHERE id_chat = ?;
@@ -104,6 +102,8 @@ public class DaoMessage {
 
                     while (resultLastRead.next()) {
                         if (resultLastRead.getLong(3) == idUser) continue;
+                        if (resultLastRead.getLong(3) == resultMessages.getLong(4)) continue;
+
                         var lastRead = new LastRead();
                         lastRead.setUsername(resultLastRead.getString(1));
                         lastRead.setTimestamp(getStringOfDateLastRead(resultLastRead.getLong(2)));
@@ -111,10 +111,18 @@ public class DaoMessage {
                     }
                 }
 
+//                Set id_message
                 tmpMessage.setIdMessage(resultMessages.getLong(1));
+//                Set message
                 tmpMessage.setMessage(resultMessages.getString(2));
+//                Set timestamp
                 tmpMessage.setTimestamp(getStringOfDateMessage(resultMessages.getLong(3)));
+//                Set lastReadList
                 tmpMessage.setLastReads(lastReadList);
+//                Set username
+                var tmpUser = new User();
+                tmpUser.setName(resultMessages.getString(5));
+                tmpMessage.setUser(tmpUser);
                 messages.add(tmpMessage);
             }
 
@@ -149,8 +157,11 @@ public class DaoMessage {
         var timeNow = Instant.now().getEpochSecond();
         var time = LocalDateTime.ofEpochSecond(timeThen, 0, ZoneOffset.ofHours(1));
 
+
+        // TODO: 14.11.2022 fix bug for timestamp today and yesterday
+        var midnight = LocalTime.MIDNIGHT.toEpochSecond(LocalDate.now(), ZoneOffset.ofHours(1));
 //        Message within one day
-        if (timeNow - timeThen < 86_400) {
+        if (timeNow - timeThen < midnight) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
@@ -158,7 +169,7 @@ public class DaoMessage {
             builder.append(string);
         }
 //        Message within two days
-        else if (timeNow - timeThen < 172_800) {
+        else if (timeNow - timeThen < LocalTime.MIDNIGHT.toEpochSecond(LocalDate.now(), ZoneOffset.ofHours(-23))) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 

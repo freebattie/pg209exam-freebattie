@@ -39,13 +39,18 @@ public class DaoMessageTest {
 
     @Test
     public void updateLastRead() throws SQLException {
-        var messages = dao.getAllMessages(1, 1);
+        var messages = dao.getAllMessages(4, 2);
 
-        for (var message : messages) {
-            if (message.lastReads.size() > 0){
-                System.out.println(message.getMessage() + " " + message.getLastReads().get(0).timestamp +" "+ message.lastReads.get(0).getUsername());
-            }
-        }
+        assertThat(messages.get(2).lastReads.get(0).getIdUser())
+                .as("Check if user 1 has lastRead at message 7")
+                .isEqualTo(1);
+
+        dao.updateLastRead(4, 1);
+        messages = dao.getAllMessages(4, 2);
+
+        assertThat(messages.get(4).lastReads.get(0).getIdUser())
+                .as("Check if user 1 has lastRead at message 7")
+                .isEqualTo(1);
     }
 
 
