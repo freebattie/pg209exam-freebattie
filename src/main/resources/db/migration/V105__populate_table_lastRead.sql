@@ -1,6 +1,6 @@
 INSERT INTO lastRead (id_chat, id_message, id_user, timestamp)
-VALUES (1, 4, 1, 1668357405), --Karigirl
-       (1, 5, 2, 1668357701); --SecretMan
+VALUES (1, 2, 1, 1668357378), --Karigirl
+       (1, 3, 2, 1668357390); --SecretMan
 
 INSERT INTO lastRead (id_chat, id_message, id_user, timestamp)
 VALUES (4, 8, 1, 1668373425), --Karigirl

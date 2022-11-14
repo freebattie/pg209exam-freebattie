@@ -19,7 +19,8 @@ public class MessagesEndPoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> getAllMessages(@QueryParam("idChat") long idChat, @QueryParam("idUser") long idUser) throws SQLException {
         daoMessage.updateLastRead(idChat, idUser);
-        return daoMessage.getAllMessages(idChat, idUser);
+        var test = daoMessage.getAllMessages(idChat, idUser);
+        return test;
     }
 
     @POST

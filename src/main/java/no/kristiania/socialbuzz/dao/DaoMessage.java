@@ -31,12 +31,14 @@ public class DaoMessage {
                 FETCH NEXT 1 ROW ONLY;
                 """;
 
-        try (var statment = connection.prepareStatement(sqlCheck)) {
-            statment.setLong(1, idChat);
-            var result = statment.executeQuery();
+        try (var statement = connection.prepareStatement(sqlCheck)) {
+            statement.setLong(1, idChat);
+            var result = statement.executeQuery();
 
+//            Is here for preventing crash on empty chats
             if (!result.next()) return;
-            if (idUser == result.getLong(1)) return;
+//            If last message is your own, don't update
+            if (idUser == result.getLong(2)) return;
         }
 
 //        Delete current status on lastRead
@@ -66,8 +68,6 @@ public class DaoMessage {
             statement.setLong(1, idChat);
             var result = statement.executeQuery();
 
-//            Is here for preventing crash on empty chats
-            if (!result.next()) return;
             idMessage = result.getLong(1);
         }
 
@@ -122,7 +122,7 @@ public class DaoMessage {
 
                     while (resultLastRead.next()) {
                         if (resultLastRead.getLong(3) == idUser) continue;
-                        if (resultLastRead.getLong(3) == resultMessages.getLong(4)) continue;
+//                        if (resultLastRead.getLong(3) == resultMessages.getLong(4)) continue;
 
                         var lastRead = new LastRead();
                         lastRead.setUsername(resultLastRead.getString(1));
