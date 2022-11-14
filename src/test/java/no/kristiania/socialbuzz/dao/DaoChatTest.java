@@ -62,7 +62,7 @@ public class DaoChatTest {
 
         assertThat(result.get(4).getTitle())
                 .as("Check that new Chat title is Randomperson2")
-                .isEqualTo("Randomperson2");
+                .isEqualTo("NotSecretman");
     }
 
     @Test

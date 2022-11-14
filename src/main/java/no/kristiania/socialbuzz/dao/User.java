@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User{
-    long id_user;
-    String username;
-    String name;
-    String tlf;
-    List<Email> emails = new ArrayList<>();
+    private long id_user;
+    private String username;
+    private String name;
+    private String tlf;
+    private final List<Email> emails = new ArrayList<>();
 
     public Long getId_user() {
         return id_user;

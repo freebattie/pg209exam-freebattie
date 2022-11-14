@@ -1,12 +1,11 @@
 package no.kristiania.socialbuzz.dao;
 
 public class LastRead {
-
-    int idChat;
-    int idMessage;
-    String username;
-    int idUser;
-    String timestamp;
+    private int idChat;
+    private int idMessage;
+    private String username;
+    private int idUser;
+    private String timestamp;
 
     public int getIdChat() {
         return idChat;

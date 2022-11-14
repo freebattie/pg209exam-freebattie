@@ -40,7 +40,7 @@ public class DaoUserTest {
 
         // Check that user is the expected user
         assertThat(user.getUsername())
-                .as("Check that user is the expexted user")
+                .as("Check that user is the expected user")
                 .isEqualTo("SecretMan");
     }
 
@@ -51,15 +51,14 @@ public class DaoUserTest {
 
 
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
-        var original = dao.getUser(1);
-        var editUser = dao.getUser(1);
+        var original = dao.getUser(4);
+        var editUser = dao.getUser(4);
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
-        int id = Math.toIntExact(mail.getId());
-        editUser.EditMail(mail, id);
+        editUser.EditMail(mail, 0);
         dao.EditUser(editUser);
-        var updatedUser = dao.getUser(1);
+        var updatedUser = dao.getUser(4);
 
 
         //CHECK BEFORE EDIT
@@ -84,7 +83,7 @@ public class DaoUserTest {
 
         //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
         assertThat(updatedUser.getUsername())
-                .as("check that editeted user is same as user in db")
+                .as("check that edited user is same as user in db")
                 .isEqualTo(editUser.getUsername());
 
 

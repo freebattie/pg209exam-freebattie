@@ -19,6 +19,43 @@ public class DaoMessageTest {
     }
 
     @Test
+    public void updateLastRead() throws SQLException {
+        var messages = dao.getAllMessages(4, 2);
+        var lastMessage = new Message();
+
+        for (var message : messages) {
+            if (lastMessage.getIdMessage() < message.getIdMessage()) {
+                lastMessage.setIdMessage(message.getIdMessage());
+                lastMessage.setLastReads(message.getLastReads());
+            }
+        }
+
+        assertThat(lastMessage.getLastReads().size())
+                .as("Confirm only us two out of three user read last message")
+                .isEqualTo(0);
+
+        dao.updateLastRead(4, 1);
+        messages = dao.getAllMessages(4, 2);
+        lastMessage = new Message();
+
+        for (var message : messages) {
+            if (lastMessage.getIdMessage() < message.getIdMessage()) {
+                lastMessage.setIdMessage(message.getIdMessage());
+                lastMessage.setLastReads(message.getLastReads());
+            }
+        }
+
+        assertThat(lastMessage.getLastReads().size())
+                .as("Confirm only us three out of three user read last message")
+                .isEqualTo(1);
+
+        assertThat(lastMessage.getLastReads().get(0).getUsername())
+                .as("Check that it is Karigirl who have updated her lastRead")
+                .isEqualTo("Karigirl");
+
+    }
+
+    @Test
     public void sendOneMessage() throws SQLException {
         var message = new Message();
         message.setMessage("This is a test message!");
@@ -37,23 +74,7 @@ public class DaoMessageTest {
                 .isEqualTo("This is a test message!");
     }
 
-    @Test
-    public void updateLastRead() throws SQLException {
-        var messages = dao.getAllMessages(4, 2);
 
-        assertThat(messages.get(2).lastReads.get(0).getIdUser())
-                .as("Check if user 1 has lastRead at message 7")
-                .isEqualTo(1);
-
-        dao.updateLastRead(4, 1);
-        messages = dao.getAllMessages(4, 2);
-
-        assertThat(messages.get(4).lastReads.get(0).getIdUser())
-                .as("Check if user 1 has lastRead at message 7")
-                .isEqualTo(1);
-    }
 
 
 }
-
-

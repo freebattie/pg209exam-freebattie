@@ -3,12 +3,12 @@ package no.kristiania.socialbuzz.dao;
 import java.util.List;
 
 public class Message implements Comparable<Message> {
-    long idMessage;
-    long idChat;
-    User user; //TODO: change to string
-    String message;
-    String timestamp;
-    List<LastRead> lastReads;
+    private long idMessage;
+    private long idChat;
+    private User user; //TODO: change to string
+    private String message;
+    private String timestamp;
+    private List<LastRead> lastReads;
 
     public long getIdMessage() {
         return idMessage;
