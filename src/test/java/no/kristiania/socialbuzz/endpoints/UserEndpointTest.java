@@ -117,10 +117,43 @@ public class UserEndpointTest {
                 .contains(user.getName());
     }
 
-    @Test
-    public void getEmailByUserIdTest() {
-
-    }
+//    @Test
+//    public void getEmailByUserIdTest() throws SQLException, IOException {
+//        var id = daoUser.getLastEmailId(1);
+//
+////        Make Json file out of user
+//        var gson = new Gson();
+//        var userJson = gson.toJson(user);
+//
+////        Send changes to server
+//        var preConnection = openConnection("/api/users");
+//        preConnection.setRequestMethod("PUT");
+//        preConnection.setRequestProperty("Content-Type", "application/json");
+//        preConnection.setDoOutput(true);
+//        preConnection.getOutputStream().write(
+//                userJson.getBytes(StandardCharsets.UTF_8)
+//        );
+//
+////        Confirms that PUT executed
+//        assertThat(preConnection.getResponseCode())
+//                .as(preConnection.getResponseMessage())
+//                .isEqualTo(204);
+//
+//        var connection = openConnection("/api/users/emails");
+//        connection.setRequestMethod("GET");
+//
+//        assertThat(connection.getResponseCode())
+//                .as("Server respond code is 200")
+//                .isEqualTo(200);
+//
+//        assertThat(connection.getInputStream())
+//                .as("Check match")
+//                .asString(StandardCharsets.UTF_8)
+//                .contains(Long.toString(id));
+//
+//
+//
+//    }
 
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();

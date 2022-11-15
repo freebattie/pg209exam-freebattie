@@ -42,7 +42,7 @@ public class UsersEndpoint {
     @Path("/emails")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public long getEmailsByUserId(@QueryParam("id") Long id) throws SQLException {
+    public long getLastEmailId(@QueryParam("id") Long id) throws SQLException {
         return daoUser.getLastEmailId(id);
     }
 
