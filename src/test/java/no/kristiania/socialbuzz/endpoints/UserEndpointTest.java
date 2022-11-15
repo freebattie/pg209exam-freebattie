@@ -154,7 +154,23 @@ public class UserEndpointTest {
 //
 //
 //    }
+@Test
+public void GetLastEmailId() throws SQLException, IOException {
+    var user = daoUser.getUserById(4);
+    var emails = user.getEmails();
+    var last = emails.get(emails.size()-1).getId();
+    var connection = openConnection("/api/users/emails?id="+user.getId_user());
+    connection.setRequestMethod("GET");
 
+    assertThat(connection.getResponseCode())
+            .as("Server respond code is 200")
+            .isEqualTo(200);
+    var value = connection.getInputStream();
+    assertThat(connection.getInputStream())
+            .asString(StandardCharsets.UTF_8)
+            .as("Check that last email is same as users last email")
+            .isEqualTo(last.toString());
+}
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }

@@ -107,4 +107,15 @@ public class DaoUserTest {
     }
 
     //TODO: EDIT EMAIL and check if updated
+
+    @Test
+    public void removeEmail() throws SQLException {
+        dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
+        var user = dao.getUserById(4);
+
+        // Check that user is the expected user
+        assertThat(user.getUsername())
+                .as("Check that user is the expected user")
+                .isEqualTo("SecretMan");
+    }
 }
