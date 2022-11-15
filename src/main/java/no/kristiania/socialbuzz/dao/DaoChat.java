@@ -74,7 +74,7 @@ public class DaoChat {
         return chats;
     }
 
-    public void makeNewChat(List<User> users, String title) throws SQLException {
+    public void makeNewChat(List<Integer> users, String title) throws SQLException {
         int idChat;
 
         var sqlMakeChat = """
@@ -90,14 +90,14 @@ public class DaoChat {
             idChat = keys.getInt(1);
         }
 
-        for (var user : users) {
+        for (var id : users) {
             var sql = """
                 INSERT INTO userschats (id_user, id_chat)
                 VALUES (?, ?);
                 """;
 
             try (var statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, user.getId_user());
+                statement.setLong(1, id);
                 statement.setInt(2, idChat);
                 statement.executeUpdate();
             }

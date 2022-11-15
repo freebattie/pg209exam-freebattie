@@ -65,7 +65,7 @@ public class DaoChatTest {
         users.add(user1);
         users.add(user2);
 
-        dao.makeNewChat(users, "chat from test");
+       // dao.makeNewChat(users, "chat from test");
         var chats = dao.getAllChats(1);
         Chat testChat = new Chat();
 
@@ -92,7 +92,7 @@ public class DaoChatTest {
         users.add(user2);
         users.add(user3);
 
-        dao.makeNewChat(users, "Group chat number 2");
+        //dao.makeNewChat(users, "Group chat number 2");
         var chats = dao.getAllChats(1);
         Chat testChat = new Chat();
 

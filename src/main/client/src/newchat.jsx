@@ -1,15 +1,16 @@
 import {useEffect, useState} from "react";
 
-export function NewChat({users,activeUserId,setUserTo}) {
+export function NewChat({users,activeUserId}) {
     const [title, setTitle] = useState("");
     const [chatters, setChatters] = useState([]);
     const [chatter, setChatter] = useState("");
 
 
     async function handelOnSubmit(){
+        console.log(chatters)
         await fetch("/api/chats", {
             method: "POST",
-            body: JSON.stringify({title,chatters}),
+            body: JSON.stringify({usersId:chatters,title:title}),
             headers: {
                 "Content-Type": "application/json"
             }
