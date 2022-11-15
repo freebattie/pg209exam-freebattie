@@ -42,14 +42,12 @@ public class User{
         this.tlf = tlf;
     }
 
-    public void addEmail(Email mail) {
+    public void setEmails(Email mail) {
         emails.add(mail);
     }
     public List<Email> getEmails() {
         return emails;
     }
 
-    public void EditMail(Email mail, int id) {
-        emails.set(id,mail);
-    }
+
 }

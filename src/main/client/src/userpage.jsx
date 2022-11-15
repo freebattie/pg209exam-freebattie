@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import {ChatList} from "./chatlist.jsx";
 import {createHashHistory} from 'history';
 import {Chat} from "./chat";
-import {Router, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const history = createHashHistory();
 
-export function UserPage({activeUserId, activeUserName,setActiveChat}) {
+export function UserPage({activeUserId,setActiveChat}) {
+    const [activeUserName, setActiveUserName] = useState("");
     const [chats, setChats] = useState([]);
     const [loading, setLoading] = useState(true);
     const [chat, setChat] = useState([]);
@@ -25,22 +26,24 @@ export function UserPage({activeUserId, activeUserName,setActiveChat}) {
 
         setLoading(false);
         navigate("/user")
-        console.log("this chat "+activChat);
+        console.log("this chat "+user.username);
     }
     function handelNavigate(path) {
 
         history.push(path);
         window.location.reload(false);
     }
-    useEffect(async () => {
-        const res = await fetch("/api/chats/"+activeUserId);
+    useEffect( () => {
+        const test = async ()=>{
+            const res = await fetch("/api/chats/"+activeUserId);
 
-        setChats(await res.json());
-
-        setLoading(false);
-
-
-
+            setChats(await res.json());
+            const userres = await fetch("/api/users/"+ activeUserId);
+            const user = await userres.json();
+            setActiveUserName(user.username);
+            setLoading(false);
+        }
+        test()
     }, []);
 
     if (loading) {
@@ -50,6 +53,11 @@ export function UserPage({activeUserId, activeUserName,setActiveChat}) {
 
         )
     }
+
+    function handelNavigateEditUser(s) {
+        navigate(s);
+    }
+
     if (chat.length == 0){
         return  <div>
             <div className="flex-container">
@@ -61,7 +69,7 @@ export function UserPage({activeUserId, activeUserName,setActiveChat}) {
                 <h1 className={"flex-chat"}>Plese select a chat</h1>
 
                 <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users2</button>
-                <button className={"button"} onClick={()=>handelNavigate('/edituser')}>Edit user</button>
+                <button className={"button"} onClick={()=>handelNavigateEditUser('/edituser')}>Edit user</button>
                 <button className={"button"} onClick={()=>handelNavigate('/newmessage')}>New Message</button>
             </div>
         </div>

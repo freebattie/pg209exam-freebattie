@@ -42,12 +42,14 @@ public class DataSourceFilter implements Filter {
 
 //              if get dont do commit
                 if (req.getMethod().equals("GET")) {
-                    //re direct to index.html if not a /api or valid path
+                    //if a get then you can auto commit and not worry since it dosent alter tabel
                     filterChain.doFilter(servletRequest, servletResponse);
 
                 } else {
+                    //all put,delete and post should be rolled back if failed
+                    //connection.setAutoCommit(false);
                     filterChain.doFilter(servletRequest, servletResponse);
-
+                    //connection.commit();
                 }
                 logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
 //              Remove closed connection at HikariCP after each get/put/post/delete
@@ -60,7 +62,7 @@ public class DataSourceFilter implements Filter {
 //                    e.printStackTrace();
 //                }
 
-                connection.commit();
+
                 connection.close();
                 config.cleanRequestConnection();
                 logger.info("Response Code from Server: {}", res.getStatus());

@@ -55,7 +55,7 @@ public class DaoUserTest {
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
-        editUser.EditMail(mail, 0);
+        //editUser.EditMail(mail, 0);
         dao.EditUser(editUser);
         var updatedUser = dao.getUser(4);
 

@@ -41,9 +41,56 @@ public class DaoUser {
         }
 
     }
+    public void removeEmail(long id) throws SQLException {
+        var sql = """
+                DELETE FROM emails WHERE id_email = ?;
+                """;
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.executeUpdate();
 
+
+        }
+    }
+
+    public long getLastEmailId(long id) throws SQLException {
+
+        var sql = """
+                SELECT id_email
+                FROM emails
+                WHERE id_user = ?
+                ORDER BY id_email desc 
+                OFFSET 0 ROW
+                FETCH NEXT 1 ROW ONLY;
+                """;
+
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            var result = statement.executeQuery();
+
+            result.next();
+
+
+            return result.getLong(1);
+        }
+
+    }
+    public void addEmail(long id) throws SQLException {
+        System.out.println(id);
+        var sql = """
+                    INSERT INTO emails (id_user, email)
+                    VALUES (?,?);
+                """;
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, id);
+            statement.setString(2, "");
+
+            statement.executeUpdate();
+
+        }
+    }
     public void EditUser(User user) throws SQLException {
-
+        System.out.println(user.getId_user());
         var sql = """
                 UPDATE users
                            SET  username = ?,
@@ -60,13 +107,13 @@ public class DaoUser {
             statement.executeUpdate();
 
         }
-
-        for (var mail : user.getEmails()) {
-            sql = """
+        sql = """
                         UPDATE emails
                             Set email =?
                             Where id_email = ?
                     """;
+        for (var mail : user.getEmails()) {
+
 
             try (var statement = connection.prepareStatement(sql)) {
                 statement.setString(1, mail.getEmail());
@@ -110,7 +157,7 @@ public class DaoUser {
                     Email mail = new Email();
                     mail.setId(resUser.getLong(1));
                     mail.setEmail(resUser.getString(2));
-                    user.addEmail(mail);
+                    user.setEmails(mail);
                 }
             }
         }

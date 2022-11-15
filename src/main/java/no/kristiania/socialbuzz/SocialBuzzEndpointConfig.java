@@ -21,7 +21,7 @@ public class SocialBuzzEndpointConfig extends ResourceConfig {
 
     public SocialBuzzEndpointConfig(DataSource dataSource) {
         super(ChatsEndpoint.class, UsersEndpoint.class, MessagesEndPoint.class);
-
+        register(UsersEndpoint.class);
         this.dataSource = dataSource;
         register(new AbstractBinder() {
             @Override

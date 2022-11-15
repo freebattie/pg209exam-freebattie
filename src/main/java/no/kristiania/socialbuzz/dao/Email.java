@@ -3,6 +3,9 @@ package no.kristiania.socialbuzz.dao;
 public class Email {
     private Long id;
     private String email;
+    public Email(){
+
+    }
 
     public Long getId() {
         return id;
