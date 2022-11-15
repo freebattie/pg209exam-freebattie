@@ -28,7 +28,7 @@ public class UsersEndpoint {
     public void editUser(String userJson) throws SQLException {
         Gson gson = new Gson();
         var user = gson.fromJson(userJson,User.class);
-        daoUser.EditUser(user);
+        daoUser.editUser(user);
     }
 
     @GET
@@ -49,15 +49,15 @@ public class UsersEndpoint {
     @POST
     @Path("/emails")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addUserByEmail(User user) throws SQLException {
-         daoUser.addEmail(user.getId_user());
+    public void addEmailByUserId(User user) throws SQLException {
+         daoUser.addEmailByUserId(user.getId_user());
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/emails/{id}")
-    public void deleteEmailByID(@PathParam("id")long id) throws SQLException {
-        daoUser.removeEmail(id);
+    public void deleteEmailByEmailId(@PathParam("id")long id) throws SQLException {
+        daoUser.deleteEmailByEmailId(id);
     }
 
 }

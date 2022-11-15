@@ -117,6 +117,11 @@ public class UserEndpointTest {
                 .contains(user.getName());
     }
 
+    @Test
+    public void getEmailByUserIdTest() {
+
+    }
+
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }

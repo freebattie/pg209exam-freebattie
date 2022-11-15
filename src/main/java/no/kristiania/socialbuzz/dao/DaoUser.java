@@ -43,7 +43,7 @@ public class DaoUser {
         }
 
     }
-    public void removeEmail(long id) throws SQLException {
+    public void deleteEmailByEmailId(long id) throws SQLException {
         var sql = """
                 DELETE FROM emails WHERE id_email = ?;
                 """;
@@ -61,7 +61,7 @@ public class DaoUser {
                 SELECT id_email
                 FROM emails
                 WHERE id_user = ?
-                ORDER BY id_email desc 
+                ORDER BY id_email desc
                 OFFSET 0 ROW
                 FETCH NEXT 1 ROW ONLY;
                 """;
@@ -77,7 +77,7 @@ public class DaoUser {
         }
 
     }
-    public void addEmail(long id) throws SQLException {
+    public void addEmailByUserId(long id) throws SQLException {
         System.out.println(id);
         var sql = """
                     INSERT INTO emails (id_user, email)
@@ -91,7 +91,7 @@ public class DaoUser {
 
         }
     }
-    public void EditUser(User user) throws SQLException {
+    public void editUser(User user) throws SQLException {
         System.out.println(user.getId_user());
         var sql = """
                 UPDATE users
