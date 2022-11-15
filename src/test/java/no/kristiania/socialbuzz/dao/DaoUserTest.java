@@ -52,6 +52,16 @@ public class DaoUserTest {
                 .as("Check that user is the expected user")
                 .isEqualTo("SecretMan");
     }
+    @Test
+    public void getNotValidUserById() throws SQLException {
+        dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
+        var user = dao.getUserById(99);
+
+        // Check that user is the expected user
+        assertThat(user)
+                .as("return null if user dose not exsist")
+                .isEqualTo(null);
+    }
 
     @Test
     public void getEditedUserBack() throws SQLException {
