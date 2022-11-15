@@ -4,7 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import no.kristiania.socialbuzz.dao.DaoMessage;
-import no.kristiania.socialbuzz.dao.Message;
+import no.kristiania.socialbuzz.dto.Message;
 
 import java.sql.SQLException;
 import java.util.List;

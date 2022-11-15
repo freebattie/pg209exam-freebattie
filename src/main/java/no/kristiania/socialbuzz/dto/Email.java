@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.dao;
+package no.kristiania.socialbuzz.dto;
 
 public class Email {
     private Long id;

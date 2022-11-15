@@ -1,6 +1,8 @@
 package no.kristiania.socialbuzz.dao;
 
 import jakarta.inject.Inject;
+import no.kristiania.socialbuzz.dto.Chat;
+import no.kristiania.socialbuzz.dto.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -102,7 +104,6 @@ public class DaoChat {
         }
 
     }
-
 
 }
 

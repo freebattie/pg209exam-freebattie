@@ -1,6 +1,8 @@
 package no.kristiania.socialbuzz.dao;
 
 import jakarta.inject.Inject;
+import no.kristiania.socialbuzz.dto.Email;
+import no.kristiania.socialbuzz.dto.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -125,7 +127,7 @@ public class DaoUser {
     }
 
     // get also all emails connected to user
-    public User getUser(long id) throws SQLException {
+    public User getUserById(long id) throws SQLException {
         User user;
 
         var sql = """

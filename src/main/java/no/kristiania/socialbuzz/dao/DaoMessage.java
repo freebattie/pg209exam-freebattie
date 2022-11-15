@@ -1,6 +1,9 @@
 package no.kristiania.socialbuzz.dao;
 
 import jakarta.inject.Inject;
+import no.kristiania.socialbuzz.dto.LastRead;
+import no.kristiania.socialbuzz.dto.Message;
+import no.kristiania.socialbuzz.dto.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;

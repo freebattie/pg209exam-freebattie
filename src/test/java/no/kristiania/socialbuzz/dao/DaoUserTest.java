@@ -1,9 +1,12 @@
 package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
+import no.kristiania.socialbuzz.dto.Email;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,12 +14,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DaoUserTest {
 
+    private Connection connection;
     private DaoUser dao;
 
     @BeforeEach
     public void h2DbSetup() throws SQLException {
-        var con = InMemoryDataSource.createTestDataSource();
-        this.dao = new DaoUser(con.getConnection());
+        this.connection = InMemoryDataSource.createTestDataSource().getConnection();
+        connection.setAutoCommit(false);
+        this.dao = new DaoUser(connection);
+    }
+
+    @AfterEach
+    public void rollbackTest() throws SQLException {
+        connection.rollback();
     }
 
     @Test
@@ -35,7 +45,7 @@ public class DaoUserTest {
     @Test
     public void getUserById() throws SQLException {
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
-        var user = dao.getUser(2);
+        var user = dao.getUserById(2);
 
         // Check that user is the expected user
         assertThat(user.getUsername())
@@ -50,14 +60,14 @@ public class DaoUserTest {
 
 
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
-        var original = dao.getUser(4);
-        var editUser = dao.getUser(4);
+        var original = dao.getUserById(4);
+        var editUser = dao.getUserById(4);
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
         //editUser.EditMail(mail, 0);
         dao.EditUser(editUser);
-        var updatedUser = dao.getUser(4);
+        var updatedUser = dao.getUserById(4);
 
 
         //CHECK BEFORE EDIT

@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.dao;
+package no.kristiania.socialbuzz.dto;
 
 import java.util.ArrayList;
 import java.util.List;
