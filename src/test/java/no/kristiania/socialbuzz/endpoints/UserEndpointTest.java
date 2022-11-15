@@ -1,6 +1,7 @@
 package no.kristiania.socialbuzz.endpoints;
 
 import com.google.gson.Gson;
+import jakarta.json.Json;
 import no.kristiania.socialbuzz.SocialBuzzServer;
 import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
@@ -171,6 +172,23 @@ public void GetLastEmailId() throws SQLException, IOException {
             .as("Check that last email is same as users last email")
             .isEqualTo(last.toString());
 }
+    @Test
+    public void removeEmail() throws SQLException, IOException {
+        var user = daoUser.getUserById(4);
+        var emailId = user.getEmails().get(0).getId();
+        var connection = openConnection("/api/users/emails/"+emailId);
+        connection.setRequestMethod("DELETE");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-type","application/json");
+        assertThat(connection.getResponseCode())
+                .as("Check if POST worked")
+                .isEqualTo(204);
+        var newUser = daoUser.getUserById(4);
+        // Check that user is the expected user
+        assertThat(newUser.getEmails().size())
+                .as("Check that size of emails has changed")
+                .isNotEqualTo(user.getEmails().size());
+    }
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }
