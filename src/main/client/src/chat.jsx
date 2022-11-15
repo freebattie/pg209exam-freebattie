@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {useNavigate} from "react-router-dom";
+
 
 export function Chat({chat, activeUserId, messages,setMessages}) {
 
@@ -49,14 +49,21 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
         //navigate("/user");
     }
 
+
     return <div className="flex-chat">
         <div  className="chat-card">
-            {messages.map((option, index) => {
+            {messages.map((message, index) => {
                 return <div>
+
                     <h1  key={index}>
-                        {option.user.username} @{option.timestamp}
+                        {message.user.username} @{message.timestamp}
+
+
                     </h1>
-                    <h2>{option.message}</h2>
+                    <h3>last read: {message["lastReads"].map((p)=>{
+                        return <h1>{p.username} - {p.timestamp}</h1>
+                    })}</h3>
+                    <h2>{message.message}</h2>
                 </div>
             })}
             <AlwaysScrollToBottom />

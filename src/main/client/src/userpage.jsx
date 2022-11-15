@@ -23,7 +23,18 @@ export function UserPage({activeUserId,setActiveChat}) {
         }));
 
         setMessages(await res.json());
+        const idChat= messages.get(messages.length-1).idChat
+        const response = await fetch('/api/messages/update', {
+            method: 'POST',
+            body: JSON.stringify({
+                idChat: idChat,
+                idUser: activeUserId,
 
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8'
+            },
+        })
         setLoading(false);
         navigate("/user")
         console.log("this chat "+user.username);
