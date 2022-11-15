@@ -32,7 +32,7 @@ public class UsersEndpoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUserById(@PathParam("id") Long id) throws SQLException {
-        return daoUser.getUser(id);
+        return daoUser.getUserById(id);
     }
 
 }

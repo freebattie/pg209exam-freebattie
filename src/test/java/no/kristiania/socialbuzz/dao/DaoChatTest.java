@@ -58,8 +58,8 @@ public class DaoChatTest {
     @Test
     public void makeNewOneToOneChat() throws SQLException {
         var daoUser = new DaoUser(connection);
-        var user1 = daoUser.getUser(1);
-        var user2 = daoUser.getUser(2);
+        var user1 = daoUser.getUserById(1);
+        var user2 = daoUser.getUserById(2);
 
         List<User> users = new ArrayList<>();
         users.add(user1);
@@ -83,9 +83,9 @@ public class DaoChatTest {
     @Test
     public void makeNewGroupChat() throws SQLException {
         var daoUser = new DaoUser(connection);
-        var user1 = daoUser.getUser(1);
-        var user2 = daoUser.getUser(2);
-        var user3 = daoUser.getUser(3);
+        var user1 = daoUser.getUserById(1);
+        var user2 = daoUser.getUserById(2);
+        var user3 = daoUser.getUserById(3);
 
         List<User> users = new ArrayList<>();
         users.add(user1);

@@ -40,13 +40,55 @@ public class UserEndpointTest {
         connection.setRequestMethod("GET");
 
         assertThat(connection.getResponseCode())
-                .as("Server response code is 200")
+                .as("Server respond code is 200")
                 .isEqualTo(200);
 
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains(users.get(0).getUsername());
 
+    }
+
+    @Test
+    public void getUserByIdTest() throws SQLException, IOException {
+        var user = daoUser.getUserById(1);
+
+        var connection = openConnection("/api/users/1");
+        connection.setRequestMethod("GET");
+
+        assertThat(connection.getResponseCode())
+                .as("Server respond code is 200")
+                .isEqualTo(200);
+
+        assertThat(connection.getInputStream())
+                .as("Check input stream contains user1 data")
+                .asString(StandardCharsets.UTF_8)
+                .contains(user.getId_user().toString())
+                .contains(user.getUsername())
+                .contains(user.getName());
+    }
+
+    @Test
+    public void editUserTest() throws SQLException, IOException {
+        var user = daoUser.getUserById(1);
+        user.setUsername("TestUser");
+        user.setName("Ola Nordmann");
+        user.setTlf("99887766");
+        daoUser.EditUser(user);
+
+        var connection = openConnection("/api/users/1");
+        connection.setRequestMethod("GET");
+
+        assertThat(connection.getResponseCode())
+                .as("Server respond code is 200")
+                .isEqualTo(200);
+
+        assertThat(connection.getInputStream())
+                .as("Check input stream contains edited data")
+                .asString(StandardCharsets.UTF_8)
+                .contains(user.getId_user().toString())
+                .contains(user.getUsername())
+                .contains(user.getName());
     }
 
 
