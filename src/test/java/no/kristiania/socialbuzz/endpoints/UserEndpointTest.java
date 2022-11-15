@@ -156,7 +156,7 @@ public class UserEndpointTest {
 //
 //    }
 @Test
-public void GetLastEmailId() throws SQLException, IOException {
+public void GetLastEmailIdTest() throws SQLException, IOException {
     var user = daoUser.getUserById(4);
     var emails = user.getEmails();
     var last = emails.get(emails.size()-1).getId();
@@ -173,7 +173,7 @@ public void GetLastEmailId() throws SQLException, IOException {
             .isEqualTo(last.toString());
 }
     @Test
-    public void removeEmail() throws SQLException, IOException {
+    public void removeEmailTest() throws SQLException, IOException {
         var user = daoUser.getUserById(4);
         var emailId = user.getEmails().get(0).getId();
         var connection = openConnection("/api/users/emails/"+emailId);
@@ -181,13 +181,36 @@ public void GetLastEmailId() throws SQLException, IOException {
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-type","application/json");
         assertThat(connection.getResponseCode())
-                .as("Check if POST worked")
+                .as("Check if DELETE worked")
                 .isEqualTo(204);
         var newUser = daoUser.getUserById(4);
         // Check that user is the expected user
         assertThat(newUser.getEmails().size())
                 .as("Check that size of emails has changed")
                 .isNotEqualTo(user.getEmails().size());
+    }
+    @Test
+    public void addEmailTest() throws SQLException, IOException {
+        var user = daoUser.getUserById(4);
+
+        var connection = openConnection("/api/users/emails/");
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-type","application/json");
+        connection.getOutputStream().write(Json.createObjectBuilder()
+                        .add("id_user",user.getId_user())
+                        .build()
+                        .toString()
+                        .getBytes(StandardCharsets.UTF_8));
+        assertThat(connection.getResponseCode())
+                .as("Check if POST worked")
+                .isEqualTo(204);
+
+        var newUser = daoUser.getUserById(4);
+        // Check that user is the expected user
+        assertThat(newUser.getEmails().size())
+                .as("Check that emails has increased")
+                .isGreaterThan(user.getEmails().size());
     }
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
