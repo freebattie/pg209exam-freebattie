@@ -83,16 +83,16 @@ public class DaoChatTest {
     @Test
     public void makeNewGroupChat() throws SQLException {
         var daoUser = new DaoUser(connection);
-        var user1 = daoUser.getUserById(1);
-        var user2 = daoUser.getUserById(2);
-        var user3 = daoUser.getUserById(3);
+        var user1 = daoUser.getUserById(1).getId_user();
+        var user2 = daoUser.getUserById(2).getId_user();
+        var user3 = daoUser.getUserById(3).getId_user();
 
-        List<User> users = new ArrayList<>();
-        users.add(user1);
-        users.add(user2);
-        users.add(user3);
+        List<Integer> users = new ArrayList<>();
+        users.add(user1.intValue());
+        users.add(user2.intValue());
+        users.add(user3.intValue());
 
-        //dao.makeNewChat(users, "Group chat number 2");
+        dao.makeNewChat(users, "Group chat number 2");
         var chats = dao.getAllChats(1);
         Chat testChat = new Chat();
 
