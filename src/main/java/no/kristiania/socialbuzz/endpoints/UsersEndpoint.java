@@ -3,7 +3,7 @@ package no.kristiania.socialbuzz.endpoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import no.kristiania.socialbuzz.dao.User;
+import no.kristiania.socialbuzz.dto.User;
 import no.kristiania.socialbuzz.dao.DaoUser;
 
 import java.sql.SQLException;
@@ -34,6 +34,5 @@ public class UsersEndpoint {
     public User getUserById(@PathParam("id") Long id) throws SQLException {
         return daoUser.getUser(id);
     }
-
 
 }

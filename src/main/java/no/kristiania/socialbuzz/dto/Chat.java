@@ -1,4 +1,4 @@
-package no.kristiania.socialbuzz.dao;
+package no.kristiania.socialbuzz.dto;
 
 public class Chat implements Comparable<Chat>{
     private long id_chat;

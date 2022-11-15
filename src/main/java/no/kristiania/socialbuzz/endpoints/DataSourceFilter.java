@@ -40,9 +40,9 @@ public class DataSourceFilter implements Filter {
                 //Get connection from HikariCP.
                 connection = config.createConnectionForRequest();
 
-//              if get dont do commit
+//              if get don't do commit
                 if (req.getMethod().equals("GET")) {
-                    //re direct to index.html if not a /api or valid path
+                    //re-direct to index.html if not a /api or valid path
                     filterChain.doFilter(servletRequest, servletResponse);
 
                 } else {

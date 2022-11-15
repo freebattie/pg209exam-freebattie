@@ -3,7 +3,7 @@ package no.kristiania.socialbuzz.endpoints;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import no.kristiania.socialbuzz.dao.Chat;
+import no.kristiania.socialbuzz.dto.Chat;
 import no.kristiania.socialbuzz.dao.DaoChat;
 
 import java.sql.SQLException;

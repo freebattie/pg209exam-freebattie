@@ -1,9 +1,12 @@
 package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
+import no.kristiania.socialbuzz.dto.Email;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,12 +14,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DaoUserTest {
 
+    private Connection connection;
     private DaoUser dao;
 
     @BeforeEach
     public void h2DbSetup() throws SQLException {
-        var con = InMemoryDataSource.createTestDataSource();
-        this.dao = new DaoUser(con.getConnection());
+        this.connection = InMemoryDataSource.createTestDataSource().getConnection();
+        connection.setAutoCommit(false);
+        this.dao = new DaoUser(connection);
+    }
+
+    @AfterEach
+    public void rollbackTest() throws SQLException {
+        connection.rollback();
     }
 
     @Test
