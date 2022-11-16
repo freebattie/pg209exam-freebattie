@@ -36,7 +36,6 @@ Tidspunkt eksempler med enkel stil:
 
 
 # Funksjonalitet utenfor beskrivelse:
-* Autocommit er slått av og styres igjennom filteret med manuel commit
 * Servlettens config benytter en multithreaded connection pool som gir ut en aktiv connect per reguest.
   Filteret er configurert til å logge alle innkommende reguest type og URL, og Respons kode sendt til klient.
 * Autodeploy til auzer sever med bruk av Github Actions
@@ -59,7 +58,7 @@ Tidspunkt eksempler med enkel stil:
 * Mulighet til å lage nye en til en og gruppe chatter med andre. 
 
 # Bilder
-![alt text](documents/ER-diagram socialbuzz.png)
+![alt text](documents/ER-diagram_socialbuzz.png)
 
 ER-model for database for socialbuzz
 
