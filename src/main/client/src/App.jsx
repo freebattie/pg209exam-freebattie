@@ -23,11 +23,14 @@ function App() {
     const [activeUserId, setActiveUserId] = useState(0);
     const [activeChat, setActiveChat] = useState(0);
     const [activeUserName, setActiveUserName] = useState("");
-    useEffect(async () => {
-        const res = await fetch("/api/users");
+    useEffect( () => {
+        const test= async ()=>{
+            const res = await fetch("/api/users");
 
-        setUsers(await res.json());
-        setLoading(false);
+            setUsers(await res.json());
+            setLoading(false);
+        }
+        test();
     }, []);
 
     if (loading) {

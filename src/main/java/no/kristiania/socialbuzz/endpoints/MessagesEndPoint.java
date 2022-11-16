@@ -23,6 +23,7 @@ public class MessagesEndPoint {
     @POST
     @Path("/update")
     public void updateLastRead(@QueryParam("idChat") long idChat, @QueryParam("idUser") long idUser) throws SQLException {
+        System.out.println(idUser);
         daoMessage.updateLastRead(idChat, idUser);
     }
     @POST

@@ -10,7 +10,7 @@ export function ChatList({chats, getActiveChat}) {
     return (
         <div className ="flex-chats">
             <ul>
-                <button className={"button"} onClick={()=>handelNavigate('/')}>Back to users2</button>
+                <button className={"button"} onClick={()=>handelNavigate('/')}>New Message</button>
                 {chats.map((option, index) => {
                     return <li onClick={(props)=>getActiveChat(option)} className="button"  key={index}>
                         {option.title}

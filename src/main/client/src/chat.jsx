@@ -6,6 +6,30 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
     const [loading, setLoading] = useState(false);
 
     const [myMessage, setMyMessage] = useState();
+    useEffect(() => {
+        const test = async ()=>{
+            const res = await fetch("/api/messages?"+  new URLSearchParams({
+                idChat: chat.id_chat,
+                idUser: activeUserId
+            }));
+
+            setMessages(await res.json());
+
+            await fetch('/api/messages/update', {
+                method: 'POST',
+                body: JSON.stringify({
+                    idChat: chat.id_chat,
+                    idUser: activeUserId,
+
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                },
+            })
+            setLoading(false);
+        }
+        test();
+    }, [chat.id_chat]);
     const AlwaysScrollToBottom = () => {
         const elementRef = useRef();
         useEffect(() => elementRef.current.scrollIntoView());

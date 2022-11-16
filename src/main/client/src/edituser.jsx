@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export function EditUser({activeUserId}) {
-    const [user, setUser] = useState({});
+    console.log(activeUserId)
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -10,7 +10,6 @@ export function EditUser({activeUserId}) {
     const [tlf, setTlf] = useState("");
     const [emails, setEmails] = useState([]);
 
-    const [stock, setStock] = useState(0);
     useEffect( () => {
         const test = async ()=>{
             const res = await fetch("/api/users/"+activeUserId);
@@ -46,8 +45,7 @@ export function EditUser({activeUserId}) {
         }
 
         const user = JSON.stringify(tmp)
-        console.log("users sent")
-        console.log(user)
+
         const test= await fetch("/api/users", {
             method: "PUT",
 
