@@ -8,6 +8,7 @@ import no.kristiania.socialbuzz.dao.DaoMessage;
 import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 
+import no.kristiania.socialbuzz.dto.LastRead;
 import no.kristiania.socialbuzz.dto.Message;
 import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
@@ -59,45 +60,49 @@ public class MessagesEndPointTest {
     @Test
     public void  UpdateLastReadTest() throws IOException, SQLException {
         //http://localhost:8080/users?page=1&limit=50
-        var user = daoUser.getUserById(1);
-        var chats = daoChat.getAllChats(user.getId_user());
-        var chatId = chats.get(0).getId_chat();
+        var userOne = daoUser.getUserById(1);
+        var userOneChats = daoChat.getAllChats(userOne.getId_user());
+
+        var getChatId = userOneChats.get(3).getId_chat();
+
+        var userWithLastMessage = daoUser.getUserById(3);
+        var userThreeId = userWithLastMessage.getId_user();
 
 
-        var postConnection = openConnection("/api/messages/update?idChat="+chatId+"&idUser="+user.getId_user());
+        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId,userThreeId);
+
+
+        var postConnection = openConnection("/api/messages/update?idChat="+getChatId+"&idUser="+userOne.getId_user());
         postConnection.setRequestMethod("POST");
         postConnection.setDoOutput(true);
         postConnection.setRequestProperty("Content-type","application/json");
 
-
-        var getConnection = openConnection("/api/messages?idChat="+chatId+"&idUser"+user.getId_user());
-        getConnection.setRequestMethod("GET");
-
-
-// TEST AV HJELPE KLASSE
-        List<Message> messages = createListOfClassType(getConnection);
-
-        System.out.println(messages);
-
         assertThat(postConnection.getResponseCode())
                 .as("Check if POST worked")
                 .isEqualTo(204);
-
-        var getConnection2 = openConnection("/api/users");
-        getConnection2.setRequestMethod("GET");
-        List<User>users = createListOfClassType(getConnection2);
-
-
-        System.out.println(users.get(0));
+        var getConnection = openConnection("/api/messages?idChat="+getChatId+"&idUser"+userThreeId);
+        getConnection.setRequestMethod("GET");
+        List<Message> messages = createListOfClassType(getConnection);
+        Message message = getMessageFromList(messages, Message.class, 3);
 
 
-        var getConnection3 = openConnection("/api/users/1");
-        getConnection3.setRequestMethod("GET");
-        User user2 = createClassOfType(getConnection3,User.class);
+        //Check that last read has moved for user 1
+        assertThat(message.getLastReads())
+                .as("Check if POST worked")
+                .usingRecursiveComparison()
+                .isNotEqualTo(usersSeenLastMsg.get(3).getLastReads());
 
-        System.out.println(user2.getUsername());
+
 
     }
+
+    private static Message getMessageFromList(List<Message> messages, Type type, int index) {
+        var name = new Gson().toJson(messages.get(index));
+
+        Message message = new Gson().fromJson(name, type);
+        return message;
+    }
+
     private static <T> T createClassOfType(HttpURLConnection getConnection, Type type)  throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
         StringBuilder sb = new StringBuilder();
@@ -107,9 +112,6 @@ public class MessagesEndPointTest {
         }
         String val = sb.toString();
         br.close();
-
-        var gson = new Gson();
-
 
         T message = new Gson().fromJson(val,type);
         return message;
