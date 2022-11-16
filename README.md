@@ -76,10 +76,10 @@ Class-diagram from java-classes
 
 ## README.md
 
-* [ ] Inneholder link til Azure Websites deployment
+* [x] Inneholder link til Azure Websites deployment
 * [x] Inneholder en korrekt badge til GitHub Actions
 
-* [ ] Beskriver hva dere har løst utover minimum
+* [x] Beskriver hva dere har løst utover minimum
 * [x] Inneholder et diagram over databasemodellen
 
 ## Koden
@@ -106,6 +106,3 @@ Class-diagram from java-classes
 * [x] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
 * [x] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
 * [x] Det finnes test for alle JAX-RS endpoints og alle DAO-er
-
-
-
