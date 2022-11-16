@@ -216,7 +216,7 @@ public class DaoMessage {
             var string = time.format(format);
 
             builder.append(string);
-            builder.append(" seconds");
+            builder.append(" sec");
         }
 //        Message within one hour
         else if (timeNow - timeThen < 3_600) {
@@ -224,7 +224,7 @@ public class DaoMessage {
             var string = time.format(format);
 
             builder.append(string);
-            builder.append(" minutes");
+            builder.append(" min");
         }
 //        Message within one day
         else if (timeNow - timeThen < 86_400) {

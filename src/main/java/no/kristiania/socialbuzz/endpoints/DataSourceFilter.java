@@ -49,8 +49,8 @@ public class DataSourceFilter implements Filter {
                     filterChain.doFilter(servletRequest, servletResponse);
 
                 }
-                logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
 //              Remove closed connection at HikariCP after each get/put/post/delete
+                logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
 
                 // TODO: 14.11.2022 Test that rollback works, then crash and burn!
 //                try {
