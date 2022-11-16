@@ -1,8 +1,11 @@
-package no.kristiania.socialbuzz.dao;
+package no.kristiania.socialbuzz.dto;
 
 public class Email {
     private Long id;
     private String email;
+    public Email(){
+
+    }
 
     public Long getId() {
         return id;

@@ -1,8 +1,11 @@
-package no.kristiania.socialbuzz.dao;
+package no.kristiania.socialbuzz.dto;
+
+import java.util.List;
 
 public class Chat implements Comparable<Chat>{
-    long id_chat;
-    String title;
+    private long id_chat;
+    private String title;
+    private List<Integer> userIdList;
 
     public long getId_chat() {
         return id_chat;
@@ -18,6 +21,14 @@ public class Chat implements Comparable<Chat>{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Integer> getUserIdList() {
+        return userIdList;
+    }
+
+    public void setUserIdList(List<Integer> userIdList) {
+        this.userIdList = userIdList;
     }
 
     @Override

@@ -3,6 +3,8 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
+    background-color: #F5F5F5;
+    font-family: 'Fira Sans', sans-serif;
 }
 html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;background-color: wheat; }
 .navbar{
@@ -16,10 +18,12 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     width: 100%;
 }
 
+
+
 .button{
-    background-color: #4CAF50; /* Green */
+
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
@@ -27,6 +31,16 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     cursor:pointer;
     margin: 10px;
     font-size: 16px;
+}
+.button {
+    width: 150px;
+    border-radius: 5px;
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #393a34; /* Green */
+    color: white;
 }
 .buttonSend{
     background-color: green; /* Green */
@@ -53,7 +67,7 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     margin: 10px;
     flex: 10%;
 
-    background-color: wheat;
+
 }
 .flex-chat {
 
@@ -62,9 +76,13 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     margin: 10px;
     flex: 90%;
 
-    background-color: wheat;
-}
 
+}
+.new-chat-card{
+
+    border-style: double;
+    border-color: #393a34;
+}
 .chat-parent {
     display: flex;
     flex-direction: column;
@@ -83,7 +101,62 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     overflow-y: auto;
     max-height: 93%;
 }
-.input{
-    height: 40px;
-    width: 40%;
+
+body {
+    padding: 5%;
+    background-color: #F5F5F5;
+}
+
+
+/* ===== MENU ===== */
+
+/* === CONVERSATIONS === */
+
+.chat .messages-chat {
+    padding: 25px 35px;
+}
+
+
+
+.write-message {
+    border:none !important;
+    width:20%;
+    height: 65px;
+    margin-left: 20px;
+    padding: 10px;
+}
+.dropdown {
+
+    width:10%;
+    height: 50px;
+    margin-left: 20px;
+    padding: 10px;
+
+}
+.dropdownNames{
+
+    border: 2px;
+
+
+}
+.footer-chat *::-webkit-input-placeholder {
+    color: #C0C0C0;
+    font-size: 13pt;
+}
+.footer-chat input *:-moz-placeholder {
+    color: #C0C0C0;
+    font-size: 13pt;
+}
+.footer-chat input *::-moz-placeholder {
+    color: #C0C0C0;
+    font-size: 13pt;
+    margin-left:5px;
+}
+.footer-chat input *:-ms-input-placeholder {
+    color: #C0C0C0;
+    font-size: 13pt;
+}
+
+.clickable {
+    cursor: pointer;
 }

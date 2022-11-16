@@ -16,13 +16,11 @@ class SocialBuzzServerTest {
 
     private SocialBuzzServer server;
 
-
     @BeforeEach
     public void setupServer() throws Exception {
         this.server = new SocialBuzzServer(0, InMemoryDataSource.createTestDataSource());
         server.start();
     }
-
 
     @Test
     public void getStatusCode200Test() throws Exception {
@@ -35,6 +33,17 @@ class SocialBuzzServerTest {
     @Test
     public void getIndexHtmlTitleTest() throws Exception {
         var connection = openConnection("/");
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("<title>SocialBuzz</title>");
+    }
+    @Test
+    public void GetCorrectPort() throws Exception {
+        assertThat(Program.GetPortToUse()).as("get Port").isEqualTo(8080);
+    }
+    @Test
+    public void getIndexHtmlTitleIfPathNotValid() throws Exception {
+        var connection = openConnection("/bla");
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("<title>SocialBuzz</title>");

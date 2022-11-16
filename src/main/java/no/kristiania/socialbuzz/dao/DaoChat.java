@@ -1,6 +1,8 @@
 package no.kristiania.socialbuzz.dao;
 
 import jakarta.inject.Inject;
+import no.kristiania.socialbuzz.dto.Chat;
+import no.kristiania.socialbuzz.dto.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -72,7 +74,7 @@ public class DaoChat {
         return chats;
     }
 
-    public void makeNewChat(List<User> users, String title) throws SQLException {
+    public void makeNewChat(List<Integer> users, String title) throws SQLException {
         int idChat;
 
         var sqlMakeChat = """
@@ -88,14 +90,14 @@ public class DaoChat {
             idChat = keys.getInt(1);
         }
 
-        for (var user : users) {
+        for (var id : users) {
             var sql = """
                 INSERT INTO userschats (id_user, id_chat)
                 VALUES (?, ?);
                 """;
 
             try (var statement = connection.prepareStatement(sql)) {
-                statement.setLong(1, user.getId_user());
+                statement.setLong(1, id);
                 statement.setInt(2, idChat);
                 statement.executeUpdate();
             }
@@ -103,6 +105,27 @@ public class DaoChat {
 
     }
 
+    public List<String> getAllUsersInChat(long idChat) throws SQLException {
+
+        var sql = """
+                SELECT username
+                FROM userschats c
+                JOIN users u on c.id_user = u.id_user
+                WHERE id_chat = ?;
+                """;
+
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, idChat);
+            var result = statement.executeQuery();
+
+            List<String> usernames = new ArrayList<>();
+            while (result.next()) {
+                usernames.add(result.getString(1));
+            }
+
+            return usernames;
+        }
+    }
 
 }
 

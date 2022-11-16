@@ -1,9 +1,12 @@
 package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
+import no.kristiania.socialbuzz.dto.Email;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,14 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class DaoUserTest {
 
+    private Connection connection;
     private DaoUser dao;
 
     @BeforeEach
     public void h2DbSetup() throws SQLException {
-        var con = InMemoryDataSource.createTestDataSource();
-         this.dao = new DaoUser(con.getConnection());
+        this.connection = InMemoryDataSource.createTestDataSource().getConnection();
+        connection.setAutoCommit(false);
+        this.dao = new DaoUser(connection);
     }
 
+    @AfterEach
+    public void rollbackTest() throws SQLException {
+        connection.rollback();
+    }
 
     @Test
     public void getAllUserLoginTest() throws SQLException {
@@ -36,12 +45,23 @@ public class DaoUserTest {
     @Test
     public void getUserById() throws SQLException {
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
-        var user = dao.getUser(2);
+        var user = dao.getUserById(2);
 
         // Check that user is the expected user
         assertThat(user.getUsername())
-                .as("Check that user is the expexted user")
+                .as("Check that user is the expected user")
                 .isEqualTo("SecretMan");
+    }
+
+    @Test
+    public void getNotValidUserById() throws SQLException {
+        dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
+        var user = dao.getUserById(99);
+
+        // Check that user is the expected user
+        assertThat(user)
+                .as("return null if user dose not exsist")
+                .isEqualTo(null);
     }
 
     @Test
@@ -51,19 +71,14 @@ public class DaoUserTest {
 
 
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
-        var original = dao.getUser(1);
-        var editUser = dao.getUser(1);
+        var original = dao.getUserById(4);
+        var editUser = dao.getUserById(4);
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
-        int id = Math.toIntExact(mail.getId());
-        editUser.EditMail(mail,id);
-        dao.EditUser(editUser);
-        var updatedUser = dao.getUser(1);
-
-
-
-
+        //editUser.EditMail(mail, 0);
+        dao.editUser(editUser);
+        var updatedUser = dao.getUserById(4);
 
 
         //CHECK BEFORE EDIT
@@ -84,30 +99,23 @@ public class DaoUserTest {
                 .isEqualTo("test@test.no".toLowerCase());
 
 
-
-
-
         //CHECK AFTER EDIT
 
         //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
         assertThat(updatedUser.getUsername())
-                .as("check that editeted user is same as user in db")
+                .as("check that edited user is same as user in db")
                 .isEqualTo(editUser.getUsername());
 
-
         emails = updatedUser.getEmails();
-
 
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")
                 .isEqualTo("test@test.no".toLowerCase());
 
 
-
-
-
     }
 
     //TODO: EDIT EMAIL and check if updated
+
 
 }

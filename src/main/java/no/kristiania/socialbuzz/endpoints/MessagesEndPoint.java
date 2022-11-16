@@ -4,7 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import no.kristiania.socialbuzz.dao.DaoMessage;
-import no.kristiania.socialbuzz.dao.Message;
+import no.kristiania.socialbuzz.dto.Message;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,15 +18,19 @@ public class MessagesEndPoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message> getAllMessages(@QueryParam("idChat") long idChat, @QueryParam("idUser") long idUser) throws SQLException {
-        daoMessage.updateLastRead(idChat, idUser);
-        return daoMessage.getAllMessages(idChat);
+        return daoMessage.getAllMessages(idChat, idUser);
     }
-
+    @POST
+    @Path("/update")
+    public void updateLastRead(@QueryParam("idChat") long idChat, @QueryParam("idUser") long idUser) throws SQLException {
+        System.out.println(idUser);
+        daoMessage.updateLastRead(idChat, idUser);
+    }
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(Message message) throws SQLException {
         daoMessage.sendMessage(message);
-        daoMessage.updateLastRead(message.getIdChat(), message.getUser().getId_user());
+//        daoMessage.updateLastRead(message.getIdChat(), message.getUser().getId_user());
     }
 
 }
