@@ -73,7 +73,7 @@ public class DaoMessageTest {
 
         var tmpUser = new User();
         tmpUser.setId_user(1);
-        message.setUser(tmpUser);
+        message.setUser(tmpUser.getId_user());
 
 
         dao.sendMessage(message);
@@ -92,7 +92,7 @@ public class DaoMessageTest {
 
         var tmpUser = new User();
         tmpUser.setId_user(1);
-        message.setUser(tmpUser);
+        message.setUser(tmpUser.getId_user());
 
 
         dao.sendMessage(message);

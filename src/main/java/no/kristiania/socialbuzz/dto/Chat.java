@@ -33,7 +33,5 @@ public class Chat implements Comparable<Chat>{
         return usersId;
     }
 
-    public void setUsersListId(List<Integer> userId) {
-        this.usersId = userId;
-    }
+
 }

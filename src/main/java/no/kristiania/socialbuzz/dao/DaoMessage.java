@@ -133,7 +133,7 @@ public class DaoMessage {
 //                Set username
                 var tmpUser = new User();
                 tmpUser.setUsername(resultMessages.getString(5));
-                tmpMessage.setUser(tmpUser);
+                tmpMessage.setUser(tmpUser.getId_user());
                 messages.add(tmpMessage);
 
             }
@@ -156,7 +156,7 @@ public class DaoMessage {
             statement.setString(1, message.getMessage());
             statement.setLong(2, Instant.now().getEpochSecond());
             statement.setLong(3, message.getIdChat());
-            statement.setLong(4, message.getUser().getId_user());
+            statement.setLong(4, message.getUser());
             statement.executeUpdate();
 
         }

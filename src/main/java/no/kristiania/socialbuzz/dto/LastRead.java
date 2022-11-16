@@ -11,17 +11,17 @@ public class LastRead {
         return idChat;
     }
 
-    public void setIdChat(int idChat) {
-        this.idChat = idChat;
-    }
+//    public void setIdChat(int idChat) {
+//        this.idChat = idChat;
+//    }
 
     public int getIdMessage() {
         return idMessage;
     }
 
-    public void setIdMessage(int idMessage) {
-        this.idMessage = idMessage;
-    }
+//    public void setIdMessage(int idMessage) {
+//        this.idMessage = idMessage;
+//    }
 
     public String getUsername() {
         return username;
@@ -35,9 +35,9 @@ public class LastRead {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
+//    public void setIdUser(int idUser) {
+//        this.idUser = idUser;
+//    }
 
     public String getTimestamp() {
         return timestamp;

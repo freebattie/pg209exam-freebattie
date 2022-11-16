@@ -2,6 +2,7 @@ package no.kristiania.socialbuzz.endpoints;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import jakarta.json.Json;
 import no.kristiania.socialbuzz.SocialBuzzServer;
 import no.kristiania.socialbuzz.dao.DaoChat;
 import no.kristiania.socialbuzz.dao.DaoMessage;
@@ -23,6 +24,7 @@ import java.net.HttpURLConnection;
 
 import java.net.URL;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -94,6 +96,42 @@ public class MessagesEndPointTest {
 
 
 
+    }
+    @Test
+    public void  SendMessageTest() throws IOException, SQLException {
+        //http://localhost:8080/users?page=1&limit=50
+        var userOne = daoUser.getUserById(1);
+        var userOneChats = daoChat.getAllChats(userOne.getId_user());
+
+        var getChatId = userOneChats.get(3).getId_chat();
+
+
+
+        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId,userOne.getId_user());
+        System.out.println(userOne);
+        var userGson = new Gson().toJson(userOne,User.class);
+        var postConnection = openConnection("/api/messages/");
+        postConnection.setRequestMethod("POST");
+        postConnection.setDoOutput(true);
+        postConnection.setRequestProperty("Content-type","application/json");
+        postConnection.getOutputStream().write(Json.createObjectBuilder()
+                .add("idChat",getChatId)
+                .add("message","test")
+                .add("user",userOne.getId_user())
+                .build()
+                .toString()
+                .getBytes(StandardCharsets.UTF_8));
+
+        assertThat(postConnection.getResponseCode())
+                .as("Check if POST worked")
+                .isEqualTo(204);
+
+        var getConnection = openConnection("/api/messages?idChat="+getChatId+"&idUser"+userOne.getId_user());
+        getConnection.setRequestMethod("GET");
+        List<Message> messages = createListOfClassType(getConnection);
+
+        assertThat(messages).as("Check that messages are bigger")
+                .hasSizeGreaterThan(usersSeenLastMsg.size());
     }
 
     private static Message getMessageFromList(List<Message> messages, Type type, int index) {

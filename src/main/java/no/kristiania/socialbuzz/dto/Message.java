@@ -7,7 +7,7 @@ import java.util.List;
 public class Message  {
     private long idMessage;
     private long idChat;
-    private User user; //TODO: change to string
+    private Long user; //TODO: change to string
     private String message;
     private String timestamp;
     private List<LastRead> lastReads;
@@ -28,11 +28,11 @@ public class Message  {
         this.idChat = idChat;
     }
 
-    public User getUser() {
+    public Long getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Long user) {
         this.user = user;
     }
 
