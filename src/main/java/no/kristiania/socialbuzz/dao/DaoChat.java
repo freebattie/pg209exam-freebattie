@@ -35,33 +35,37 @@ public class DaoChat {
                     WHERE us.id_chat = ?;
                 """;
 
-        var statementChats = connection.prepareStatement(sqlGetChats);
-        statementChats.setLong(1, idUser);
-        var resultChats = statementChats.executeQuery();
+        try (var statementChats = connection.prepareStatement(sqlGetChats)) {
+            statementChats.setLong(1, idUser);
+            var resultChats = statementChats.executeQuery();
 
-        while (resultChats.next()) {
-            var tmpChat = new Chat();
-            tmpChat.setId_chat(resultChats.getLong(1));
-            tmpChat.setTitle(resultChats.getString(2));
+            while (resultChats.next()) {
+                var tmpChat = new Chat();
+                tmpChat.setId_chat(resultChats.getLong(1));
+                tmpChat.setTitle(resultChats.getString(2));
 
-            var statementUsers = connection.prepareStatement(sqlGetUsers);
-            statementUsers.setInt(1, resultChats.getInt(1));
-            var resultUsers = statementUsers.executeQuery();
+                try (var statementUsers = connection.prepareStatement(sqlGetUsers)) {
+                    statementUsers.setInt(1, resultChats.getInt(1));
+                    var resultUsers = statementUsers.executeQuery();
 
-            while (resultUsers.next()) {
-                if (resultUsers.getLong(1) == idUser) continue;
+                    while (resultUsers.next()) {
+                        if (resultUsers.getLong(1) == idUser) continue;
 
-                var tmpUser = new User();
-                tmpUser.setId_user(resultUsers.getLong(1));
-                tmpUser.setUsername(resultUsers.getString(2));
+                        var tmpUser = new User();
+                        tmpUser.setId_user(resultUsers.getLong(1));
+                        tmpUser.setUsername(resultUsers.getString(2));
 
-                if (usersChats.containsKey(tmpChat)) {
-                    usersChats.get(tmpChat).setUsername(tmpChat.getTitle());
+                        if (usersChats.containsKey(tmpChat)) {
+                            usersChats.get(tmpChat).setUsername(tmpChat.getTitle());
 
-                } else {
-                    usersChats.put(tmpChat, tmpUser);
+                        } else {
+                            usersChats.put(tmpChat, tmpUser);
+                        }
+                    }
                 }
+
             }
+
         }
 
         List<Chat> chats = new ArrayList<>();
@@ -106,7 +110,6 @@ public class DaoChat {
     }
 
     public List<String> getAllUsersInChat(long idChat) throws SQLException {
-
         var sql = """
                 SELECT username
                 FROM userschats c

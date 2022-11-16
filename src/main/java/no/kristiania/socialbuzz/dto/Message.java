@@ -6,9 +6,8 @@ import java.util.List;
 public class Message implements Comparable<Message>{
     private long idMessage;
     private long idChat;
-    private Long user; //TODO: change to string
+    private Long user;
     private String message;
-
     private String username;
     private String timestamp;
     private List<LastRead> lastReads;
@@ -45,6 +44,14 @@ public class Message implements Comparable<Message>{
         this.message = message;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getTimestamp() {
         return timestamp;
     }
@@ -61,17 +68,8 @@ public class Message implements Comparable<Message>{
         this.lastReads = lastReads;
     }
 
-
     @Override
     public int compareTo(Message message) {
         return (int) (this.getIdMessage() - message.getIdMessage());
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

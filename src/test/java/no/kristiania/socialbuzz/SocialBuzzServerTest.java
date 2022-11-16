@@ -37,10 +37,12 @@ class SocialBuzzServerTest {
                 .asString(StandardCharsets.UTF_8)
                 .contains("<title>SocialBuzz</title>");
     }
+
     @Test
-    public void GetCorrectPort() throws Exception {
-        assertThat(Program.GetPortToUse()).as("get Port").isEqualTo(8080);
+    public void getCorrectPort() {
+        assertThat(Program.getPortToUse()).as("get Port").isEqualTo(8080);
     }
+
     @Test
     public void getIndexHtmlTitleIfPathNotValid() throws Exception {
         var connection = openConnection("/bla");
