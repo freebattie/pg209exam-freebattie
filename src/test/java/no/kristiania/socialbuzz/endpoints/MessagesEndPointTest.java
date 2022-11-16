@@ -69,7 +69,6 @@ public class MessagesEndPointTest {
         var userWithLastMessage = daoUser.getUserById(3);
         var userThreeId = userWithLastMessage.getId_user();
 
-
         var usersSeenLastMsg = daoMessages.getAllMessages(getChatId, userThreeId);
 
 
@@ -133,21 +132,6 @@ public class MessagesEndPointTest {
     private static Message getMessageFromList(List<Message> messages, int index) {
         var name = new Gson().toJson(messages.get(index));
         return new Gson().fromJson(name, (Type) Message.class);
-    }
-
-    private static <T> T createClassOfType(HttpURLConnection getConnection, Type type) throws IOException {
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line;
-
-        while ((line = buffer.readLine()) != null) {
-            builder.append(line).append("\n");
-        }
-
-        String val = builder.toString();
-        buffer.close();
-
-        return new Gson().fromJson(val, type);
     }
 
     private static <T> List<T> createListOfClassType(HttpURLConnection getConnection) throws IOException {

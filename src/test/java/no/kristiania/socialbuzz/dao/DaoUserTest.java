@@ -60,26 +60,22 @@ public class DaoUserTest {
 
         // Check that user is the expected user
         assertThat(user)
-                .as("return null if user dose not exsist")
+                .as("return null if user dose not exist")
                 .isEqualTo(null);
     }
 
     @Test
     public void getEditedUserBack() throws SQLException {
-
-        //TODO: kanskje dele denne opp i flere tester siden vi tester veldig mye her
-
-
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
         var original = dao.getUserById(4);
         var editUser = dao.getUserById(4);
+
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
-        //editUser.EditMail(mail, 0);
+
         dao.editUser(editUser);
         var updatedUser = dao.getUserById(4);
-
 
         //CHECK BEFORE EDIT
         assertThat(original.getUsername())
@@ -91,8 +87,8 @@ public class DaoUserTest {
                 .as("check that id is same as original")
                 .isEqualTo(original.getId_user());
 
-        var emails = updatedUser.getEmails();
 
+        var emails = updatedUser.getEmails();
 
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("Has Original Email")
@@ -100,7 +96,6 @@ public class DaoUserTest {
 
 
         //CHECK AFTER EDIT
-
         //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
         assertThat(updatedUser.getUsername())
                 .as("check that edited user is same as user in db")
@@ -111,11 +106,6 @@ public class DaoUserTest {
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")
                 .isEqualTo("test@test.no".toLowerCase());
-
-
     }
-
-    //TODO: EDIT EMAIL and check if updated
-
 
 }

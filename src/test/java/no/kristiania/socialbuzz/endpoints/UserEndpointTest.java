@@ -74,6 +74,7 @@ public class UserEndpointTest {
                 .contains(user.getId_user().toString())
                 .contains(user.getUsername())
                 .contains(user.getName());
+
     }
 
     @Test
@@ -115,6 +116,7 @@ public class UserEndpointTest {
                 .contains(user.getId_user().toString())
                 .contains(user.getUsername())
                 .contains(user.getName());
+
     }
 
     @Test
@@ -133,6 +135,7 @@ public class UserEndpointTest {
                 .asString(StandardCharsets.UTF_8)
                 .as("Check that last email is same as users last email")
                 .isEqualTo(last.toString());
+
     }
 
     @Test
