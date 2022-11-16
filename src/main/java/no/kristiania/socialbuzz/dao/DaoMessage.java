@@ -162,7 +162,7 @@ public class DaoMessage {
         }
     }
 
-    private String getStringOfDateMessage(long timeThen) {
+    public static String getStringOfDateMessage(long timeThen) {
         var builder = new StringBuilder();
         var timeNow = Instant.now().getEpochSecond();
         var time = LocalDateTime.ofEpochSecond(timeThen, 0, ZoneOffset.ofHours(1));
@@ -170,15 +170,8 @@ public class DaoMessage {
         var midnightToday = Instant.now().truncatedTo(ChronoUnit.DAYS).getEpochSecond();
         var midnightYesterday = midnightToday - 86_400;
 
-
-        setTextForMessageTime(timeThen, builder, timeNow, time, midnightToday, midnightYesterday);
-
-        return builder.toString();
-    }
-
-    private static void setTextForMessageTime(long timeThen, StringBuilder builder, long timeNow, LocalDateTime time, long midnightToday, long midnightYesterday) {
         //        Message within one day
-        if (timeThen - midnightToday > 0) {
+        if (timeThen - midnightToday >= 0) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
@@ -186,7 +179,7 @@ public class DaoMessage {
             builder.append(string);
         }
 //        Message within two days
-        else if (timeThen - midnightYesterday > 0) {
+        else if (timeThen - midnightYesterday >= 0) {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
@@ -215,9 +208,11 @@ public class DaoMessage {
             builder.append(" at ");
             builder.append(string2);
         }
+
+        return builder.toString();
     }
 
-    private String getStringOfDateLastRead(long timeThen) {
+    public static String getStringOfDateLastRead(long timeThen) {
         var builder = new StringBuilder();
         var timeNow = Instant.now().getEpochSecond();
         var time = LocalDateTime.ofEpochSecond(timeNow - timeThen, 0, ZoneOffset.ofHours(1));
