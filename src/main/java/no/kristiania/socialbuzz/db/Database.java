@@ -11,7 +11,9 @@ public class Database {
 
     public static HikariDataSource getDataSource() throws IOException {
         var dataSource = new HikariDataSource();
-        dataSource.setAutoCommit(true);
+
+        //TODO: se på dette
+        dataSource.setAutoCommit(false);
 
 
         dataSource.setJdbcUrl(System.getenv("DB_URL"));

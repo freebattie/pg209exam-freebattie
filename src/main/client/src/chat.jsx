@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 export function Chat({chat, activeUserId, messages,setMessages}) {
 
     const [loading, setLoading] = useState(false);
-
+    const users = ["Per","pål","Kari"]
     const [myMessage, setMyMessage] = useState();
     useEffect(() => {
         const test = async ()=>{
@@ -51,7 +51,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
         console.log("chat is" +chat)
         await fetch("/api/messages", {
             method: "POST",
-            body: JSON.stringify({message:myMessage,idChat:chat.id_chat,user:{id_user:activeUserId}}),
+            body: JSON.stringify({message:myMessage,idChat:chat.id_chat,user:activeUserId}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -75,7 +75,9 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
 
 
     return <div className="flex-chat">
+
         <div  className="chat-card">
+
             {messages.map((message, index) => {
                 return <div>
 
@@ -93,15 +95,27 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
             <AlwaysScrollToBottom />
             <div className="bottom">
                 <form onSubmit={(e)=>handelOnSubmit(e)}>
-                    <label>Text: <input value={myMessage} type="text"
-                                        onChange={(e) => setMyMessage(e.target.value)}/></label>
+                    <input type="text" className="write-message" placeholder="Type your message here"></input>
+
+                    <label>Text: <input value={myMessage} type="text" className="write-message" placeholder="Type your message here" onChange={(e) => setMyMessage(e.target.value)}>
+
+                    </input>
+                        <i className="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
+                    </label>
                     <button className="buttonSend">Send</button>
                 </form>
 
             </div>
+
         </div>
+        <br/>
+        <br/>
+        <br/>
+        <div>users in chat: {users.map((user)=>{
+                return <h2>{user}</h2>
+            }
 
-
+        )}</div>
 
     </div>
 }

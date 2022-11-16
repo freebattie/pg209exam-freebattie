@@ -134,6 +134,7 @@ public class DaoMessage {
                 var tmpUser = new User();
                 tmpUser.setUsername(resultMessages.getString(5));
                 tmpMessage.setUser(tmpUser.getId_user());
+                tmpMessage.setUsername(tmpUser.getUsername());
                 messages.add(tmpMessage);
 
             }

@@ -49,7 +49,7 @@ function App() {
             <HashRouter>
                 <Routes>
                     <Route path={"/"} element={<FrontPage users={users} setUserTo={setUserTo}/> }/>
-                    <Route path={"/user/*"} element={<UserPage setActiveChat={setActiveChat} activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
+                    <Route path={"/user"} element={<UserPage setActiveChat={setActiveChat} activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
                     <Route path={"/edituser"} element={<EditUser activeUserId={activeUserId}/>}/>
                     <Route path={"/newchat"} element={<NewChat activeChat={activeChat} users={users} activeUserId={activeUserId}/>}/>
 
