@@ -105,5 +105,27 @@ public class DaoChat {
 
     }
 
+    public List<String> getAllUsersInChat(long idChat) throws SQLException {
+
+        var sql = """
+                SELECT username
+                FROM userschats c
+                JOIN users u on c.id_user = u.id_user
+                WHERE id_chat = ?;
+                """;
+
+        try (var statement = connection.prepareStatement(sql)) {
+            statement.setLong(1, idChat);
+            var result = statement.executeQuery();
+
+            List<String> usernames = new ArrayList<>();
+            while (result.next()) {
+                usernames.add(result.getString(1));
+            }
+
+            return usernames;
+        }
+    }
+
 }
 

@@ -31,4 +31,11 @@ public class ChatsEndpoint {
         daoChat.makeNewChat(chat.getUserIdList(), chat.getTitle());
     }
 
+    @GET
+    @Path("/usernames/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<String> getAllUsernamesInChat(@PathParam("id")long idChat) throws SQLException {
+        return daoChat.getAllUsersInChat(idChat);
+    }
+
 }
