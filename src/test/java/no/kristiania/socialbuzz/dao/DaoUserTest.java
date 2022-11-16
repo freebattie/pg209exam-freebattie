@@ -2,6 +2,7 @@ package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import no.kristiania.socialbuzz.dto.Email;
+import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class DaoUserTest {
@@ -106,6 +108,34 @@ public class DaoUserTest {
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")
                 .isEqualTo("test@test.no".toLowerCase());
+    }
+
+    @Test
+    public void createNewUserTest() throws SQLException {
+        var user = new User();
+        user.setUsername("Testuser");
+        user.setName("Testerson");
+        user.setTlf("74857485");
+
+        var email1 = new Email();
+        var email2 = new Email();
+        email1.setEmail("test@test.no");
+        email2.setEmail("test@gmail.com");
+        user.setEmails(email1);
+        user.setEmails(email2);
+
+        dao.createNewUser(user);
+        var testUser = dao.getUserById(5);
+
+        assertThat(testUser)
+                .as("Is user and testUser equals")
+                .hasNoNullFieldsOrProperties()
+                .isNotSameAs(user);
+
+        assertEquals(user.getName(), testUser.getName());
+        assertEquals(user.getUsername(), testUser.getUsername());
+        assertEquals(user.getTlf(), testUser.getTlf());
+        assertEquals(user.getEmails().size(), testUser.getEmails().size());
     }
 
 }

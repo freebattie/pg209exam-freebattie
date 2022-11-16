@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import no.kristiania.socialbuzz.dao.DaoUser;
-import no.kristiania.socialbuzz.dto.Email;
 import no.kristiania.socialbuzz.dto.User;
 
 import java.sql.SQLException;
@@ -37,10 +36,6 @@ public class UsersEndpoint {
     public void createNewUser(String userJson) throws SQLException {
         Gson gson = new Gson();
         var user = gson.fromJson(userJson,User.class);
-        var emails = user.getEmails();
-
-
-
         daoUser.createNewUser(user);
     }
 
@@ -48,7 +43,6 @@ public class UsersEndpoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public User getUserById(@PathParam("id") Long id) throws SQLException {
-       var user =  daoUser.getUserById(id);
         return daoUser.getUserById(id);
     }
 

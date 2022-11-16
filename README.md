@@ -41,6 +41,7 @@ Tidspunkt eksempler med enkel stil:
 * Autodeploy til auzer sever med bruk av Github Actions
 * Serveren benytter GET, PUSH, PUT og DELETE
 * Redirect til forsiden ved bruk av ugyldig url
+* Implementert live logging på azure som lagrer til fil
 
 # Beskriv hvordan programmet skal testes, hvis lokalt:
 * Maskinen må ha docker og jdk 17 installert på forhånd!
