@@ -30,41 +30,6 @@ public class DaoMessageTest {
         connection.rollback();
     }
 
-
-    @Test
-    public void updateLastRead() throws SQLException {
-        var messages = dao.getAllMessages(4, 3);
-        var lastMessage = new Message();
-
-        for (var message : messages) {
-            if (lastMessage.getIdMessage() < message.getIdMessage()) {
-                lastMessage.setIdMessage(message.getIdMessage());
-                lastMessage.setLastReads(message.getLastReads());
-            }
-        }
-
-        assertThat(lastMessage.getLastReads().size())
-                .as("Confirm only us zero out of two timestamp is on last message")
-                .isEqualTo(0);
-
-        dao.updateLastRead(4, 1);
-        dao.updateLastRead(4, 2);
-        dao.updateLastRead(4, 3);
-        messages = dao.getAllMessages(4, 3);
-        lastMessage = new Message();
-
-        for (var message : messages) {
-            if (lastMessage.getIdMessage() < message.getIdMessage()) {
-                lastMessage.setIdMessage(message.getIdMessage());
-                lastMessage.setLastReads(message.getLastReads());
-            }
-        }
-
-        assertThat(lastMessage.getLastReads().size())
-                .as("Confirm only us two out of two timestamp is on last message")
-                .isEqualTo(2);
-    }
-
     @Test
     public void sendOneMessage() throws SQLException {
         var message = new Message();
