@@ -31,6 +31,12 @@ public class UsersEndpoint {
         daoUser.editUser(user);
     }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void createNewUser(User user) throws SQLException {
+        daoUser.createNewUser(user);
+    }
+
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)

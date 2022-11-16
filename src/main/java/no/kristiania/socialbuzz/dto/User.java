@@ -5,9 +5,9 @@ import java.util.List;
 
 public class User{
     private long id_user;
-    private String username;
-    private String name;
-    private String tlf;
+    private String username = "";
+    private String name = "";
+    private String tlf = "";
     private final List<Email> emails = new ArrayList<>();
 
     public Long getId_user() {
@@ -45,6 +45,7 @@ public class User{
     public void setEmails(Email mail) {
         emails.add(mail);
     }
+
     public List<Email> getEmails() {
         return emails;
     }

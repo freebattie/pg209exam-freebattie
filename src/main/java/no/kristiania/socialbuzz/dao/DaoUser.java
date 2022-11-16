@@ -7,6 +7,7 @@ import no.kristiania.socialbuzz.dto.User;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class DaoUser {
         }
 
     }
+
     public void deleteEmailByEmailId(long id) throws SQLException {
         var sql = """
                 DELETE FROM emails WHERE id_email = ?;
@@ -77,6 +79,7 @@ public class DaoUser {
         }
 
     }
+
     public void addEmailByUserId(long id) throws SQLException {
         System.out.println(id);
         var sql = """
@@ -91,6 +94,7 @@ public class DaoUser {
 
         }
     }
+
     public void editUser(User user) throws SQLException {
         System.out.println(user.getId_user());
         var sql = """
@@ -110,10 +114,10 @@ public class DaoUser {
 
         }
         sql = """
-                        UPDATE emails
-                            Set email =?
-                            Where id_email = ?
-                    """;
+                    UPDATE emails
+                        Set email =?
+                        Where id_email = ?
+                """;
         for (var mail : user.getEmails()) {
 
 
@@ -167,7 +171,6 @@ public class DaoUser {
         return user;
     }
 
-
     private User fillUser(ResultSet resUser) throws SQLException {
         var user = new User();
         user.setId_user(resUser.getLong(1));
@@ -176,6 +179,39 @@ public class DaoUser {
         user.setTlf(resUser.getString(4));
 
         return user;
+    }
+
+    public void createNewUser(User user) throws SQLException {
+        long userId;
+
+        var sqlNewUser = """
+                INSERT INTO users (username, name, tlf)
+                VALUES (?, ?, ?);
+                """;
+
+        try (var statement = connection.prepareStatement(sqlNewUser, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, user.getUsername());
+            statement.setString(1, user.getName());
+            statement.setString(1, user.getTlf());
+            statement.executeUpdate();
+
+            var keys = statement.getGeneratedKeys();
+            keys.next();
+            userId = keys.getLong(1);
+        }
+
+        var sqlNewEmail = """
+                INSERT INTO emails (id_user, email)
+                VALUES (?, ?);
+                """;
+
+        try (var statement = connection.prepareStatement(sqlNewEmail)) {
+            for (var email : user.getEmails()) {
+                statement.setLong(1, userId);
+                statement.setString(2, email.getEmail());
+                statement.executeQuery();
+            }
+        }
     }
 
 }
