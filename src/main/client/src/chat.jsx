@@ -12,18 +12,17 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
                 idChat: chat.id_chat,
                 idUser: activeUserId
             }));
+            const message =JSON.stringify({
+                idChat: chat.id_chat,
+                idUser: activeUserId
 
+            })
             setMessages(await res.json());
 
-            await fetch('/api/messages/update', {
+            await fetch('/api/messages/update?idChat='+chat.id_chat+"&idUser="+activeUserId, {
                 method: 'POST',
-                body: JSON.stringify({
-                    idChat: chat.id_chat,
-                    idUser: activeUserId,
-
-                }),
                 headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
+                    'Content-type': 'application/json;'
                 },
             })
             setLoading(false);
@@ -86,7 +85,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
 
 
                     </h1>
-                    <h3>last read: {message["lastReads"].map((p)=>{
+                    <h3>last read: {message.lastReads.map((p)=>{
                         return <h1>{p.username} - {p.timestamp}</h1>
                     })}</h3>
                     <h2>{message.message}</h2>
