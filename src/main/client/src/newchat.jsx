@@ -1,12 +1,11 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export function NewChat() {
-    const activeUserId = "1";
-    const users =[{id_user:1,username:"per"},{id_user:3,username:"pål"},{id_user:2,username:"jadasdads"}]
+export function NewChat({activeUserId,users}) {
+
     const you = activeUserId;
     const [title, setTitle] = useState("");
-    const [chatters, setChatters] = useState([...you]);
+    const [chatters, setChatters] = useState([...users]);
     const [chatter, setChatter] = useState("");
     const navigate = useNavigate()
 
@@ -38,8 +37,9 @@ export function NewChat() {
     }
 
     return (
+        <center>
         <div className={"new-chat-card"}>
-            <h1>Create New Message</h1>
+            <h1>Create New Chat</h1>
 
             <form onSubmit={handelAddUser}>
                 <div className={"input"}>
@@ -48,7 +48,7 @@ export function NewChat() {
                 <br/>
                 User:
                 <select className="dropdown" onChange={(e)=>setSelectedUser(e)}>
-                    <option>Add user to chat</option>
+
                     {users.map((option, index) => {
                         if (option.id_user != activeUserId){
                             return <option className={"dropdownNames"} value={option.id_user} key={index}>
@@ -61,10 +61,11 @@ export function NewChat() {
             </form>
             <br/>
 
-            <div>
+            <div className={"selected"}>
+                Added to chat:
                 {chatters.map((id)=>{
 
-                    return <h1>{users[id-1].username}</h1>
+                    return <div className={"new-Chat-Container"}><div className={"new-Chat-User"}>{id.username}</div></div>
                 })}
 
             </div>
@@ -74,5 +75,6 @@ export function NewChat() {
 
 
         </div>
+        </center>
     )
 }

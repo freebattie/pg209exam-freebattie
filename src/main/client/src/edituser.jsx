@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export function EditUser({activeUserId}) {
-    console.log(activeUserId)
+
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -24,7 +24,14 @@ export function EditUser({activeUserId}) {
 
             setLoading(false);
         }
-        test()
+        if (activeUserId>0){
+            test()
+        }
+        else{
+            //GET NEW USER
+            setLoading(false)
+        }
+
     }, []);
     if (loading){
         return  <h1>LOADING ..</h1>
@@ -36,26 +43,41 @@ export function EditUser({activeUserId}) {
         event.preventDefault();
 
 
-        const tmp={
-            id_user: activeUserId,
-            name,
-            username,
-            tlf,
-            emails:emails
-        }
-
-        const user = JSON.stringify(tmp)
-
-        const test= await fetch("/api/users", {
-            method: "PUT",
-
-            body: user,
-            headers: {
-                "Content-Type": "application/json"
+        if (activeUserId > 0){
+            const tmp={
+                id_user: activeUserId,
+                name,
+                username,
+                tlf,
+                emails:emails
             }
-        });
-        if (test.ok)
-            navigate("/user");
+
+            const user = JSON.stringify(tmp)
+
+            const test= await fetch("/api/users", {
+                method: "PUT",
+
+                body: user,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            if (test.ok)
+                navigate("/user");
+        }
+        else{
+            const tmp={
+                id_user: activeUserId,
+                name,
+                username,
+                tlf,
+                emails:emails
+            }
+
+            const user = JSON.stringify(tmp)
+
+
+        }
 
     }
     async function handelRemoveEmail(e){
@@ -64,45 +86,41 @@ export function EditUser({activeUserId}) {
 
         const newEmails = emails.filter((email,index) =>  { return  index < emails.length-1})
         setEmails(newEmails);
-        console.log(emails)
-        await fetch("/api/users/emails/"+rmvEmail.id,{
-            method: 'DELETE',
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
+       if (activeUserId > 0){
+           await fetch("/api/users/emails/"+rmvEmail.id,{
+               method: 'DELETE',
+               headers: {
+                   'Content-type': 'application/json'
+               }
+           })
+       }
+
     }
     async function handelAddMail(e) {
         e.preventDefault();
         const index = emails.length-1;
-        const old = [...emails];
-        old[index].id
 
-        const params = {
-            id: activeUserId
-        };
+        if(activeUserId > 0){
+           ;
 
-        const test = new URLSearchParams( {id: activeUserId})
-         await fetch("/api/users/emails",{
-            method: 'POST',
-            body: JSON.stringify({id_user:activeUserId}),
-            headers: {
-                'Content-type': 'application/json'
+            const email ={
+                email:"test",
+                id:id
             }
-        })
+            setEmails(prevState => [...prevState, email]);
+            const res = await fetch("/api/users/emails?"+new URLSearchParams( {id: activeUserId}));
 
-        const res = await fetch("/api/users/emails?"+new URLSearchParams( {id: activeUserId}));
-        const id = await res.json()
 
-        //console.log(id);
-
-        const email ={
-            email:"test",
-            id:id
+        }else{
+            const email ={
+                email:"test",
+                id:-1
+            }
+            setEmails(prevState => [...prevState, email]);
         }
 
 
-        setEmails(prevState => [...prevState, email]);
+
 
     }
 

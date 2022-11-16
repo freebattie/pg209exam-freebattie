@@ -108,6 +108,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
             </div>
 
         </div>
+
         <br/>
         <br/>
         <br/>
