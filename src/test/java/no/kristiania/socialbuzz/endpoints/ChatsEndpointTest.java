@@ -96,6 +96,23 @@ public class ChatsEndpointTest {
                 .contains(newChat.getTitle());
     }
 
+    @Test
+    public void getAllUsersInChatTest() throws IOException {
+
+        var getConnection = openConnection("api/chats/usernames/1");
+        getConnection.setRequestMethod("GET");
+
+        assertThat(getConnection.getResponseCode())
+                .as("Check if GET work")
+                .isEqualTo(200);
+
+        assertThat(getConnection.getInputStream())
+                .as("Check if usernames is correct")
+                .asString(StandardCharsets.UTF_8)
+                .contains("Karigirl")
+                .contains("SecretMan");
+    }
+
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }
