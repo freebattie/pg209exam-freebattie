@@ -32,6 +32,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MessagesEndPointTest {
+
     private SocialBuzzServer server;
     private Connection connection;
     private DaoMessage daoMessages;
@@ -80,11 +81,12 @@ public class MessagesEndPointTest {
         assertThat(postConnection.getResponseCode())
                 .as("Check if POST worked")
                 .isEqualTo(204);
+
+
         var getConnection = openConnection("/api/messages?idChat=" + getChatId + "&idUser" + userThreeId);
         getConnection.setRequestMethod("GET");
         List<Message> messages = createListOfClassType(getConnection);
         Message message = getMessageFromList(messages, 3);
-
 
         //Check that last read has moved for user 1
         assertThat(message.getLastReads())

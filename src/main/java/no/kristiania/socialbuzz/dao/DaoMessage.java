@@ -182,7 +182,7 @@ public class DaoMessage {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
-            builder.append("Today at ");
+            builder.append("Today ");
             builder.append(string);
         }
 //        Message within two days
@@ -190,7 +190,7 @@ public class DaoMessage {
             var format = DateTimeFormatter.ofPattern("HH:mm");
             var string = time.format(format);
 
-            builder.append("Yesterday at ");
+            builder.append("Yesterday ");
             builder.append(string);
         }
 //        Message within one year

@@ -5,7 +5,8 @@ import java.util.List;
 public class Chat implements Comparable<Chat>{
     private long id_chat;
     private String title;
-    private List<Integer> usersId;
+    private List<Integer> userIdList;
+
     public long getId_chat() {
         return id_chat;
     }
@@ -22,16 +23,17 @@ public class Chat implements Comparable<Chat>{
         this.title = title;
     }
 
+    public List<Integer> getUserIdList() {
+        return userIdList;
+    }
+
+    public void setUserIdList(List<Integer> userIdList) {
+        this.userIdList = userIdList;
+    }
 
     @Override
     public int compareTo(Chat chat) {
         return (int) (this.getId_chat() - chat.getId_chat());
     }
-
-    public List<Integer> getUsersListId() {
-
-        return usersId;
-    }
-
 
 }

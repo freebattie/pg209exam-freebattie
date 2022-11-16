@@ -28,7 +28,7 @@ public class ChatsEndpoint {
     public void makeNewChat(String chatJson) throws SQLException {
         Gson gson = new Gson();
         var chat = gson.fromJson(chatJson, Chat.class);
-        daoChat.makeNewChat(chat.getUsersListId(),chat.getTitle());
+        daoChat.makeNewChat(chat.getUserIdList(), chat.getTitle());
     }
 
 }
