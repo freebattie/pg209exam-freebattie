@@ -2,7 +2,6 @@ package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import no.kristiania.socialbuzz.dto.Chat;
-import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,14 +57,13 @@ public class DaoChatTest {
     @Test
     public void makeNewOneToOneChat() throws SQLException {
         var daoUser = new DaoUser(connection);
-        var user1 = daoUser.getUserById(1);
         var user2 = daoUser.getUserById(2);
 
-        List<User> users = new ArrayList<>();
-        users.add(user1);
-        users.add(user2);
+        List<Integer> users = new ArrayList<>();
+        users.add(1);
+        users.add(2);
 
-       // dao.makeNewChat(users, "chat from test");
+        dao.makeNewChat(users, "chat from test");
         var chats = dao.getAllChats(1);
         Chat testChat = new Chat();
 

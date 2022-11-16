@@ -98,7 +98,6 @@ public class DaoMessageEpochTest {
         assertThat(stringYears)
                 .as("Test years")
                 .contains("years");
-
     }
 
 }
