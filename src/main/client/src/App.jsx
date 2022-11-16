@@ -41,6 +41,8 @@ function App() {
     const setUserTo = (e)=>{
         setActiveUserId(e.target.value)
         setActiveUserName(e.target.options[e.target.value].text)
+        console.log(e.target.value)
+        console.log(e.target.options[e.target.value].text)
     }
     return (
         <div className="App">
@@ -52,6 +54,7 @@ function App() {
                     <Route path={"/user"} element={<UserPage setActiveChat={setActiveChat} activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
                     <Route path={"/edituser"} element={<EditUser activeUserId={activeUserId}/>}/>
                     <Route path={"/newchat"} element={<NewChat activeChat={activeChat} users={users} activeUserId={activeUserId}/>}/>
+                    <Route path={"/newuser"} element={<EditUser activeUserId={-1}/>}/>
 
                 </Routes>
             </HashRouter>

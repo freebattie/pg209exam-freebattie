@@ -132,7 +132,7 @@ public class MessagesEndPointTest {
 
     private static Message getMessageFromList(List<Message> messages, int index) {
         var name = new Gson().toJson(messages.get(index));
-        return new Gson().fromJson(name, (Type) Message.class);
+        return new Gson().fromJson(name, Message.class);
     }
 
     private static <T> T createClassOfType(HttpURLConnection getConnection, Type type) throws IOException {

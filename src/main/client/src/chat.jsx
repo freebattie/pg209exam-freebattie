@@ -82,7 +82,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
                 return <div>
 
                     <h1  key={index}>
-                        {message.user.username} @{message.timestamp}
+                        {message.username} @{message.timestamp}
 
 
                     </h1>
@@ -95,7 +95,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
             <AlwaysScrollToBottom />
             <div className="bottom">
                 <form onSubmit={(e)=>handelOnSubmit(e)}>
-                    <input type="text" className="write-message" placeholder="Type your message here"></input>
+
 
                     <label>Text: <input value={myMessage} type="text" className="write-message" placeholder="Type your message here" onChange={(e) => setMyMessage(e.target.value)}>
 
@@ -108,6 +108,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
             </div>
 
         </div>
+
         <br/>
         <br/>
         <br/>

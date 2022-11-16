@@ -191,8 +191,8 @@ public class DaoUser {
 
         try (var statement = connection.prepareStatement(sqlNewUser, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, user.getUsername());
-            statement.setString(1, user.getName());
-            statement.setString(1, user.getTlf());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getTlf());
             statement.executeUpdate();
 
             var keys = statement.getGeneratedKeys();
@@ -209,7 +209,7 @@ public class DaoUser {
             for (var email : user.getEmails()) {
                 statement.setLong(1, userId);
                 statement.setString(2, email.getEmail());
-                statement.executeQuery();
+                statement.executeUpdate();
             }
         }
     }

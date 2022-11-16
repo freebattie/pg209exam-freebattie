@@ -7,8 +7,8 @@ import {useEffect, useState} from "react";
 export function FrontPage({users,setUserTo}) {
     const navigate = useNavigate();
 
-    function handelNavigate() {
-        navigate("/user");
+    function handelNavigate(path) {
+        navigate(path);
     }
 
     return (
@@ -23,17 +23,18 @@ export function FrontPage({users,setUserTo}) {
 
                 </div>
 
-                <select onChange={(e)=>setUserTo(e)}>
+                <select className={"dropdown"} onChange={(e)=>setUserTo(e)}>
 
-                    <option>Please choose one option</option>
+                    <option >Select User</option>
                     {users.map((option, index) => {
-                        return <option value={option.id_user} key={index}>
+                        return <option className={"dropdownNames"} value={option.id_user} key={index}>
                             {option.username}
                         </option>
                     })}
                 </select>
                 <br/>
-                <button className={"button"} onClick={()=>handelNavigate()}></button>
+                <button className={"button"} onClick={()=>handelNavigate("/user")}>Login</button>
+                <button className={"button"} onClick={()=>handelNavigate("/newUser")}>New User</button>
             </center>
 
         </div>
