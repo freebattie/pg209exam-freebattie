@@ -14,7 +14,7 @@ Eksamensteksten er opp til tolkning om vi skal lage en post og/eller chat basert
 Kandidater i denne eksamensinnleveringen har drøftet og konkludert med å lage en chattetjeneste 
 som er meget inspirert etter Discord sin meldingsstruktur.
 
-Etter “innlogging” som er valg av brukere skal det vises opp en liste med chatter (en til en og gruppe-chatter) 
+Etter “innlogging” som er valg av bruker skal det vises opp en liste med chatter (en til en og gruppe-chatter) 
 som bruker har tilgang til. En til en chatter viser brukernavn som tittel i stedet for egenvalgt tittel, 
 mens gruppechatter viser sin gitte tittel.
 
@@ -37,12 +37,12 @@ Tidspunkt eksempler med enkel stil:
 
 # Funksjonalitet utenfor beskrivelse:
 * Servlettens config benytter en multithreaded connection pool som gir ut en aktiv connect per reguest.
-  Filteret er configurert til å logge alle innkommende reguest type og URL, og Respons kode sendt til klient.
+  Filteret er konfigurert til å logge alle innkommende reguest type og URL, og Respons kode sendt til klient.
 * Autodeploy til auzer sever med bruk av Github Actions
 * Serveren benytter GET, PUSH, PUT og DELETE
 * Redirect til forsiden ved bruk av ugyldig url
 
-# Beskriv hvordan programmet skal testes:
+# Beskriv hvordan programmet skal testes, hvis lokalt:
 * Maskinen må ha docker og jdk 17 installert på forhånd!
 * Lag en fil med navn `application.properties` og baser innholde 
   fra fil `application.properties.template`. Husk å sette eget passord
@@ -64,7 +64,7 @@ ER-model for database for socialbuzz
 
 ![alt text](documents/class-diagram.png)
 
-Class-diagram from java-classes
+Class-diagram fra java-classes i socialbuzz
 
 
 ## Sjekkliste for innleveringen
