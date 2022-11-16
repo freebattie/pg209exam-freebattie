@@ -35,7 +35,6 @@ public class UserEndpointTest {
         this.daoUser = new DaoUser(connection);
     }
 
-
     @AfterEach
     public void rollbackTest() throws SQLException {
         connection.rollback();
@@ -118,68 +117,32 @@ public class UserEndpointTest {
                 .contains(user.getName());
     }
 
-//    @Test
-//    public void getEmailByUserIdTest() throws SQLException, IOException {
-//        var id = daoUser.getLastEmailId(1);
-//
-////        Make Json file out of user
-//        var gson = new Gson();
-//        var userJson = gson.toJson(user);
-//
-////        Send changes to server
-//        var preConnection = openConnection("/api/users");
-//        preConnection.setRequestMethod("PUT");
-//        preConnection.setRequestProperty("Content-Type", "application/json");
-//        preConnection.setDoOutput(true);
-//        preConnection.getOutputStream().write(
-//                userJson.getBytes(StandardCharsets.UTF_8)
-//        );
-//
-////        Confirms that PUT executed
-//        assertThat(preConnection.getResponseCode())
-//                .as(preConnection.getResponseMessage())
-//                .isEqualTo(204);
-//
-//        var connection = openConnection("/api/users/emails");
-//        connection.setRequestMethod("GET");
-//
-//        assertThat(connection.getResponseCode())
-//                .as("Server respond code is 200")
-//                .isEqualTo(200);
-//
-//        assertThat(connection.getInputStream())
-//                .as("Check match")
-//                .asString(StandardCharsets.UTF_8)
-//                .contains(Long.toString(id));
-//
-//
-//
-//    }
-@Test
-public void GetLastEmailIdTest() throws SQLException, IOException {
-    var user = daoUser.getUserById(4);
-    var emails = user.getEmails();
-    var last = emails.get(emails.size()-1).getId();
-    var connection = openConnection("/api/users/emails?id="+user.getId_user());
-    connection.setRequestMethod("GET");
+    @Test
+    public void GetLastEmailIdTest() throws SQLException, IOException {
+        var user = daoUser.getUserById(4);
+        var emails = user.getEmails();
+        var last = emails.get(emails.size() - 1).getId();
+        var connection = openConnection("/api/users/emails?id=" + user.getId_user());
+        connection.setRequestMethod("GET");
 
-    assertThat(connection.getResponseCode())
-            .as("Server respond code is 200")
-            .isEqualTo(200);
-    var value = connection.getInputStream();
-    assertThat(connection.getInputStream())
-            .asString(StandardCharsets.UTF_8)
-            .as("Check that last email is same as users last email")
-            .isEqualTo(last.toString());
-}
+        assertThat(connection.getResponseCode())
+                .as("Server respond code is 200")
+                .isEqualTo(200);
+
+        assertThat(connection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .as("Check that last email is same as users last email")
+                .isEqualTo(last.toString());
+    }
+
     @Test
     public void removeEmailTest() throws SQLException, IOException {
         var user = daoUser.getUserById(4);
         var emailId = user.getEmails().get(0).getId();
-        var connection = openConnection("/api/users/emails/"+emailId);
+        var connection = openConnection("/api/users/emails/" + emailId);
         connection.setRequestMethod("DELETE");
         connection.setDoOutput(true);
-        connection.setRequestProperty("Content-type","application/json");
+        connection.setRequestProperty("Content-type", "application/json");
         assertThat(connection.getResponseCode())
                 .as("Check if DELETE worked")
                 .isEqualTo(204);
@@ -189,6 +152,7 @@ public void GetLastEmailIdTest() throws SQLException, IOException {
                 .as("Check that size of emails has changed")
                 .isNotEqualTo(user.getEmails().size());
     }
+
     @Test
     public void addEmailTest() throws SQLException, IOException {
         var user = daoUser.getUserById(4);
@@ -196,12 +160,12 @@ public void GetLastEmailIdTest() throws SQLException, IOException {
         var connection = openConnection("/api/users/emails/");
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
-        connection.setRequestProperty("Content-type","application/json");
+        connection.setRequestProperty("Content-type", "application/json");
         connection.getOutputStream().write(Json.createObjectBuilder()
-                        .add("id_user",user.getId_user())
-                        .build()
-                        .toString()
-                        .getBytes(StandardCharsets.UTF_8));
+                .add("id_user", user.getId_user())
+                .build()
+                .toString()
+                .getBytes(StandardCharsets.UTF_8));
         assertThat(connection.getResponseCode())
                 .as("Check if POST worked")
                 .isEqualTo(204);
@@ -212,6 +176,7 @@ public void GetLastEmailIdTest() throws SQLException, IOException {
                 .as("Check that emails has increased")
                 .isGreaterThan(user.getEmails().size());
     }
+
     private HttpURLConnection openConnection(String spec) throws IOException {
         return (HttpURLConnection) new URL(server.getURL(), spec).openConnection();
     }

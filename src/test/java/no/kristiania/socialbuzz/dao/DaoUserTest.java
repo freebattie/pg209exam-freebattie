@@ -52,6 +52,7 @@ public class DaoUserTest {
                 .as("Check that user is the expected user")
                 .isEqualTo("SecretMan");
     }
+
     @Test
     public void getNotValidUserById() throws SQLException {
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
@@ -105,9 +106,7 @@ public class DaoUserTest {
                 .as("check that edited user is same as user in db")
                 .isEqualTo(editUser.getUsername());
 
-
         emails = updatedUser.getEmails();
-
 
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")

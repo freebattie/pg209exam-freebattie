@@ -9,9 +9,7 @@ import no.kristiania.socialbuzz.dao.DaoMessage;
 import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 
-import no.kristiania.socialbuzz.dto.LastRead;
 import no.kristiania.socialbuzz.dto.Message;
-import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +58,7 @@ public class MessagesEndPointTest {
     }
 
     @Test
-    public void  UpdateLastReadTest() throws IOException, SQLException {
+    public void UpdateLastReadTest() throws IOException, SQLException {
         //http://localhost:8080/users?page=1&limit=50
         var userOne = daoUser.getUserById(1);
         var userOneChats = daoChat.getAllChats(userOne.getId_user());
@@ -71,21 +69,21 @@ public class MessagesEndPointTest {
         var userThreeId = userWithLastMessage.getId_user();
 
 
-        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId,userThreeId);
+        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId, userThreeId);
 
 
-        var postConnection = openConnection("/api/messages/update?idChat="+getChatId+"&idUser="+userOne.getId_user());
+        var postConnection = openConnection("/api/messages/update?idChat=" + getChatId + "&idUser=" + userOne.getId_user());
         postConnection.setRequestMethod("POST");
         postConnection.setDoOutput(true);
-        postConnection.setRequestProperty("Content-type","application/json");
+        postConnection.setRequestProperty("Content-type", "application/json");
 
         assertThat(postConnection.getResponseCode())
                 .as("Check if POST worked")
                 .isEqualTo(204);
-        var getConnection = openConnection("/api/messages?idChat="+getChatId+"&idUser"+userThreeId);
+        var getConnection = openConnection("/api/messages?idChat=" + getChatId + "&idUser" + userThreeId);
         getConnection.setRequestMethod("GET");
         List<Message> messages = createListOfClassType(getConnection);
-        Message message = getMessageFromList(messages, Message.class, 3);
+        Message message = getMessageFromList(messages, 3);
 
 
         //Check that last read has moved for user 1
@@ -93,12 +91,10 @@ public class MessagesEndPointTest {
                 .as("Check if POST worked")
                 .usingRecursiveComparison()
                 .isNotEqualTo(usersSeenLastMsg.get(3).getLastReads());
-
-
-
     }
+
     @Test
-    public void  SendMessageTest() throws IOException, SQLException {
+    public void SendMessageTest() throws IOException, SQLException {
         //http://localhost:8080/users?page=1&limit=50
         var userOne = daoUser.getUserById(1);
         var userOneChats = daoChat.getAllChats(userOne.getId_user());
@@ -106,18 +102,15 @@ public class MessagesEndPointTest {
         var getChatId = userOneChats.get(3).getId_chat();
 
 
-
-        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId,userOne.getId_user());
-        System.out.println(userOne);
-        var userGson = new Gson().toJson(userOne,User.class);
+        var usersSeenLastMsg = daoMessages.getAllMessages(getChatId, userOne.getId_user());
         var postConnection = openConnection("/api/messages/");
         postConnection.setRequestMethod("POST");
         postConnection.setDoOutput(true);
-        postConnection.setRequestProperty("Content-type","application/json");
+        postConnection.setRequestProperty("Content-type", "application/json");
         postConnection.getOutputStream().write(Json.createObjectBuilder()
-                .add("idChat",getChatId)
-                .add("message","test")
-                .add("user",userOne.getId_user())
+                .add("idChat", getChatId)
+                .add("message", "test")
+                .add("user", userOne.getId_user())
                 .build()
                 .toString()
                 .getBytes(StandardCharsets.UTF_8));
@@ -126,7 +119,7 @@ public class MessagesEndPointTest {
                 .as("Check if POST worked")
                 .isEqualTo(204);
 
-        var getConnection = openConnection("/api/messages?idChat="+getChatId+"&idUser"+userOne.getId_user());
+        var getConnection = openConnection("/api/messages?idChat=" + getChatId + "&idUser" + userOne.getId_user());
         getConnection.setRequestMethod("GET");
         List<Message> messages = createListOfClassType(getConnection);
 
@@ -134,41 +127,42 @@ public class MessagesEndPointTest {
                 .hasSizeGreaterThan(usersSeenLastMsg.size());
     }
 
-    private static Message getMessageFromList(List<Message> messages, Type type, int index) {
+
+    private static Message getMessageFromList(List<Message> messages, int index) {
         var name = new Gson().toJson(messages.get(index));
-
-        Message message = new Gson().fromJson(name, type);
-        return message;
+        return new Gson().fromJson(name, (Type) Message.class);
     }
 
-    private static <T> T createClassOfType(HttpURLConnection getConnection, Type type)  throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
-        StringBuilder sb = new StringBuilder();
+    private static <T> T createClassOfType(HttpURLConnection getConnection, Type type) throws IOException {
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
         String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line+"\n");
-        }
-        String val = sb.toString();
-        br.close();
 
-        T message = new Gson().fromJson(val,type);
-        return message;
+        while ((line = buffer.readLine()) != null) {
+            builder.append(line).append("\n");
+        }
+
+        String val = builder.toString();
+        buffer.close();
+
+        return new Gson().fromJson(val, type);
     }
-    private static <T> List<T> createListOfClassType(HttpURLConnection getConnection)  throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
-        StringBuilder sb = new StringBuilder();
+
+    private static <T> List<T> createListOfClassType(HttpURLConnection getConnection) throws IOException {
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(getConnection.getInputStream()));
+        StringBuilder builder = new StringBuilder();
         String line;
-        while ((line = br.readLine()) != null) {
-            sb.append(line+"\n");
+
+        while ((line = buffer.readLine()) != null) {
+            builder.append(line).append("\n");
         }
-        String val = sb.toString();
-        br.close();
 
-        var gson = new Gson();
+        String val = builder.toString();
+        buffer.close();
 
-        Type listType = new TypeToken<ArrayList<T>>(){}.getType();
-        List<T> message = new Gson().fromJson(val,listType);
-        return message;
+
+        Type listType = new TypeToken<ArrayList<T>>() {}.getType();
+        return new Gson().fromJson(val, listType);
     }
 
     private HttpURLConnection openConnection(String spec) throws IOException {

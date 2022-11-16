@@ -3,8 +3,7 @@ package no.kristiania.socialbuzz.dto;
 import java.util.List;
 
 
-//TODO: add back missing icomareble and overwrite
-public class Message  {
+public class Message implements Comparable<Message>{
     private long idMessage;
     private long idChat;
     private Long user; //TODO: change to string
@@ -61,4 +60,8 @@ public class Message  {
     }
 
 
+    @Override
+    public int compareTo(Message message) {
+        return (int) (this.getIdMessage() - message.getIdMessage());
+    }
 }
