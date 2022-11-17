@@ -35,7 +35,6 @@ public class EMailStandAloneTest {
 
     }
     @Test
-    @Order(1)
     public void GetLastEmailIdTest() throws SQLException, IOException, InterruptedException {
 
 
