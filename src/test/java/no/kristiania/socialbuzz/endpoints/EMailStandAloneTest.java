@@ -72,7 +72,7 @@ public class EMailStandAloneTest {
 
         assertThat(GetNewconnection.getInputStream()).asString(StandardCharsets.UTF_8)
                 .as("Check that last email is same as users last email")
-                .isEqualTo("11");
+                .isEqualTo("14");
 
     }
     private HttpURLConnection openConnection(String spec) throws IOException {
