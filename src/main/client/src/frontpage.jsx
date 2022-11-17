@@ -13,13 +13,13 @@ export function FrontPage({users,setUserTo}) {
 
     return (
 
-        <div>
+        <div className={"padding-Top"}>
 
             <center>
 
-                <img src={imgUrl} alt="Social Buzz Logo!" width="600" height="300"/>
+                <img  src={imgUrl} alt="Social Buzz Logo!" width="800" height="300"/>
 
-                <div>
+                <div className={"padding-Top"}>
 
                 </div>
 

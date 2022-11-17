@@ -4,7 +4,8 @@ import {useEffect, useRef, useState} from "react";
 export function Chat({chat, activeUserId, messages,setMessages}) {
 
     const [loading, setLoading] = useState(false);
-    const users = ["Per","pål","Kari"]
+    const [users, setUsers] = useState([]);
+
     const [myMessage, setMyMessage] = useState();
     useEffect(() => {
         const test = async ()=>{
@@ -12,11 +13,9 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
                 idChat: chat.id_chat,
                 idUser: activeUserId
             }));
-            const message =JSON.stringify({
-                idChat: chat.id_chat,
-                idUser: activeUserId
+            const Ures = await fetch("/api/chats/usernames/"+chat.id_chat)
+            setUsers(await Ures.json());
 
-            })
             setMessages(await res.json());
 
             await fetch('/api/messages/update?idChat='+chat.id_chat+"&idUser="+activeUserId, {
@@ -36,7 +35,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
     };
 
 
-    console.log(messages)
+
     if (loading) {
 
         return (
@@ -75,20 +74,20 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
 
     return <div className="flex-chat">
 
-        <div  className="chat-card">
-
+        <div >
+        <div className="chat-card">
             {messages.map((message, index) => {
-                return <div>
+                return <div className={"chatContainer"}>
 
-                    <h1  key={index}>
-                        {message.username} @{message.timestamp}
+                    <div className={"chatHeader"} key={index}>
+                        <div className={"chatName"}>{message.username}</div>
+                        <div className={"timestamp"}>@{message.timestamp}</div>
+                    </div>
 
-
-                    </h1>
-                    <h3>last read: {message.lastReads.map((p)=>{
-                        return <h1>{p.username} - {p.timestamp}</h1>
-                    })}</h3>
-                    <h2>{message.message}</h2>
+                    <div className={"chatMessage"}>{message.message}</div>
+                    <div className={"lastreadlist"}>{message.lastReads.size > 0 ?"last read:": "" } {message.lastReads.map((p)=>{
+                        return <div className={"lastRead"}>{p.username} ~ {p.timestamp}</div>
+                    })}</div>
                 </div>
             })}
             <AlwaysScrollToBottom />
@@ -99,23 +98,21 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
                     <label>Text: <input value={myMessage} type="text" className="write-message" placeholder="Type your message here" onChange={(e) => setMyMessage(e.target.value)}>
 
                     </input>
-                        <i className="icon send fa fa-paper-plane-o clickable" aria-hidden="true"></i>
+                        <button className={"button"}>Send</button>
                     </label>
-                    <button className="buttonSend">Send</button>
+
                 </form>
 
             </div>
+        </div>
+
 
         </div>
 
-        <br/>
-        <br/>
-        <br/>
-        <div>users in chat: {users.map((user)=>{
-                return <h2>{user}</h2>
+        <div className={"userList border"}> in chat: {users.map((user)=>{
+                return <div className={"userInChat"}>{user}</div>
             }
 
         )}</div>
-
     </div>
 }

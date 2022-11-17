@@ -103,22 +103,27 @@ export function EditUser({activeUserId}) {
                }
            })
        }
+       else{
+
+       }
 
     }
     async function handelAddMail(e) {
         e.preventDefault();
-        const index = emails.length-1;
+
 
         if(activeUserId > 0){
-           ;
 
+
+
+            const res = await fetch("/api/users/emails?"+new URLSearchParams( {id: activeUserId}));
+            const m = await res.json();
+            console.log(m)
             const email ={
                 email:"test",
-                id:id
+                id:m.id
             }
             setEmails(prevState => [...prevState, email]);
-            const res = await fetch("/api/users/emails?"+new URLSearchParams( {id: activeUserId}));
-
 
         }else{
             const email ={
@@ -143,37 +148,46 @@ export function EditUser({activeUserId}) {
 
     }
 
+    function handelNavigate(e) {
+        e.preventDefault()
+        if (activeUserId > 0)
+            navigate("/user")
+        else
+            navigate("/")
+    }
+
     return (
         <div>
-            <h1>EDIT USER!</h1>
-
+           <center><div className={"editUserTilte"}>EDIT USER!</div></center>
+            <center>
             <form onSubmit={handleOnSubmit}>
-                <div>
-                    name:<input value={name} type="text" onChange={(e) => setName(e.target.value)}/>
+                <div className={"border"}>
+                    name:<input className="write-message" placeholder="Enter a Name" value={name} type="text" onChange={(e) => setName(e.target.value)}/>
                 </div>
-                <div>
-                    username:<input value={username} type="text" onChange={(e) => setUsername(e.target.value)}/>
+                <div className={"border"}>
+                    username:<input className="write-message" placeholder="Enter a Username" value={username} type="text" onChange={(e) => setUsername(e.target.value)}/>
                 </div>
-                <div>
-                    tlf:<input value={tlf} type="text" onChange={(e) => setTlf(e.target.value)}/>
+                <div className={"border"}>
+                    tlf:<input className="write-message" placeholder="Enter a phone nr" value={tlf} type="text" onChange={(e) => setTlf(e.target.value)}/>
                 </div>
                 <br/>
 
                 <div>
                     {emails.map((email,index)=>{
 
-                        return <div>
-                            email {index+1} :<input  value={email.email} type="text"
+                        return <div className={"border"}>
+                            email {index+1} :<input  type="email" className="write-message" placeholder="Enter a Email" value={email.email}
                                                     onChange={(e) => handelSetEmail(e,index)}/>
                         </div>
                     })}
-                    <button className={"button"} onClick={(e)=>handelAddMail(e)}>add mail</button><button className={"button"} onClick={(e)=>handelRemoveEmail(e)}>remove</button>
+                    <button className={"button"} onClick={(e)=>handelAddMail(e)}>add email</button><button className={"button"} onClick={(e)=>handelRemoveEmail(e)}>remove email</button>
                 </div>
 
-
-                <button className={"button"}>Update</button>
+                <button onClick={(e)=>handelNavigate(e)} className={"button"}>Back</button>
+                <button type="submit" className={"button"}>Update</button>
             </form>
 
+            </center>
         </div>
     )
 }

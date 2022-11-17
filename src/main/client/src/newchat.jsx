@@ -3,10 +3,11 @@ import {useNavigate} from "react-router-dom";
 
 export function NewChat({activeUserId,users}) {
 
-    const you = activeUserId;
+
     const [title, setTitle] = useState("");
     const [chatters, setChatters] = useState([...users]);
     const [chatter, setChatter] = useState("");
+
     const navigate = useNavigate()
 
     async function handelOnSubmit(e){
@@ -61,11 +62,11 @@ export function NewChat({activeUserId,users}) {
             </form>
             <br/>
 
-            <div className={"selected"}>
+            <div className={"selected new-Chat-Container"}>
                 Added to chat:
                 {chatters.map((id)=>{
 
-                    return <div className={"new-Chat-Container"}><div className={"new-Chat-User"}>{id.username}</div></div>
+                    return <div className={"new-Chat-User"}>{id.username}</div>
                 })}
 
             </div>
