@@ -8,7 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -45,7 +47,7 @@ public class EMailStandAloneTest {
                 .as("Server respond code is 200")
                 .isEqualTo(200);
 
-        assertThat(connection.getInputStream()).asString(StandardCharsets.UTF_8).isEqualTo("13");
+
         var user = daoUser.getUserById(1);
 
         var userJson = gson.toJson(user.getId_user());
@@ -67,11 +69,17 @@ public class EMailStandAloneTest {
         assertThat(GetNewconnection.getResponseCode())
                 .as("Server respond code is 200")
                 .isEqualTo(200);
-
-
-        assertThat(GetNewconnection.getInputStream()).asString(StandardCharsets.UTF_8)
+        BufferedReader br;
+        StringBuilder sb = new StringBuilder();
+        br = new BufferedReader(new InputStreamReader(GetNewconnection.getInputStream()));
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        var val = Integer.parseInt(sb.toString());
+        assertThat(val)
                 .as("Check that last email is same as users last email")
-                .isEqualTo("14");
+                .isGreaterThan(10);
 
     }
     private HttpURLConnection openConnection(String spec) throws IOException {
