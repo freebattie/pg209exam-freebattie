@@ -23,6 +23,7 @@ function App() {
     const [activeUserId, setActiveUserId] = useState(0);
     const [activeChat, setActiveChat] = useState(0);
     const [activeUserName, setActiveUserName] = useState("");
+    const [update, setUpdate] = useState(false);
     useEffect( () => {
         const test= async ()=>{
             const res = await fetch("/api/users");
@@ -31,7 +32,7 @@ function App() {
             setLoading(false);
         }
         test();
-    }, []);
+    }, [update]);
 
     if (loading) {
         return (
@@ -54,7 +55,7 @@ function App() {
                     <Route path={"/user"} element={<UserPage setActiveChat={setActiveChat} activeUserId={activeUserId} activeUserName={activeUserName}/>}/>
                     <Route path={"/edituser"} element={<EditUser activeUserId={activeUserId} />}/>
                     <Route path={"/newchat"} element={<NewChat activeChat={activeChat} users={users} activeUserId={activeUserId}/>}/>
-                    <Route path={"/newuser"} element={<EditUser activeUserId={-1}/>}/>
+                    <Route path={"/newuser"} element={<EditUser activeUserId={-1} setUpdate={setUpdate}/>}/>
                 </Routes>
             </HashRouter>
 

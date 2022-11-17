@@ -54,22 +54,21 @@ public class DaoUser {
 
     }
 
-    public long getLastEmailId(long id) throws SQLException {
+    public long getLastEmailId() throws SQLException {
         var sql = """
                 SELECT id_email
                 FROM emails
-                WHERE id_user = ?
                 ORDER BY id_email desc
                 OFFSET 0 ROW
                 FETCH NEXT 1 ROW ONLY;
                 """;
 
         try (var statement = connection.prepareStatement(sql)) {
-            statement.setLong(1, id);
+
             var result = statement.executeQuery();
 
             result.next();
-            return result.getLong(1);
+            return result.getLong(1)+1;
         }
 
     }

@@ -79,15 +79,18 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
             {messages.map((message, index) => {
                 return <div className={"chatContainer"}>
 
-                    <div className={"chatHeader"} key={index}>
-                        <div className={"chatName"}>{message.username}</div>
-                        <div className={"timestamp"}>@{message.timestamp}</div>
-                    </div>
+                        <div className={"chatHeader"} key={index}>
+                            <div className={"chatName"}>{message.username}</div>
+                            <div className={"timestamp"}>@{message.timestamp}</div>
+                        </div>
 
-                    <div className={"chatMessage"}>{message.message}</div>
-                    <div className={"lastreadlist"}>{message.lastReads.size > 0 ?"last read:": "" } {message.lastReads.map((p)=>{
-                        return <div className={"lastRead"}>{p.username} ~ {p.timestamp}</div>
-                    })}</div>
+                        <div className={"chatMessage"}>{message.message}</div>
+                        <div className={"lastreadlist"}>{message.lastReads.size > 0 ?"last read:": "" } {message.lastReads.map((p)=>{
+                            return <div className={"lastRead"}>{p.username} ~ {p.timestamp}</div>
+                        })}</div>
+
+
+
                 </div>
             })}
             <AlwaysScrollToBottom />
@@ -95,7 +98,7 @@ export function Chat({chat, activeUserId, messages,setMessages}) {
                 <form onSubmit={(e)=>handelOnSubmit(e)}>
 
 
-                    <label>Text: <input value={myMessage} type="text" className="write-message" placeholder="Type your message here" onChange={(e) => setMyMessage(e.target.value)}>
+                    <label>Text: <input value={myMessage} type="text" className="write-message2" placeholder="Type your message here" onChange={(e) => setMyMessage(e.target.value)}>
 
                     </input>
                         <button className={"button"}>Send</button>

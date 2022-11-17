@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
-export function EditUser({activeUserId}) {
+export function EditUser({activeUserId,setUpdate}) {
 
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -82,8 +82,9 @@ export function EditUser({activeUserId}) {
                     "Content-Type": "application/json"
                 }
             });
-            if (test.ok)
-                navigate("/");
+            setUpdate(true);
+            navigate("/");
+
 
 
         }
@@ -114,14 +115,20 @@ export function EditUser({activeUserId}) {
 
         if(activeUserId > 0){
 
-
-
-            const res = await fetch("/api/users/emails?"+new URLSearchParams( {id: activeUserId}));
-            const m = await res.json();
-            console.log(m)
+            const res = await fetch("/api/users/emails");
+            const newid = await res.json();
+            console.log(newid);
+            const id = JSON.stringify(activeUserId);
+            await fetch("/api/users/emails/",{
+                method: 'POST',
+                body:id,
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
             const email ={
-                email:"test",
-                id:m.id
+                email:"exmple@exmple.no",
+                id:newid
             }
             setEmails(prevState => [...prevState, email]);
 
@@ -152,8 +159,11 @@ export function EditUser({activeUserId}) {
         e.preventDefault()
         if (activeUserId > 0)
             navigate("/user")
-        else
-            navigate("/")
+        else{
+            history.push('/');
+            window.location.reload(false);
+        }
+
     }
 
     return (

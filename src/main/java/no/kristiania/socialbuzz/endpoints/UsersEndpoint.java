@@ -48,17 +48,16 @@ public class UsersEndpoint {
 
     @GET
     @Path("/emails")
-    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public long getLastEmailId(@QueryParam("id") Long id) throws SQLException {
-        return daoUser.getLastEmailId(id);
+    public long getLastEmailId() throws SQLException {
+        return daoUser.getLastEmailId();
     }
 
     @POST
     @Path("/emails")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addEmailByUserId(User user) throws SQLException {
-         daoUser.addEmailByUserId(user.getId_user());
+    public void addEmailByUserId(Long id) throws SQLException {
+         daoUser.addEmailByUserId(id);
     }
 
     @DELETE

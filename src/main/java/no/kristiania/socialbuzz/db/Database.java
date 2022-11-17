@@ -13,7 +13,7 @@ public class Database {
     public static HikariDataSource getDataSource() throws IOException {
         var dataSource = new HikariDataSource();
 
-        dataSource.setAutoCommit(false);
+        dataSource.setAutoCommit(true);
 
         dataSource.setJdbcUrl(System.getenv("DB_URL"));
         dataSource.setUsername(System.getenv("DB_USER"));

@@ -2,21 +2,31 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export function NewChat({activeUserId,users}) {
-
-
+    const [dropdownUsers, setDropdownUsers] = useState([]);
+    const [selectedUsersId, setSelectedUsersId] = useState([]);
+    const [selectedUsersName, setSelectedUsersName] = useState([]);
+    const [selectedUserId, setSelectedUserId] = useState("");
+    const [selectedUserName, setSelectedUserName] = useState("");
     const [title, setTitle] = useState("");
-    const [chatters, setChatters] = useState([...users]);
-    const [chatter, setChatter] = useState("");
+    useEffect(() => {
 
+
+        let filteredusers = users.filter((user) =>  { return  activeUserId != user.id_user})
+        let filterYou = users.filter((user) =>  { return  activeUserId == user.id_user})
+        setSelectedUsersId(prevState => [...prevState,filterYou[0].id_user])
+
+        setDropdownUsers(filteredusers);
+    }, []);
     const navigate = useNavigate()
-
+    let selectUsers = [...users];
+   
     async function handelOnSubmit(e){
 
         e.preventDefault();
-        console.log(chatters)
+       
         await fetch("/api/chats", {
             method: "POST",
-            body: JSON.stringify({userIdList:chatters,title:title}),
+            body: JSON.stringify({userIdList:selectedUsersId,title:title}),
             headers: {
                 "Content-Type": "application/json"
             }
@@ -26,16 +36,32 @@ export function NewChat({activeUserId,users}) {
 
     function handelAddUser(e) {
         e.preventDefault();
-        setChatters(prevState => [...prevState, chatter])
+        if (selectedUserName.length > 0){
+            setSelectedUsersId(prevState => [...prevState, selectedUserId])
+            setSelectedUsersName(prevState=>[...prevState,selectedUserName])
+            const newUsers = dropdownUsers.filter((user) =>  { return  selectedUserId != user.id_user})
+            setDropdownUsers(newUsers);
+
+        }
+
+        setSelectedUserName("")
+
     }
 
     function setSelectedUser(e) {
         e.preventDefault();
-        setChatter(e.target.value);
+        setSelectedUserId(e.target.value);
+        const user = dropdownUsers.filter((event)=>{
+            return event.id_user == e.target.value;
+        })
+
+        setSelectedUserName(user[0].username)
+
 
 
 
     }
+
 
     return (
         <center>
@@ -49,13 +75,13 @@ export function NewChat({activeUserId,users}) {
                 <br/>
                 User:
                 <select className={"dropdown"} onChange={(e)=>setSelectedUser(e)}>
+                    <option >Select User</option>
+                    {dropdownUsers.map((option, index) => {
 
-                    {users.map((option, index) => {
-                        if (option.id_user != activeUserId){
-                            return <option className={"dropdownNames"} value={option.id_user} key={index}>
+                            return <option className={"dropdownNames"}  value={option.id_user} key={index}>
                                 {option.username}
                             </option>
-                        }
+
                     })}
                 </select>
                 <button className={"button"} onClick={(e)=>handelAddUser(e)}>Add User</button>
@@ -63,10 +89,11 @@ export function NewChat({activeUserId,users}) {
             <br/>
 
             <div className={"selected new-Chat-Container"}>
-                Added to chat:
-                {chatters.map((id)=>{
+                <div className={"headerSelectedUsers"}>Added to chat:</div>
 
-                    return <div className={"new-Chat-User"}>{id.username}</div>
+                {selectedUsersName.map((name)=>{
+
+                    return <div className={"new-Chat-User"}>{name}</div>
                 })}
 
             </div>
