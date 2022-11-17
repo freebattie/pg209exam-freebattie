@@ -12,7 +12,7 @@ export function ChatList({chats, getActiveChat}) {
             <ul>
                 <button className={"button"} onClick={()=>handelNavigate('/')}>New Message</button>
                 {chats.map((option, index) => {
-                    return <li onClick={(props)=>getActiveChat(option)} className="button"  key={index}>
+                    return <li onClick={(props)=>getActiveChat(option)} className={"buttonChat"}  tabindex={index} key={index} id={index}>
                         {option.title}
                     </li>
                 })}

@@ -23,7 +23,6 @@ public class DaoMessage {
     }
 
     public void updateLastRead(long idChat, long idUser) throws SQLException {
-
 //        Check last message is not yours
         long idMessage;
         var sqlCheck = """
@@ -60,7 +59,6 @@ public class DaoMessage {
 //            connection.commit();
         }
 
-
 //        Update what the newest message is.
         var sqlUpdate = """
                 INSERT INTO lastRead (id_chat, id_message, id_user, timestamp)
@@ -76,11 +74,9 @@ public class DaoMessage {
 //            connection.commit();
         }
 
-
     }
 
     public List<Message> getAllMessages(long idChat, long idUser) throws SQLException {
-
         var sqlMessages = """
                 SELECT id_message, message, timestamp, m.id_user, username
                 FROM messages m
@@ -136,17 +132,13 @@ public class DaoMessage {
                 tmpMessage.setUser(tmpUser.getId_user());
                 tmpMessage.setUsername(tmpUser.getUsername());
                 messages.add(tmpMessage);
-
             }
 
             return messages;
         }
+
     }
 
-    /**
-     * Saves message to database
-     * @param message subparam: String message, int idChat and int idUser
-     */
     public void sendMessage(Message message) throws SQLException {
         var sqlMessage = """
                 INSERT INTO messages (message, timestamp, id_chat, id_user)
@@ -224,7 +216,7 @@ public class DaoMessage {
             var string = time.format(format);
 
             builder.append(string);
-            builder.append(" seconds");
+            builder.append(" sec");
         }
 //        Message within one hour
         else if (timeNow - timeThen < 3_600) {
@@ -232,7 +224,7 @@ public class DaoMessage {
             var string = time.format(format);
 
             builder.append(string);
-            builder.append(" minutes");
+            builder.append(" min");
         }
 //        Message within one day
         else if (timeNow - timeThen < 86_400) {

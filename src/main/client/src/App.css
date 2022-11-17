@@ -3,26 +3,83 @@
     padding: 0;
     border: 0;
     box-sizing: border-box;
-    background-color: #F5F5F5;
+
     font-family: 'Fira Sans', sans-serif;
 }
-html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;background-color: wheat; }
-.navbar{
-    font-family: sans-serif;
-    display: flex;
+html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; }
+.editUserTilte{
+    background-color: darkcyan;
+    font-size: 30px;
+    height: 120px;
+    padding-top: 50px;
 
-    padding: 1rem;
-    justify-content: space-around;
-    background: #f0f0f0;
-    height: 10vh;
-    width: 100%;
+
+
 }
 
+.border{
+    border: 2px solid black;
+    width: 500px;
+    padding: 10px;
+    margin: 10px;
+}
+.user {
+    padding: 40px;
 
 
+    font-size: 22px;
+    background-color:darkcyan;
+}
+
+.buttonUser{
+
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+    margin: 10px;
+    font-size: 16px;
+    background-color: white;
+    height: 60px;
+    border: 2px solid black;
+    width: 400px;
+    border-radius: 5px;
+    transition-duration: 0.4s;
+}
+.padding-Top{
+    padding-top: 40px;
+}
+.buttonUser:hover {
+    background-color: #393a34;
+    color: white;
+}
+.buttonChat{
+
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor:pointer;
+    margin: 10px;
+    font-size: 16px;
+    background-color: white;
+    height: 60px;
+    width: 180px;
+    border-radius: 5px;
+
+}
+.buttonChat:hover{
+
+    color: black;
+    border: 2px solid black;
+}
+.buttonChat:focus, .buttonChat:active{
+    background-color: darkcyan;
+    border: 2px solid black;
+    color: white;
+}
 .button{
-
-    border: none;
     color: black;
     padding: 15px 32px;
     text-align: center;
@@ -31,17 +88,43 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     cursor:pointer;
     margin: 10px;
     font-size: 16px;
-}
-.button {
-    width: 150px;
+    background-color: white;
+    height: 60px;
+    border: 2px solid black;
+    width: 180px;
     border-radius: 5px;
     transition-duration: 0.4s;
 }
 
 .button:hover {
-    background-color: #393a34; /* Green */
+    background-color: #393a34;
     color: white;
 }
+.new-Chat-Container{
+
+    display: flex;
+    height: 120px;
+    flex-wrap: wrap;
+    /* change this to row instead of 'column' */
+
+}
+.headerSelectedUsers{
+    width: 100%;
+    height: 20px;
+    text-align: start;
+
+}
+.new-Chat-User{
+    font-size: 12px;
+    padding-top: 10px;
+    border: 2px solid black;
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+
+
+}
+
 .buttonSend{
     background-color: green; /* Green */
     border: none;
@@ -56,7 +139,7 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
 }
 .flex-container {
     display: flex;
-    background-color: wheat;
+    width: 90%;
     height: 100%;
 }
 
@@ -70,19 +153,104 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
 
 }
 .flex-chat {
-
+    display: flex;
+    justify-content: left;
     height: 59vh;
     position: relative;
     margin: 10px;
-    flex: 90%;
+    flex: 100%;
+    width: 400px;
+
+}
+.chatContainer{
+    width: 80%;
+    background-color:  #e3effd;
+    min-height: 150px;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    position: relative;
+
+
 
 
 }
-.new-chat-card{
+.timestamp{
 
-    border-style: double;
-    border-color: #393a34;
+    flex: 1 1 100px;
+    font-style: italic;
+    font-weight: bolder;
+    margin-left: 20px;
+    opacity: 0.5;
+    font-size: 13px;
+
+
 }
+.chatName{
+    width: 180px;
+    font-weight: bold;
+    font-size: 18px;
+
+}
+.chatHeader{
+
+    background-color:  #e3effd;
+    width: 300px;
+
+
+
+}
+
+.chatMessage{
+    margin-top: 10px;
+    background-color:  #e3effd;
+}
+
+.lastreadlist{
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    display: flex;
+    height: 30px;
+    width: 100%;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin: 30px 0;
+}
+.lastRead{
+    font-size: 12px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 3px;
+    border: 2px solid black;
+    background-color:  #e3effd;
+    border-radius: 12px;
+    width: 180px;
+
+}
+.chat-card{
+    width: 800px;
+    height: 100%;
+    overflow-y: auto;
+    max-height: 93%;
+}
+.userList{
+    margin-top: 10px;
+    height: 300px;
+    font-size: 20px;
+    padding: 10px;
+
+    width: 180px;
+}
+.userInChat{
+
+    height: 20px;
+    width: 20%;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
 .chat-parent {
     display: flex;
     flex-direction: column;
@@ -94,16 +262,10 @@ html,body {  font-family: 'Fira Sans', sans-serif;  margin: 0; height:100%;backg
     width: 100%;
     height: 40px;
 }
-.chat-card{
-    width: 50%;
-    background-color: gray;
-    height: 100%;
-    overflow-y: auto;
-    max-height: 93%;
-}
+
 
 body {
-    padding: 5%;
+
     background-color: #F5F5F5;
 }
 
@@ -117,45 +279,41 @@ body {
 }
 
 
-
-.write-message {
+.write-message2{
     border:none !important;
-    width:20%;
+    width:550px;
     height: 65px;
     margin-left: 20px;
     padding: 10px;
 }
-.dropdown {
+.write-message {
+    border:none !important;
+    width:300px;
+    height: 65px;
+    margin-left: 20px;
+    padding: 10px;
+}
 
-    width:10%;
+.dropdown {
+    font-size: 13pt;
+    width:20%;
     height: 50px;
     margin-left: 20px;
     padding: 10px;
 
 }
+.new-chat-card{
+    border: 2px solid black;
+    height: 500px;
+    width: 700px;
+}
 .dropdownNames{
 
-    border: 2px;
+    font-size: 13pt;
 
 
 }
-.footer-chat *::-webkit-input-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-}
-.footer-chat input *:-moz-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-}
-.footer-chat input *::-moz-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-    margin-left:5px;
-}
-.footer-chat input *:-ms-input-placeholder {
-    color: #C0C0C0;
-    font-size: 13pt;
-}
+
 
 .clickable {
     cursor: pointer;

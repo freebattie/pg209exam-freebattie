@@ -2,6 +2,7 @@ package no.kristiania.socialbuzz.dao;
 
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import no.kristiania.socialbuzz.dto.Email;
+import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class DaoUserTest {
@@ -60,26 +62,22 @@ public class DaoUserTest {
 
         // Check that user is the expected user
         assertThat(user)
-                .as("return null if user dose not exsist")
+                .as("return null if user dose not exist")
                 .isEqualTo(null);
     }
 
     @Test
     public void getEditedUserBack() throws SQLException {
-
-        //TODO: kanskje dele denne opp i flere tester siden vi tester veldig mye her
-
-
         dao = new DaoUser(InMemoryDataSource.createTestDataSource().getConnection());
         var original = dao.getUserById(4);
         var editUser = dao.getUserById(4);
+
         editUser.setUsername("NotSecretman");
         Email mail = editUser.getEmails().get(0);
         mail.setEmail("test@test.no");
-        //editUser.EditMail(mail, 0);
+
         dao.editUser(editUser);
         var updatedUser = dao.getUserById(4);
-
 
         //CHECK BEFORE EDIT
         assertThat(original.getUsername())
@@ -91,8 +89,8 @@ public class DaoUserTest {
                 .as("check that id is same as original")
                 .isEqualTo(original.getId_user());
 
-        var emails = updatedUser.getEmails();
 
+        var emails = updatedUser.getEmails();
 
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("Has Original Email")
@@ -100,7 +98,6 @@ public class DaoUserTest {
 
 
         //CHECK AFTER EDIT
-
         //CHECK THAT UPDATED USER FROM DB IS SAME AS THE USER WE EDITED
         assertThat(updatedUser.getUsername())
                 .as("check that edited user is same as user in db")
@@ -111,11 +108,34 @@ public class DaoUserTest {
         assertThat(emails.get(0).getEmail().toLowerCase())
                 .as("First email has been updated")
                 .isEqualTo("test@test.no".toLowerCase());
-
-
     }
 
-    //TODO: EDIT EMAIL and check if updated
+    @Test
+    public void createNewUserTest() throws SQLException {
+        var user = new User();
+        user.setUsername("Testuser");
+        user.setName("Testerson");
+        user.setTlf("74857485");
 
+        var email1 = new Email();
+        var email2 = new Email();
+        email1.setEmail("test@test.no");
+        email2.setEmail("test@gmail.com");
+        user.setEmails(email1);
+        user.setEmails(email2);
+
+        dao.createNewUser(user);
+        var testUser = dao.getUserById(5);
+
+        assertThat(testUser)
+                .as("Is user and testUser equals")
+                .hasNoNullFieldsOrProperties()
+                .isNotSameAs(user);
+
+        assertEquals(user.getName(), testUser.getName());
+        assertEquals(user.getUsername(), testUser.getUsername());
+        assertEquals(user.getTlf(), testUser.getTlf());
+        assertEquals(user.getEmails().size(), testUser.getEmails().size());
+    }
 
 }

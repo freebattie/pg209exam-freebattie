@@ -5,8 +5,11 @@ import jakarta.json.Json;
 import no.kristiania.socialbuzz.SocialBuzzServer;
 import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
+import no.kristiania.socialbuzz.dto.Email;
+import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -74,6 +77,7 @@ public class UserEndpointTest {
                 .contains(user.getId_user().toString())
                 .contains(user.getUsername())
                 .contains(user.getName());
+
     }
 
     @Test
@@ -115,38 +119,27 @@ public class UserEndpointTest {
                 .contains(user.getId_user().toString())
                 .contains(user.getUsername())
                 .contains(user.getName());
+
     }
 
-    @Test
-    public void GetLastEmailIdTest() throws SQLException, IOException {
-        var user = daoUser.getUserById(4);
-        var emails = user.getEmails();
-        var last = emails.get(emails.size() - 1).getId();
-        var connection = openConnection("/api/users/emails?id=" + user.getId_user());
-        connection.setRequestMethod("GET");
 
-        assertThat(connection.getResponseCode())
-                .as("Server respond code is 200")
-                .isEqualTo(200);
-
-        assertThat(connection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .as("Check that last email is same as users last email")
-                .isEqualTo(last.toString());
-    }
 
     @Test
-    public void removeEmailTest() throws SQLException, IOException {
+    public void removeEmailTest() throws SQLException, IOException, InterruptedException {
+
         var user = daoUser.getUserById(4);
         var emailId = user.getEmails().get(0).getId();
         var connection = openConnection("/api/users/emails/" + emailId);
         connection.setRequestMethod("DELETE");
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-type", "application/json");
+
         assertThat(connection.getResponseCode())
                 .as("Check if DELETE worked")
                 .isEqualTo(204);
+
         var newUser = daoUser.getUserById(4);
+
         // Check that user is the expected user
         assertThat(newUser.getEmails().size())
                 .as("Check that size of emails has changed")
@@ -154,18 +147,18 @@ public class UserEndpointTest {
     }
 
     @Test
-    public void addEmailTest() throws SQLException, IOException {
-        var user = daoUser.getUserById(4);
+    public void addEmailTest() throws SQLException, IOException, InterruptedException {
 
+        var user = daoUser.getUserById(4);
+        var gson = new Gson();
+        var userJson = gson.toJson(user.getId_user());
         var connection = openConnection("/api/users/emails/");
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-type", "application/json");
-        connection.getOutputStream().write(Json.createObjectBuilder()
-                .add("id_user", user.getId_user())
-                .build()
-                .toString()
+        connection.getOutputStream().write(userJson
                 .getBytes(StandardCharsets.UTF_8));
+
         assertThat(connection.getResponseCode())
                 .as("Check if POST worked")
                 .isEqualTo(204);
@@ -175,6 +168,34 @@ public class UserEndpointTest {
         assertThat(newUser.getEmails().size())
                 .as("Check that emails has increased")
                 .isGreaterThan(user.getEmails().size());
+    }
+
+    @Test
+    public void createNewUserTest() throws IOException {
+        var user = new User();
+        user.setUsername("Testuser");
+        user.setName("Testerson");
+        user.setTlf("74857485");
+
+        var email1 = new Email();
+        var email2 = new Email();
+        email1.setEmail("test@test.no");
+        email2.setEmail("test@gmail.com");
+        user.setEmails(email1);
+        user.setEmails(email2);
+
+        var gson = new Gson();
+        var string = gson.toJson(user);
+
+        var postConnection = openConnection("/api/users");
+        postConnection.setRequestMethod("POST");
+        postConnection.setDoOutput(true);
+        postConnection.setRequestProperty("Content-type", "application/json");
+        postConnection.getOutputStream().write(string.getBytes(StandardCharsets.UTF_8));
+
+        assertThat(postConnection.getResponseCode())
+                .as("Check if POST worked")
+                .isEqualTo(204);
     }
 
     private HttpURLConnection openConnection(String spec) throws IOException {

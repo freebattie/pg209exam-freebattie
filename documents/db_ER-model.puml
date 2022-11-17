@@ -1,17 +1,17 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-chats -- userschats
-chats -- messages
-chats --- lastRead
+chats "1     " -- "0..*" userschats
+chats "1" -- "0..*" messages
+chats "1" --- "0..*" lastRead
 
-userschats -- users
+userschats "0..*" -- "1 " users
 
-messages -- users
-messages -- lastRead
+messages "0..*  " -- "1" users
+messages "1" -- "0..*   " lastRead
 
-users - lastRead
-users -- emails
+users "1" - "0..*" lastRead : "           "
+users "1" -- "0..*" emails
 
 class chats{
     id_chat int {PK}

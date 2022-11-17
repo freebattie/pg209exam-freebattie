@@ -73,11 +73,11 @@ public class DaoMessageEpochTest {
 
         assertThat(stringSeconds)
                 .as("Test seconds")
-                .contains("seconds");
+                .contains("sec");
 
         assertThat(stringMinutes)
                 .as("Test minutes")
-                .contains("minutes");
+                .contains("min");
 
         assertThat(stringHours)
                 .as("Test hours")
@@ -98,7 +98,6 @@ public class DaoMessageEpochTest {
         assertThat(stringYears)
                 .as("Test years")
                 .contains("years");
-
     }
 
 }

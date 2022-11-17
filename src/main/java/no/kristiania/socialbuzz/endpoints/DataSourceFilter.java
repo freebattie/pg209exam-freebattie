@@ -39,33 +39,12 @@ public class DataSourceFilter implements Filter {
             } else {
                 //Get connection from HikariCP.
                 connection = config.createConnectionForRequest();
-
-//              if get don't do commit
-                if (req.getMethod().equals("GET")) {
-                    //re-direct to index.html if not a /api or valid path
-                    filterChain.doFilter(servletRequest, servletResponse);
-
-                } else {
-                    filterChain.doFilter(servletRequest, servletResponse);
-
-                }
+                filterChain.doFilter(servletRequest, servletResponse);
                 logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
-//              Remove closed connection at HikariCP after each get/put/post/delete
-
-                // TODO: 14.11.2022 Test that rollback works, then crash and burn!
-//                try {
-//                    connection.commit();
-//                } catch (SQLException e) {
-//                    connection.rollback();
-//                    e.printStackTrace();
-//                }
-
-                connection.commit();
-                connection.close();
+                //clean up connection
                 config.cleanRequestConnection();
                 logger.info("Response Code from Server: {}", res.getStatus());
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

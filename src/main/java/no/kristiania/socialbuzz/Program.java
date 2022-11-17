@@ -7,10 +7,10 @@ import java.util.Optional;
 public class Program {
 
     public static void main(String[] args) throws Exception {
-        new SocialBuzzServer(   GetPortToUse().intValue(), Database.getDataSource()).start();
+        new SocialBuzzServer(getPortToUse(), Database.getDataSource()).start();
     }
 
-    public static Integer GetPortToUse() {
+    public static Integer getPortToUse() {
         return Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
                 .map(Integer::parseInt)
                 .orElse(8080);
