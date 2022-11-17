@@ -19,12 +19,14 @@ public class Database {
         dataSource.setUsername(System.getenv("DB_USER"));
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
 
+
         var properties = new Properties();
         try (var reader = new FileReader("application.properties")) {
             properties.load(reader);
             dataSource.setJdbcUrl(properties.getProperty("jdbc.url"));
             dataSource.setUsername(properties.getProperty("jdbc.username"));
             dataSource.setPassword(properties.getProperty("jdbc.password"));
+
 
         } catch (FileNotFoundException ignored) {}
 
