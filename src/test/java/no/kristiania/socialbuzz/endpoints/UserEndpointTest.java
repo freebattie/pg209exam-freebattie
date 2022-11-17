@@ -9,6 +9,7 @@ import no.kristiania.socialbuzz.dto.Email;
 import no.kristiania.socialbuzz.dto.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -121,27 +122,11 @@ public class UserEndpointTest {
 
     }
 
-    @Test
-    public void GetLastEmailIdTest() throws SQLException, IOException {
-        var user = daoUser.getUserById(4);
-        var emails = user.getEmails();
-        var last = emails.get(emails.size() - 1).getId();
-        var connection = openConnection("/api/users/emails?id=" + user.getId_user());
-        connection.setRequestMethod("GET");
 
-        assertThat(connection.getResponseCode())
-                .as("Server respond code is 200")
-                .isEqualTo(200);
-
-        assertThat(connection.getInputStream())
-                .asString(StandardCharsets.UTF_8)
-                .as("Check that last email is same as users last email")
-                .isEqualTo(last.toString());
-
-    }
 
     @Test
-    public void removeEmailTest() throws SQLException, IOException {
+    public void removeEmailTest() throws SQLException, IOException, InterruptedException {
+
         var user = daoUser.getUserById(4);
         var emailId = user.getEmails().get(0).getId();
         var connection = openConnection("/api/users/emails/" + emailId);
@@ -162,17 +147,16 @@ public class UserEndpointTest {
     }
 
     @Test
-    public void addEmailTest() throws SQLException, IOException {
-        var user = daoUser.getUserById(4);
+    public void addEmailTest() throws SQLException, IOException, InterruptedException {
 
+        var user = daoUser.getUserById(4);
+        var gson = new Gson();
+        var userJson = gson.toJson(user.getId_user());
         var connection = openConnection("/api/users/emails/");
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
         connection.setRequestProperty("Content-type", "application/json");
-        connection.getOutputStream().write(Json.createObjectBuilder()
-                .add("id_user", user.getId_user())
-                .build()
-                .toString()
+        connection.getOutputStream().write(userJson
                 .getBytes(StandardCharsets.UTF_8));
 
         assertThat(connection.getResponseCode())
