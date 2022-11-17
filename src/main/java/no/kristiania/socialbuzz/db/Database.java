@@ -24,6 +24,7 @@ public class Database {
         dataSource.setUsername(System.getenv("DB_USER"));
         dataSource.setPassword(System.getenv("DB_PASSWORD"));
 
+
         var properties = new Properties();
         try (var reader = new FileReader(file)) {
             properties.load(reader);
@@ -31,10 +32,12 @@ public class Database {
             dataSource.setUsername(properties.getProperty("jdbc.username"));
             dataSource.setPassword(properties.getProperty("jdbc.password"));
 
+
         } catch (FileNotFoundException ignored) {
             System.out.println("If running localy you might be missing propeerties file");
             return false;
         }
         return true;
+
     }
 }
