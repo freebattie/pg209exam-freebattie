@@ -1,5 +1,7 @@
 package no.kristiania.socialbuzz;
 
+import com.zaxxer.hikari.HikariDataSource;
+import no.kristiania.socialbuzz.db.Database;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,16 @@ class SocialBuzzServerTest {
                 .as("check for 200")
                 .isEqualTo(200);
     }
-
+    @Test
+    public void checkForMissingDBConnectionInfo() throws Exception {
+        var dataSource = new HikariDataSource();
+       assertThat(Database.getDbConnectionInfo(dataSource,"WrongFile")).isFalse();
+    }
+    @Test
+    public void checkThatDummyPropertiesFileIsFound() throws Exception {
+        var dataSource = new HikariDataSource();
+        assertThat(Database.getDbConnectionInfo(dataSource,"application.properties.template")).isTrue();
+    }
     @Test
     public void getIndexHtmlTitleTest() throws Exception {
         var connection = openConnection("/");
