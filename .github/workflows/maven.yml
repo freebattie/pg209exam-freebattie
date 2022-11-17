@@ -5,9 +5,10 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
+name: Build, Test and deploy JAR app to Azure Web App
+
 env:
-  AZURE_WEBAPP_NAME: pgr209-exam-socialbuzz-user    # set this to the name of your Azure Web App
-name: Java CI with Maven on Main Branch
+  AZURE_WEBAPP_NAME: pgr209-exam-socialbuzz-user
 
 on:
   push:
@@ -18,7 +19,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -59,3 +60,32 @@ jobs:
       with:
         name: jacoco-report
         path: target/site/jacoco/
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: java-app
+        path: '${{ github.workspace }}/target/pgr209-exam-socialbuzz-1.0-SNAPSHOT.jar'
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: java-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: '*.jar'
