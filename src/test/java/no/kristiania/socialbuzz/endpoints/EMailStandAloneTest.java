@@ -2,8 +2,6 @@ package no.kristiania.socialbuzz.endpoints;
 
 import com.google.gson.Gson;
 import no.kristiania.socialbuzz.SocialBuzzServer;
-import no.kristiania.socialbuzz.dao.DaoChat;
-import no.kristiania.socialbuzz.dao.DaoMessage;
 import no.kristiania.socialbuzz.dao.DaoUser;
 import no.kristiania.socialbuzz.db.InMemoryDataSource;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +17,7 @@ import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EMailSingalTest {
+public class EMailStandAloneTest {
     private SocialBuzzServer server;
     private Connection connection;
     private DaoUser daoUser;
