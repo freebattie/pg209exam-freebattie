@@ -40,11 +40,15 @@ public class DataSourceFilter implements Filter {
                 //Get connection from HikariCP.
                 connection = config.createConnectionForRequest();
                 filterChain.doFilter(servletRequest, servletResponse);
+//              Remove closed connection at HikariCP after each get/put/post/delete
                 logger.info("Request  Method: {} \"{}\"", req.getMethod(), req.getRequestURI());
-                //clean up connection
+
+
+                connection.close();
                 config.cleanRequestConnection();
                 logger.info("Response Code from Server: {}", res.getStatus());
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
