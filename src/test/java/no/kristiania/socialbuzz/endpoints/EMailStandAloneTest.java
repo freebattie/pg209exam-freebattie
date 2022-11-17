@@ -46,7 +46,7 @@ public class EMailStandAloneTest {
                 .as("Server respond code is 200")
                 .isEqualTo(200);
 
-        assertThat(connection.getInputStream()).asString(StandardCharsets.UTF_8).isEqualTo("10");
+        assertThat(connection.getInputStream()).asString(StandardCharsets.UTF_8).isEqualTo("13");
         var user = daoUser.getUserById(1);
 
         var userJson = gson.toJson(user.getId_user());
