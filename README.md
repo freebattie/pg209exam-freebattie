@@ -107,3 +107,5 @@ Class-diagram fra java-classes i socialbuzz
 * [x] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
 * [x] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
 * [x] Det finnes test for alle JAX-RS endpoints og alle DAO-er
+
+oppdatering
